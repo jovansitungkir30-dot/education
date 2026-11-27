@@ -13,10 +13,11 @@ export default function CultureMap({ selected, onSelect }: { selected: string; o
   select.current = onSelect;
 
   useEffect(() => {
-    const m = L.map(el.current!, { scrollWheelZoom: false, zoomSnap: 0.25 });
+    const m = L.map(el.current!, { scrollWheelZoom: false, zoomSnap: 0.25, zoomControl: false });
+    L.control.zoom({ zoomInTitle: 'Perbesar peta', zoomOutTitle: 'Perkecil peta' }).addTo(m);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 14,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(m);
     m.fitBounds(L.latLngBounds(REGIONS.map((r) => r.coords)), { padding: [36, 36] });
     for (const r of REGIONS) {
@@ -45,5 +46,5 @@ export default function CultureMap({ selected, onSelect }: { selected: string; o
     if (r && map.current && !map.current.getBounds().pad(-0.1).contains(r.coords)) map.current.panTo(r.coords);
   }, [selected]);
 
-  return <div ref={el} className="isolate size-full" role="region" aria-label="Map of North Sumatra cultural destinations. A text list of the same places appears above the map." />;
+  return <div ref={el} className="isolate size-full" role="region" aria-label="Peta destinasi budaya Sumatera Utara. Daftar teks tempat yang sama ada di atas peta." />;
 }

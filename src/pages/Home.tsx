@@ -61,7 +61,7 @@ function Hero() {
       <div
         className="absolute inset-0 cursor-grab touch-pan-y select-none active:cursor-grabbing"
         tabIndex={0}
-        aria-label="Interactive landscape. Drag, or use the left and right arrow keys, to look around."
+        aria-label="Pemandangan interaktif. Geser, atau gunakan tombol panah kiri dan kanan, untuk melihat sekeliling."
         role="application"
         onPointerDown={(e) => { drag.current = e.clientX; e.currentTarget.setPointerCapture(e.pointerId); }}
         onPointerMove={onMove}
@@ -79,28 +79,28 @@ function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/45 via-35% to-transparent lg:bg-gradient-to-r lg:from-forest-950/90 lg:via-forest-950/45 lg:to-transparent lg:to-65%" />
       <motion.div style={{ y: textY, opacity: textFade }} className="wrap pointer-events-none relative flex h-full flex-col justify-end pb-24 lg:justify-center lg:pb-0">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }} className="max-w-xl [text-shadow:0_2px_16px_rgb(0_0_0/0.45)]">
-          <p className="eyebrow text-gold-300">RuangNusantara · North Sumatra</p>
-          <h1 className="mt-4 mb-0 text-4xl leading-[1.02] sm:text-6xl xl:text-7xl">Discover the Living Heritage of North Sumatra.</h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-cream sm:text-lg">Explore traditions, stories, architecture, and cultural identities through an immersive digital journey.</p>
+          <p className="eyebrow text-gold-300">RuangNusantara · Sumatera Utara</p>
+          <h1 className="mt-4 mb-0 text-4xl leading-[1.02] sm:text-6xl xl:text-7xl">Temukan Warisan Hidup Sumatera Utara.</h1>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-cream sm:text-lg">Jelajahi tradisi, cerita, arsitektur, dan identitas budaya lewat perjalanan digital yang imersif.</p>
           <div className="pointer-events-auto mt-7 flex flex-wrap gap-3">
-            <button type="button" className="btn btn-gold" onClick={() => go('/explore')}>Explore Culture</button>
-            <button type="button" className="btn btn-line text-ivory" onClick={() => document.getElementById('journey')?.scrollIntoView()}>Begin Your Journey</button>
+            <button type="button" className="btn btn-gold" onClick={() => go('/explore')}>Jelajahi Budaya</button>
+            <button type="button" className="btn btn-line text-ivory" onClick={() => document.getElementById('journey')?.scrollIntoView()}>Mulai Perjalanan</button>
           </div>
         </motion.div>
       </motion.div>
       <div className="absolute right-4 bottom-5 flex items-center gap-2 text-xs sm:right-8">
-        <span className="hidden opacity-75 sm:inline">Drag to look around · stylised scene</span>
-        <button type="button" className="chip bg-forest-950/70" aria-label="Turn view left" onClick={() => turn(-0.35)}>←</button>
-        <button type="button" className="chip bg-forest-950/70" aria-label="Turn view right" onClick={() => turn(0.35)}>→</button>
+        <span className="hidden opacity-75 sm:inline">Geser untuk melihat sekeliling · pemandangan bergaya</span>
+        <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kiri" onClick={() => turn(-0.35)}>←</button>
+        <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kanan" onClick={() => turn(0.35)}>→</button>
       </div>
     </section>
   );
 }
 
 const STOPS = [
-  { to: '/explore', n: '01', title: 'Travel the map', text: 'Choose a landscape, community or city and read what is known about it.', done: (v: Record<string, string[]>) => v.region.length, total: REGIONS.length },
-  { to: '/explore?view=artifacts', n: '02', title: 'Turn the objects', text: 'Rotate houses, drums and textiles in 3D.', done: (v: Record<string, string[]>) => v.artifact.length, total: ARTIFACTS.length },
-  { to: '/cultures', n: '03', title: 'Follow the stories', text: 'History, tradition and folklore, each clearly labelled.', done: (v: Record<string, string[]>) => v.story.length, total: STORIES.length },
+  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih bentang alam, komunitas, atau kota, lalu baca apa yang diketahui tentangnya.', done: (v: Record<string, string[]>) => v.region.length, total: REGIONS.length },
+  { to: '/explore?view=artifacts', n: '02', title: 'Putar objeknya', text: 'Putar rumah adat, gendang, dan kain dalam 3D.', done: (v: Record<string, string[]>) => v.artifact.length, total: ARTIFACTS.length },
+  { to: '/cultures', n: '03', title: 'Ikuti ceritanya', text: 'Sejarah, tradisi, dan cerita rakyat, masing-masing diberi label jelas.', done: (v: Record<string, string[]>) => v.story.length, total: STORIES.length },
 ];
 
 export default function Home() {
@@ -112,11 +112,11 @@ export default function Home() {
 
       <section id="journey" className="paper scroll-mt-16 py-24">
         <div className="wrap">
-          <SectionHead eyebrow="Your virtual journey" title="Four ways into a many-voiced province">
-            You have {points} exploration points. Progress is saved only in this browser.
+          <SectionHead eyebrow="Perjalanan virtual Anda" title="Empat jalan masuk ke provinsi dengan banyak suara">
+            Anda punya {points} poin jelajah. Kemajuan hanya disimpan di browser ini.
           </SectionHead>
           <ol className="mt-14 p-0">
-            {[...STOPS, { to: '/learn', n: '04', title: 'Learn and earn badges', text: 'Short modules, activities, quizzes and a certificate.', done: () => passed, total: MODULES.length }].map((s) => {
+            {[...STOPS, { to: '/learn', n: '04', title: 'Belajar dan raih lencana', text: 'Modul singkat, aktivitas, kuis, dan sertifikat.', done: () => passed, total: MODULES.length }].map((s) => {
               const done = s.done(state.visited);
               return (
                 <li key={s.n} className="list-none border-t border-ink/20">
@@ -142,8 +142,8 @@ export default function Home() {
 
       <section className="relative py-28">
         <div className="wrap grid items-center gap-12 lg:grid-cols-2">
-          <SectionHead eyebrow="Not one culture, but many" title="Each community has its own name, place and voice.">
-            Batak Toba, Karo, Simalungun, Pakpak, Angkola and Mandailing are not interchangeable. Nias is not a Batak culture, and Medan is home to many peoples.
+          <SectionHead eyebrow="Bukan satu budaya, melainkan banyak" title="Tiap komunitas punya nama, tempat, dan suaranya sendiri.">
+            Batak Toba, Karo, Simalungun, Pakpak, Angkola, dan Mandailing tidak bisa disamakan. Nias bukan budaya Batak, dan Medan dihuni banyak suku bangsa.
           </SectionHead>
           <div className="grid grid-cols-2 gap-3 sm:gap-5">
             {([['karo', 'karo-house'], ['mandailing', 'gordang-sambilan'], ['nias', 'nias-dance'], ['medan', 'maimun']] as const).map(([id, img], i) => (
@@ -161,7 +161,7 @@ export default function Home() {
 
       <section className="paper py-24">
         <div className="wrap">
-          <SectionHead eyebrow="Cultural discovery" title="Stories that shape identity" />
+          <SectionHead eyebrow="Temuan budaya" title="Cerita yang membentuk identitas" />
           <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3">
             {STORIES.slice(0, 3).map((s, i) => (
               <Reveal key={s.id} delay={i * 0.1}>
@@ -169,7 +169,7 @@ export default function Home() {
                   <KindTag kind={s.kind} />
                   <h3 className="mt-3 mb-2 text-3xl group-hover:text-terracotta-700">{s.title}</h3>
                   <p className="opacity-75">{s.intro}</p>
-                  <span className="text-sm font-bold">Read the story →</span>
+                  <span className="text-sm font-bold">Baca ceritanya →</span>
                 </a>
               </Reveal>
             ))}

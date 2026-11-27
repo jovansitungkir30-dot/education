@@ -3,7 +3,7 @@ import { href } from '../lib/router';
 import { useProgress } from '../lib/progress';
 
 export const NAV = [
-  ['/', 'Home'], ['/explore', 'Explore'], ['/cultures', 'Cultures'], ['/gallery', 'Gallery'], ['/learn', 'Learn'], ['/about', 'About'],
+  ['/', 'Beranda'], ['/explore', 'Jelajah'], ['/cultures', 'Budaya'], ['/gallery', 'Galeri'], ['/learn', 'Belajar'], ['/about', 'Tentang'],
 ] as const;
 
 function Mark() {
@@ -46,7 +46,7 @@ export function Navbar({ path }: { path: string }) {
       onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
       className={`fixed inset-x-0 top-0 z-[1100] transition-colors duration-300 ${solid || open || path !== '/' ? 'bg-forest-950/95 shadow-lg shadow-black/20' : 'bg-gradient-to-b from-forest-950/75 to-transparent'}`}
     >
-      <nav className="wrap flex h-18 items-center justify-between gap-4" aria-label="Main">
+      <nav className="wrap flex h-18 items-center justify-between gap-4" aria-label="Utama">
         <a href={href('/')} className="flex items-center gap-2.5">
           <Mark />
           <span className="font-display text-lg sm:text-xl">RuangNusantara</span>
@@ -54,10 +54,10 @@ export function Navbar({ path }: { path: string }) {
         <ul className="m-0 hidden items-center gap-1 p-0 lg:flex">{links}</ul>
         <div className="flex items-center gap-2">
           <a href={href('/learn', { view: 'progress' })} className="whitespace-nowrap rounded-full border border-gold-500/50 px-3.5 py-2 text-xs font-extrabold text-gold-300 tabular-nums">
-            {points} <span className="font-semibold max-sm:sr-only">points</span><span aria-hidden="true" className="sm:hidden">pt</span>
+            {points} <span className="font-semibold max-sm:sr-only">poin</span><span aria-hidden="true" className="sm:hidden">pt</span>
           </a>
           <button type="button" className="chip lg:hidden" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>
-            {open ? 'Close' : 'Menu'}
+            {open ? 'Tutup' : 'Menu'}
           </button>
         </div>
       </nav>
@@ -73,7 +73,7 @@ export function Footer() {
       <div className="wrap mt-10 grid gap-8 md:grid-cols-[2fr_1fr_2fr]">
         <div>
           <p className="font-display text-2xl">RuangNusantara</p>
-          <p className="mt-2 max-w-sm text-sm leading-relaxed opacity-70">North Sumatra Cultural Experience. A learning space about many distinct communities, told with labels that separate history, tradition and folklore.</p>
+          <p className="mt-2 max-w-sm text-sm leading-relaxed opacity-70">Jelajah Budaya Sumatera Utara. Ruang belajar tentang banyak komunitas yang berbeda, dengan label yang memisahkan sejarah, tradisi, dan cerita rakyat.</p>
         </div>
         <ul className="m-0 grid content-start gap-2 p-0">
           {NAV.map(([to, label]) => (
@@ -81,8 +81,8 @@ export function Footer() {
           ))}
         </ul>
         <div className="text-sm leading-relaxed opacity-70">
-          <p>Culture is living and varies between villages and families. Content here is an introduction that still needs review by community and subject experts.</p>
-          <p className="mt-3"><a className="underline" href={href('/about')}>Sources, photo credits and limitations</a></p>
+          <p>Budaya itu hidup dan berbeda antarkampung serta keluarga. Isi situs ini adalah pengantar yang masih perlu ditinjau oleh komunitas dan ahli.</p>
+          <p className="mt-3"><a className="underline" href={href('/about')}>Sumber, kredit foto, dan keterbatasan</a></p>
         </div>
       </div>
     </footer>

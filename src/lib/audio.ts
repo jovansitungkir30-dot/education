@@ -5,9 +5,9 @@
 export type SampleId = 'drums-metal' | 'graded-drums' | 'lakeside';
 
 export const SAMPLES: { id: SampleId; title: string; note: string }[] = [
-  { id: 'drums-metal', title: 'Drum and gong texture', note: 'Shows how tuned drum strokes, low gongs and a steady click can layer.' },
-  { id: 'graded-drums', title: 'Nine graded pitches', note: 'Shows how drum size relates to pitch across nine voices.' },
-  { id: 'lakeside', title: 'Imagined lakeside air', note: 'A generated wind and water ambience. It was not recorded at Lake Toba.' },
+  { id: 'drums-metal', title: 'Lapisan gendang dan gong', note: 'Memperlihatkan bagaimana pukulan gendang bernada, gong rendah, dan ketukan tetap dapat bertumpuk.' },
+  { id: 'graded-drums', title: 'Sembilan nada bertingkat', note: 'Memperlihatkan hubungan ukuran gendang dengan tinggi nada pada sembilan suara.' },
+  { id: 'lakeside', title: 'Suasana tepi danau rekaan', note: 'Suara angin dan air buatan komputer. Bukan rekaman dari Danau Toba.' },
 ];
 
 let ctx: AudioContext | null = null;

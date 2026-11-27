@@ -46,14 +46,14 @@ function Reader({ story }: { story: Story }) {
                   </motion.div>
                 </AnimatePresence>
               </div>
-              <p className="mt-2"><Credit id={current.photo} /> {story.kind === 'folklore' && <span className="text-[11px]">· Photos set the mood and do not depict the legend.</span>}</p>
+              <p className="mt-2"><Credit id={current.photo} /> {story.kind === 'folklore' && <span className="text-[11px]">· Foto hanya membangun suasana dan tidak menggambarkan legendanya.</span>}</p>
             </div>
           </div>
 
           <ol className="m-0 p-0">
             {story.chapters.map((c, i) => (
               <li key={`${story.id}-${i}`} ref={(el) => { refs.current[i] = el; }} data-i={i} className="flex list-none flex-col justify-center border-l-2 border-ink/15 py-10 pl-6 lg:min-h-[62dvh]">
-                <p className="eyebrow text-terracotta-700">Chapter {i + 1} of {story.chapters.length}</p>
+                <p className="eyebrow text-terracotta-700">Bab {i + 1} dari {story.chapters.length}</p>
                 <h3 className="mt-2 mb-4 text-3xl sm:text-4xl">{c.title}</h3>
                 <figure className="mt-0 mb-5 lg:hidden">
                   <Photo id={c.photo} className="aspect-video w-full rounded-2xl" />
@@ -66,7 +66,7 @@ function Reader({ story }: { story: Story }) {
         </div>
         <div className="mt-8 text-center">
           <button type="button" className="btn btn-terra" disabled={done} onClick={() => visit('story', story.id)}>
-            {done ? '✓ Story completed' : 'Mark story as completed (+15 points)'}
+            {done ? '✓ Cerita selesai' : 'Tandai cerita selesai (+15 poin)'}
           </button>
         </div>
       </div>
@@ -75,12 +75,12 @@ function Reader({ story }: { story: Story }) {
 }
 
 const TIMELINE: { when: string; what: string; kind: Knowledge }[] = [
-  { when: 'About 74,000 years ago', what: 'Most recent giant eruption at the Toba caldera (estimates vary).', kind: 'history' },
-  { when: 'About 1887–1892', what: 'Istana Maimun is built for the Sultanate of Deli (sources vary slightly).', kind: 'history' },
-  { when: 'Early 1900s', what: 'Colonial administration places Pakpak customary areas in separate units.', kind: 'history' },
-  { when: '2004–2005', what: 'Earthquakes strike Nias; traditional houses largely perform well.', kind: 'history' },
-  { when: '2009', what: 'Bawomataluo enters the UNESCO Tentative List. The Tjong A Fie Mansion opens as a museum.', kind: 'contemporary' },
-  { when: 'After 2020', what: 'A UNESCO project supports ulos weavers and gorga carvers during pandemic recovery.', kind: 'contemporary' },
+  { when: 'Sekitar 74.000 tahun lalu', what: 'Letusan raksasa terakhir di kaldera Toba (perkiraan beragam).', kind: 'history' },
+  { when: 'Sekitar 1887–1892', what: 'Istana Maimun dibangun untuk Kesultanan Deli (sumber sedikit berbeda).', kind: 'history' },
+  { when: 'Awal 1900-an', what: 'Pemerintahan kolonial memisahkan wilayah adat Pakpak ke satuan yang berbeda.', kind: 'history' },
+  { when: '2004–2005', what: 'Gempa melanda Nias; rumah tradisional sebagian besar bertahan baik.', kind: 'history' },
+  { when: '2009', what: 'Bawomataluo masuk Daftar Sementara UNESCO. Rumah Tjong A Fie dibuka sebagai museum.', kind: 'contemporary' },
+  { when: 'Setelah 2020', what: 'Proyek UNESCO mendukung penenun ulos dan pengukir gorga dalam pemulihan pascapandemi.', kind: 'contemporary' },
 ];
 
 export default function Cultures({ params }: { params: URLSearchParams }) {
@@ -97,15 +97,15 @@ export default function Cultures({ params }: { params: URLSearchParams }) {
     <>
       <section className="pt-30 pb-14">
         <div className="wrap">
-          <SectionHead as="h1" eyebrow="Cultures and storytelling" title="Stories That Shape Identity">
-            Every passage is labelled, so a legend is never mistaken for history and an interpretation is never presented as settled fact.
+          <SectionHead as="h1" eyebrow="Budaya dan cerita" title="Cerita yang Membentuk Identitas">
+            Tiap bagian diberi label, supaya legenda tidak disangka sejarah dan penafsiran tidak disajikan sebagai fakta pasti.
           </SectionHead>
           <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-3 p-0">
             {(Object.keys(KNOWLEDGE) as Knowledge[]).map((k) => (
               <li key={k} className="max-w-xs list-none text-sm"><KindTag kind={k} /><p className="mt-1.5 opacity-70">{KNOWLEDGE[k].hint}</p></li>
             ))}
           </ul>
-          <div className="mt-8 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Choose a story">
+          <div className="mt-8 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Pilih cerita">
             {STORIES.map((s) => (
               <button key={s.id} type="button" className="chip" aria-pressed={s.id === story.id} onClick={() => go('/cultures', { story: s.id })}>{s.title}</button>
             ))}
@@ -117,7 +117,7 @@ export default function Cultures({ params }: { params: URLSearchParams }) {
 
       <section className="py-24">
         <div className="wrap">
-          <SectionHead eyebrow="Timeline" title="A few dated moments">A selection, not a complete history of any community.</SectionHead>
+          <SectionHead eyebrow="Linimasa" title="Beberapa momen bertanggal">Hanya pilihan, bukan sejarah lengkap komunitas mana pun.</SectionHead>
           <ol className="mt-10 grid gap-x-8 p-0 md:grid-cols-3">
             {TIMELINE.map((t, i) => (
               <li key={t.when} className="list-none border-t border-gold-500/50 py-6">
@@ -134,14 +134,14 @@ export default function Cultures({ params }: { params: URLSearchParams }) {
 
       <section className="paper py-24">
         <div className="wrap">
-          <SectionHead eyebrow="Peoples and places" title="Meet them one at a time" />
+          <SectionHead eyebrow="Masyarakat dan tempat" title="Kenali satu per satu" />
           <ul className="mt-10 p-0">
-            {REGIONS.filter((r) => r.category === 'Cultural community').map((r) => (
+            {REGIONS.filter((r) => r.category === 'Komunitas budaya').map((r) => (
               <li key={r.id} className="list-none border-t border-ink/20">
                 <a className="group grid gap-2 py-6 sm:grid-cols-[1fr_2fr_auto] sm:items-center" href={href('/explore', { region: r.id })}>
                   <h3 className="m-0 text-3xl group-hover:text-terracotta-700">{r.name}</h3>
                   <p className="m-0 opacity-75">{r.summary}</p>
-                  <span className="text-sm font-bold">Open on map →</span>
+                  <span className="text-sm font-bold">Buka di peta →</span>
                 </a>
               </li>
             ))}

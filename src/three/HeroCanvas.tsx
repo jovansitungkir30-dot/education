@@ -18,7 +18,7 @@ function Ready({ onReady }: { onReady: () => void }) {
 export default function HeroCanvas({ look, onReady, fallback }: { look: RefObject<Look>; onReady: () => void; fallback: ReactNode }) {
   return (
     <Stage
-      label="Stylised 3D landscape inspired by a highland lake, with a traditional house and floating cultural objects"
+      label="Pemandangan 3D bergaya yang terinspirasi danau dataran tinggi, dengan rumah adat dan benda budaya melayang"
       camera={{ fov: 40, position: [6, 5, 13] }}
       fallback={fallback}
       onCreated={({ gl }) => { if (!gl) onReady(); }}

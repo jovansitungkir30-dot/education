@@ -24,11 +24,11 @@ function RegionPanel({ region }: { region: Region }) {
       <p className="eyebrow text-terracotta-700">{region.category}</p>
       <h2 className="mt-2 mb-1 text-4xl sm:text-5xl">{region.name}</h2>
       <p className="text-xs opacity-65">
-        Map point: {region.anchor} ({region.coords[0].toFixed(2)}° N, {region.coords[1].toFixed(2)}° E). A reference point, not a boundary.
+        Titik peta: {region.anchor} ({region.coords[0].toFixed(2)}° LU, {region.coords[1].toFixed(2)}° BT). Hanya titik acuan, bukan batas wilayah.
       </p>
       <p className="mt-4 text-lg leading-relaxed">{region.summary}</p>
 
-      <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Topics">
+      <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Topik">
         {available.map((k) => (
           <button key={k} type="button" className="chip" aria-pressed={active === k} onClick={() => setTopic(k)}>
             {TOPICS[k]}
@@ -40,11 +40,11 @@ function RegionPanel({ region }: { region: Region }) {
       </div>
       {gaps.length > 0 && (
         <p className="mt-6 rounded-xl border border-dashed border-ink/35 p-4 text-sm">
-          <strong>Not yet researched here:</strong> {gaps.map((g) => TOPICS[g].toLowerCase()).join(', ')}. We leave these open instead of filling them with guesses or borrowing from a neighbouring community.
+          <strong>Belum diriset di sini:</strong> {gaps.map((g) => TOPICS[g].toLowerCase()).join(', ')}. Bagian ini dibiarkan kosong, tidak diisi dengan tebakan atau dipinjam dari komunitas tetangga.
         </p>
       )}
 
-      <h3 className="mt-9 mb-3 text-2xl">Photo gallery</h3>
+      <h3 className="mt-9 mb-3 text-2xl">Galeri foto</h3>
       {region.photos.length ? (
         <div className="grid grid-cols-2 gap-3">
           {region.photos.map((id) => (
@@ -55,10 +55,10 @@ function RegionPanel({ region }: { region: Region }) {
           ))}
         </div>
       ) : (
-        <p className="text-sm opacity-75">No suitably licensed and verified photo has been selected for {region.name} yet.</p>
+        <p className="text-sm opacity-75">Belum ada foto berlisensi sesuai dan terverifikasi yang dipilih untuk {region.name}.</p>
       )}
 
-      <h3 className="mt-9 mb-3 text-2xl">Keep learning</h3>
+      <h3 className="mt-9 mb-3 text-2xl">Lanjut belajar</h3>
       <div className="flex flex-wrap gap-2">
         {region.modules.map((id) => {
           const m = MODULES.find((x) => x.id === id)!;
@@ -111,13 +111,13 @@ function Artifacts({ requested }: { requested: string | null }) {
   return (
     <section id="artifacts" className="scroll-mt-18 py-20">
       <div className="wrap">
-        <SectionHead eyebrow="Explore cultural artifacts" title="Turn them in your hands">
-          These are procedural models built for learning. They simplify form and proportion and are not historically exact replicas.
+        <SectionHead eyebrow="Jelajahi artefak budaya" title="Putar dan amati dari dekat">
+          Ini model prosedural untuk belajar. Bentuk dan proporsinya disederhanakan dan bukan replika sejarah yang akurat.
         </SectionHead>
-        <div className="mt-8 flex gap-2 overflow-x-auto pb-3" role="group" aria-label="Choose an artifact">
+        <div className="mt-8 flex gap-2 overflow-x-auto pb-3" role="group" aria-label="Pilih artefak">
           {ARTIFACTS.map((a) => (
             <button key={a.id} type="button" className="chip" aria-pressed={a.id === id} onClick={() => { setId(a.id); setHotspot(null); setCommand(null); setSpin(true); setEngaged(true); }}>
-              {state.visited.artifact.includes(a.id) && <span aria-label="Explored">✓ </span>}
+              {state.visited.artifact.includes(a.id) && <span aria-label="Sudah dijelajahi">✓ </span>}
               {a.name}
             </button>
           ))}
@@ -126,18 +126,18 @@ function Artifacts({ requested }: { requested: string | null }) {
         <div className="mt-4 grid items-start rounded-3xl border border-gold-500/25 bg-ivory lg:grid-cols-[1.5fr_1fr]">
           <div className="flex flex-col overflow-hidden rounded-t-3xl bg-forest-900 lg:sticky lg:top-22 lg:h-[calc(100dvh-7rem)] lg:rounded-3xl">
             <div className="relative h-[55dvh] min-h-[360px] lg:h-auto lg:flex-1" onPointerDown={() => setEngaged(true)}>
-              <Suspense fallback={<div className="grid h-full place-items-center" role="status">Preparing the 3D model…</div>}>
+              <Suspense fallback={<div className="grid h-full place-items-center" role="status">Menyiapkan model 3D…</div>}>
                 <ArtifactViewer artifact={artifact} hotspot={hotspot} onHotspot={pick} spin={spin} command={command} showHotspots={dots} />
               </Suspense>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2 border-t border-ivory/10 p-3">
-              <button type="button" className="chip" aria-label="Rotate left" onClick={() => send('left')}>⟲</button>
-              <button type="button" className="chip" aria-label="Rotate right" onClick={() => send('right')}>⟳</button>
-              <button type="button" className="chip" aria-label="Zoom in" onClick={() => send('in')}>＋</button>
-              <button type="button" className="chip" aria-label="Zoom out" onClick={() => send('out')}>－</button>
-              <button type="button" className="chip" onClick={() => send('reset')}>Reset view</button>
-              <button type="button" className="chip" aria-pressed={spin} onClick={() => setSpin(!spin)}>Auto-rotate</button>
-              <button type="button" className="chip" aria-pressed={dots} onClick={() => setDots(!dots)}>Hotspots</button>
+              <button type="button" className="chip" aria-label="Putar ke kiri" onClick={() => send('left')}>⟲</button>
+              <button type="button" className="chip" aria-label="Putar ke kanan" onClick={() => send('right')}>⟳</button>
+              <button type="button" className="chip" aria-label="Perbesar" onClick={() => send('in')}>＋</button>
+              <button type="button" className="chip" aria-label="Perkecil" onClick={() => send('out')}>－</button>
+              <button type="button" className="chip" onClick={() => send('reset')}>Atur ulang</button>
+              <button type="button" className="chip" aria-pressed={spin} onClick={() => setSpin(!spin)}>Putar otomatis</button>
+              <button type="button" className="chip" aria-pressed={dots} onClick={() => setDots(!dots)}>Titik info</button>
             </div>
           </div>
 
@@ -146,7 +146,7 @@ function Artifacts({ requested }: { requested: string | null }) {
             <h3 className="mt-2 mb-3 text-3xl">{artifact.name}</h3>
             <p className="leading-relaxed">{artifact.description}</p>
 
-            <h4 className="mt-6 mb-2 text-xl">Hotspots</h4>
+            <h4 className="mt-6 mb-2 text-xl">Titik info</h4>
             <ReviewNote className="mb-3" />
             <ol className="m-0 space-y-2 p-0">
               {artifact.hotspots.map((h, i) => (
@@ -165,14 +165,14 @@ function Artifacts({ requested }: { requested: string | null }) {
               ))}
             </ol>
 
-            <h4 className="mt-6 mb-2 text-xl">Historical context</h4>
+            <h4 className="mt-6 mb-2 text-xl">Konteks sejarah</h4>
             <FactBlock item={artifact.history} />
-            <h4 className="mt-6 mb-2 text-xl">Cultural significance</h4>
+            <h4 className="mt-6 mb-2 text-xl">Makna budaya</h4>
             <FactBlock item={artifact.significance} />
-            <h4 className="mt-6 mb-2 text-xl">Materials and craftsmanship</h4>
-            {artifact.materials ? <FactBlock item={artifact.materials} /> : <p className="text-sm opacity-75">We have not attached a verified account of materials for this object, so none is claimed.</p>}
+            <h4 className="mt-6 mb-2 text-xl">Bahan dan pengerjaan</h4>
+            {artifact.materials ? <FactBlock item={artifact.materials} /> : <p className="text-sm opacity-75">Belum ada keterangan terverifikasi tentang bahan objek ini, sehingga tidak ada klaim yang dibuat.</p>}
             <a className="btn btn-terra mt-6" href={href('/explore', { region: artifact.regionId })} onClick={() => document.getElementById('map')?.scrollIntoView()}>
-              See {regionById(artifact.regionId)?.name} on the map
+              Lihat {regionById(artifact.regionId)?.name} di peta
             </a>
           </div>
         </div>
@@ -205,13 +205,13 @@ export default function Explore({ params }: { params: URLSearchParams }) {
     <>
       <section id="map" className="scroll-mt-18 pt-28 pb-16">
         <div className="wrap">
-          <SectionHead as="h1" eyebrow="Interactive cultural map" title="Travel through North Sumatra">
-            Choose a destination. Communities are not confined to a single point, and their homelands overlap modern boundaries.
+          <SectionHead as="h1" eyebrow="Peta budaya interaktif" title="Berkeliling Sumatera Utara">
+            Pilih destinasi. Komunitas tidak terbatas pada satu titik, dan tanah asalnya melintasi batas wilayah modern.
           </SectionHead>
-          <div className="mt-8 flex gap-2 overflow-x-auto pb-3" role="group" aria-label="Destinations">
+          <div className="mt-8 flex gap-2 overflow-x-auto pb-3" role="group" aria-label="Destinasi">
             {REGIONS.map((r) => (
               <button key={r.id} type="button" className="chip" aria-pressed={r.id === region.id} onClick={() => select(r.id)}>
-                {state.visited.region.includes(r.id) && <span aria-label="Visited">✓ </span>}
+                {state.visited.region.includes(r.id) && <span aria-label="Sudah dikunjungi">✓ </span>}
                 {r.name}
               </button>
             ))}

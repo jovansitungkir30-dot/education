@@ -4,38 +4,38 @@ import { ALL_PHOTOS } from '../data/photos';
 import { KNOWLEDGE, type Knowledge } from '../data/types';
 
 const LIMITS = [
-  'Each reference below shows how far it was checked. Several could not be opened or were seen only as search summaries, so verify those first. Some are encyclopedia or press pages.',
-  'Some statements have no source attached. They are marked “Pending expert review” where facts are shown, and still need confirmation.',
-  'No community representative or subject specialist has reviewed this content yet.',
-  'Angkola, Pakpak and several other topics are thinly covered. Gaps are shown openly instead of being filled with guesses.',
-  '3D models are simplified, procedural representations. They are not measured or historically exact replicas.',
-  'Audio samples are synthesised in the browser. They are not recordings or traditional compositions. Narration uses your device’s computer voice and may mispronounce local names.',
-  'Map points are approximate reference locations, not cultural or administrative boundaries.',
-  'Interface and content are in English only. Local spellings and terms vary.',
+  'Tiap rujukan di bawah menunjukkan sejauh mana ia sudah dicek. Beberapa gagal dibuka atau hanya dilihat sebagai ringkasan pencarian, jadi periksa itu lebih dulu. Sebagian berupa halaman ensiklopedia atau pers.',
+  'Beberapa pernyataan belum punya sumber. Pada panel fakta, pernyataan itu ditandai “Menunggu tinjauan ahli” dan masih perlu dikonfirmasi.',
+  'Belum ada wakil komunitas atau ahli yang meninjau konten ini.',
+  'Angkola dan beberapa topik lain masih dibahas tipis, dan Pakpak belum punya foto. Kekosongan ditampilkan apa adanya, tidak diisi tebakan.',
+  'Model 3D adalah representasi prosedural yang disederhanakan, bukan replika terukur atau akurat secara sejarah.',
+  'Contoh audio disintesis di browser, bukan rekaman atau komposisi tradisional. Narasi memakai suara komputer perangkat Anda; pelafalan nama lokal bisa keliru, dan mutunya bergantung pada ketersediaan suara bahasa Indonesia.',
+  'Titik peta adalah lokasi acuan perkiraan, bukan batas budaya atau administrasi.',
+  'Ejaan dan istilah setempat bisa beragam. Sebagian judul rujukan ditulis dalam bahasa Inggris.',
 ];
 
 export default function About() {
   return (
     <div className="pt-30 pb-24">
       <div className="wrap">
-        <SectionHead as="h1" eyebrow="About" title="A digital space for careful cultural learning">
-          RuangNusantara introduces the heritage of North Sumatra to students, travellers and curious people. It aims to be vivid without flattening differences between communities.
+        <SectionHead as="h1" eyebrow="Tentang" title="Ruang digital untuk belajar budaya dengan cermat">
+          RuangNusantara memperkenalkan warisan Sumatera Utara kepada pelajar, mahasiswa, wisatawan, dan siapa saja yang ingin tahu. Tujuannya tampil hidup tanpa meratakan perbedaan antarkomunitas.
         </SectionHead>
 
         <section className="paper mt-12 rounded-3xl p-6 sm:p-10">
-          <h2 className="mt-0 text-3xl">How to read the labels</h2>
+          <h2 className="mt-0 text-3xl">Cara membaca label</h2>
           <dl className="grid gap-5 md:grid-cols-2">
             {(Object.keys(KNOWLEDGE) as Knowledge[]).map((k) => (
               <div key={k}><dt><KindTag kind={k} /></dt><dd className="mt-1.5 ml-0">{KNOWLEDGE[k].hint}</dd></div>
             ))}
           </dl>
-          <h2 className="mt-10 text-3xl">Known limitations</h2>
+          <h2 className="mt-10 text-3xl">Keterbatasan</h2>
           <ul className="list-disc space-y-1.5 pl-5">{LIMITS.map((l) => <li key={l}>{l}</li>)}</ul>
-          <p>If you belong to one of these communities and see something wrong or missing, your knowledge should take priority in a revision.</p>
+          <p>Jika Anda bagian dari salah satu komunitas ini dan menemukan yang keliru atau kurang, pengetahuan Anda patut diutamakan dalam perbaikan.</p>
         </section>
 
         <section className="mt-14">
-          <h2 className="text-3xl">References</h2>
+          <h2 className="text-3xl">Rujukan</h2>
           <ul className="grid gap-4 p-0 md:grid-cols-2">
             {(Object.keys(SOURCES) as SourceId[]).map((id) => ({ id, ...SOURCES[id] })).map((s) => (
               <li key={s.url} className="list-none rounded-2xl border border-ivory/15 p-4">
@@ -47,14 +47,14 @@ export default function About() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-3xl">Photo credits</h2>
-          <p className="text-sm opacity-75">Resized by Wikimedia Commons; some are cropped by the page layout. Each remains under its stated licence.</p>
+          <h2 className="text-3xl">Kredit foto</h2>
+          <p className="text-sm opacity-75">Ukurannya diubah oleh Wikimedia Commons; sebagian terpotong oleh tata letak halaman. Tiap foto tetap berada di bawah lisensi yang tertera.</p>
           <ul className="grid gap-3 p-0 md:grid-cols-2">
             {ALL_PHOTOS.map((p) => (
               <li key={p.id} className="list-none text-sm"><strong>{p.alt}.</strong> <Credit id={p.id} /></li>
             ))}
           </ul>
-          <p className="mt-6 text-sm opacity-75">Map data © OpenStreetMap contributors. Typefaces: Fraunces and Manrope (SIL Open Font License).</p>
+          <p className="mt-6 text-sm opacity-75">Data peta © kontributor OpenStreetMap. Huruf: Fraunces dan Manrope (SIL Open Font License).</p>
         </section>
       </div>
     </div>

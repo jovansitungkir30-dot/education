@@ -104,11 +104,11 @@ export default function ArtifactViewer({ artifact, hotspot, onHotspot, spin, com
   return (
     <>
       <Stage
-        label={`Interactive 3D model: ${artifact.name}. Drag to rotate, pinch or scroll to zoom.`}
+        label={`Model 3D interaktif: ${artifact.name}. Geser untuk memutar, cubit atau gulir untuk memperbesar.`}
         camera={{ position: artifact.camera, fov: 40 }}
         fallback={
           <div className="grid h-full place-items-center p-8 text-center">
-            <p className="max-w-sm">3D rendering is not available on this device. The description and numbered notes beside this panel contain the same learning content.</p>
+            <p className="max-w-sm">Perangkat ini tidak dapat menampilkan 3D. Deskripsi dan catatan bernomor di dekat panel ini memuat materi yang sama.</p>
           </div>
         }
       >
@@ -123,7 +123,7 @@ export default function ArtifactViewer({ artifact, hotspot, onHotspot, spin, com
               type="button"
               onClick={() => onHotspot(i)}
               aria-pressed={hotspot === i}
-              aria-label={`Hotspot ${i + 1}: ${h.label}`}
+              aria-label={`Titik info ${i + 1}: ${h.label}`}
               style={{ visibility: 'hidden' }}
               className={`pointer-events-auto absolute top-0 left-0 grid size-9 cursor-pointer place-items-center rounded-full border-2 text-sm font-extrabold shadow-lg ${
                 hotspot === i ? 'border-ivory bg-gold-500 text-forest-950' : 'border-gold-300 bg-forest-950/85 text-gold-300'

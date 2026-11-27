@@ -18,10 +18,10 @@ function ModuleView({ module }: { module: Module }) {
   const { visit, state } = useProgress();
   return (
     <article className="paper rounded-3xl p-5 sm:p-10">
-      <p className="eyebrow text-terracotta-700">Learning module</p>
+      <p className="eyebrow text-terracotta-700">Modul belajar</p>
       <h2 className="display mt-2 mb-6">{module.title}</h2>
       <ReviewNote className="mb-6" />
-      <h3 className="text-2xl">Learning objectives</h3>
+      <h3 className="text-2xl">Tujuan belajar</h3>
       <ul className="list-disc pl-5">{module.objectives.map((o) => <li key={o}>{o}</li>)}</ul>
 
       {module.lessons.map((l, i) => {
@@ -36,7 +36,7 @@ function ModuleView({ module }: { module: Module }) {
             <div>
               <h3 className="mt-0 text-2xl">{i + 1}. {l.title}</h3>
               <p className="leading-relaxed">{l.body}</p>
-              <button type="button" className="btn btn-line" disabled={read} onClick={() => visit('lesson', key)}>{read ? '✓ Read' : 'Mark as read (+10)'}</button>
+              <button type="button" className="btn btn-line" disabled={read} onClick={() => visit('lesson', key)}>{read ? '✓ Sudah dibaca' : 'Tandai sudah dibaca (+10)'}</button>
             </div>
           </section>
         );
@@ -55,21 +55,21 @@ function Achievements() {
   const passed = passedModules(state);
   const complete = passed.length === MODULES.length;
   const meters = [
-    ['Modules passed', passed.length, MODULES.length],
-    ['Places visited', state.visited.region.length, REGIONS.length],
-    ['Artifacts explored', state.visited.artifact.length, ARTIFACTS.length],
-    ['Stories completed', state.visited.story.length, STORIES.length],
+    ['Modul lulus', passed.length, MODULES.length],
+    ['Tempat dikunjungi', state.visited.region.length, REGIONS.length],
+    ['Artefak dijelajahi', state.visited.artifact.length, ARTIFACTS.length],
+    ['Cerita selesai', state.visited.story.length, STORIES.length],
   ] as const;
   const badges = [
-    { name: 'Cultural Explorer', how: `Visit ${EXPLORER.regions} places, explore ${EXPLORER.artifacts} artifacts and complete ${EXPLORER.stories} stories.`, earned: isExplorer(state) },
-    ...MODULES.map((m) => ({ name: m.badge, how: `Pass the quiz in “${m.title}”.`, earned: passed.includes(m.id) })),
+    { name: 'Penjelajah Budaya', how: `Kunjungi ${EXPLORER.regions} tempat, jelajahi ${EXPLORER.artifacts} artefak, dan selesaikan ${EXPLORER.stories} cerita.`, earned: isExplorer(state) },
+    ...MODULES.map((m) => ({ name: m.badge, how: `Lulus kuis modul “${m.title}”.`, earned: passed.includes(m.id) })),
   ];
 
   return (
     <div className="space-y-8">
       <section className="rounded-3xl bg-forest-900 p-6 sm:p-10">
-        <p className="eyebrow text-gold-300">Your journey</p>
-        <h2 className="mt-2 mb-6 text-4xl">{points} exploration points</h2>
+        <p className="eyebrow text-gold-300">Perjalanan Anda</p>
+        <h2 className="mt-2 mb-6 text-4xl">{points} poin jelajah</h2>
         <div className="grid gap-5 sm:grid-cols-2">
           {meters.map(([label, n, total]) => (
             <label key={label} className="text-sm font-semibold">
@@ -81,7 +81,7 @@ function Achievements() {
       </section>
 
       <section>
-        <h2 className="text-3xl">Badges</h2>
+        <h2 className="text-3xl">Lencana</h2>
         <ul className="grid gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {badges.map((b) => (
             <li key={b.name} className={`flex list-none gap-4 rounded-2xl border p-4 ${b.earned ? 'border-gold-500 bg-forest-800' : 'border-ivory/15 opacity-65'}`}>
@@ -91,7 +91,7 @@ function Achievements() {
               </svg>
               <div>
                 <p className="m-0 font-display text-xl">{b.name}</p>
-                <p className="m-0 text-sm opacity-80">{b.earned ? 'Earned. ' : 'Locked. '}{b.how}</p>
+                <p className="m-0 text-sm opacity-80">{b.earned ? 'Diraih. ' : 'Terkunci. '}{b.how}</p>
               </div>
             </li>
           ))}
@@ -99,38 +99,38 @@ function Achievements() {
       </section>
 
       <section>
-        <h2 className="text-3xl">Certificate of completion</h2>
+        <h2 className="text-3xl">Sertifikat penyelesaian</h2>
         {complete ? (
           <>
             <label className="mb-4 flex max-w-md flex-col gap-1 text-sm font-semibold">
-              Name to show on the certificate
+              Nama yang ditampilkan di sertifikat
               <input className="min-h-11 rounded-lg border border-ivory/30 bg-forest-900 px-3 text-base" value={state.name} maxLength={60} onChange={(e) => setName(e.target.value)} />
             </label>
             <div id="certificate" className="paper border-[10px] border-double border-gold-700 p-8 text-center sm:p-14">
               <p className="eyebrow">RuangNusantara</p>
-              <h3 className="mt-3 text-3xl sm:text-4xl">Certificate of Completion</h3>
-              <p>This records that</p>
-              <p className="font-display text-3xl break-words text-terracotta-700">{state.name.trim() || 'Your name'}</p>
-              <p>passed all {MODULES.length} learning modules on the cultural heritage of North Sumatra.</p>
+              <h3 className="mt-3 text-3xl sm:text-4xl">Sertifikat Penyelesaian</h3>
+              <p>Dengan ini dicatat bahwa</p>
+              <p className="font-display text-3xl break-words text-terracotta-700">{state.name.trim() || 'Nama Anda'}</p>
+              <p>telah lulus seluruh {MODULES.length} modul belajar tentang warisan budaya Sumatera Utara.</p>
               <div className="weave mx-auto my-4 w-60" />
-              <p className="mb-0 text-xs">Self-guided learning record · {points} points · Not an accredited qualification.</p>
+              <p className="mb-0 text-xs">Catatan belajar mandiri · {points} poin · Bukan kualifikasi terakreditasi.</p>
             </div>
-            <button type="button" className="btn btn-gold mt-4" onClick={() => window.print()}>Print or save as PDF</button>
+            <button type="button" className="btn btn-gold mt-4" onClick={() => window.print()}>Cetak atau simpan sebagai PDF</button>
           </>
         ) : (
-          <p className="rounded-2xl border border-dashed border-ivory/30 p-6">Pass all {MODULES.length} modules to unlock your certificate. {MODULES.length - passed.length} to go.</p>
+          <p className="rounded-2xl border border-dashed border-ivory/30 p-6">Lulus semua {MODULES.length} modul untuk membuka sertifikat. Tinggal {MODULES.length - passed.length} lagi.</p>
         )}
       </section>
 
       <section className="border-t border-ivory/15 pt-5">
         {confirming ? (
           <div className="flex flex-wrap items-center gap-3">
-            <span>Erase all points, badges and quiz scores in this browser?</span>
-            <button type="button" className="btn btn-terra" onClick={() => { reset(); setConfirming(false); }}>Yes, erase</button>
-            <button type="button" className="btn btn-line" onClick={() => setConfirming(false)}>Keep my progress</button>
+            <span>Hapus semua poin, lencana, dan nilai kuis di browser ini?</span>
+            <button type="button" className="btn btn-terra" onClick={() => { reset(); setConfirming(false); }}>Ya, hapus</button>
+            <button type="button" className="btn btn-line" onClick={() => setConfirming(false)}>Simpan kemajuan saya</button>
           </div>
         ) : (
-          <button type="button" className="btn btn-line" onClick={() => setConfirming(true)}>Reset progress</button>
+          <button type="button" className="btn btn-line" onClick={() => setConfirming(true)}>Atur ulang kemajuan</button>
         )}
       </section>
     </div>
@@ -155,13 +155,13 @@ export default function Learn({ params }: { params: URLSearchParams }) {
   return (
     <div className="pt-30 pb-20">
       <div className="wrap">
-        <SectionHead as="h1" eyebrow="Learning paths" title="Learn at your own pace">
-          Read, try an activity, then take a short quiz. Passing modules opens further paths.
+        <SectionHead as="h1" eyebrow="Jalur belajar" title="Belajar sesuai kecepatan Anda">
+          Baca, coba aktivitasnya, lalu kerjakan kuis singkat. Lulus modul akan membuka jalur lain.
         </SectionHead>
 
         <div ref={body} className="mt-10 grid scroll-mt-24 grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
-          <nav aria-label="Learning modules" className="min-w-0 lg:sticky lg:top-22 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
-            <button type="button" className="chip mb-3 w-full" aria-pressed={showProgress} onClick={() => go('/learn', { view: 'progress' })}>Progress, badges and certificate</button>
+          <nav aria-label="Modul belajar" className="min-w-0 lg:sticky lg:top-22 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
+            <button type="button" className="chip mb-3 w-full" aria-pressed={showProgress} onClick={() => go('/learn', { view: 'progress' })}>Kemajuan, lencana, dan sertifikat</button>
             <ol className="m-0 flex gap-2 overflow-x-auto p-0 lg:block lg:space-y-2">
               {MODULES.map((m, i) => {
                 const isPassed = passed.includes(m.id);
@@ -175,7 +175,7 @@ export default function Learn({ params }: { params: URLSearchParams }) {
                       <span>
                         <span className="block text-sm leading-snug font-bold">{m.title}</span>
                         <span className="text-xs opacity-70">
-                          {isPassed ? `✓ Passed · ${state.scores[m.id]}%` : isLocked ? `🔒 Pass ${m.requires} module${m.requires > 1 ? 's' : ''}` : `${read}/${m.lessons.length} lessons read`}
+                          {isPassed ? `✓ Lulus · ${state.scores[m.id]}%` : isLocked ? `🔒 Luluskan ${m.requires} modul` : `${read}/${m.lessons.length} materi dibaca`}
                         </span>
                       </span>
                     </a>
@@ -190,9 +190,9 @@ export default function Learn({ params }: { params: URLSearchParams }) {
               <Achievements />
             ) : locked ? (
               <div className="paper rounded-3xl p-8 sm:p-14">
-                <h2 className="mt-0 text-4xl">{module.title} is still locked</h2>
-                <p>Pass {module.requires - passed.length} more module{module.requires - passed.length > 1 ? 's' : ''} to open this path.</p>
-                <a className="btn btn-terra" href={href('/learn', { module: MODULES.find((m) => !passed.includes(m.id) && passed.length >= m.requires)?.id ?? 'intro' })}>Go to an open module</a>
+                <h2 className="mt-0 text-4xl">{module.title} masih terkunci</h2>
+                <p>Luluskan {module.requires - passed.length} modul lagi untuk membuka jalur ini.</p>
+                <a className="btn btn-terra" href={href('/learn', { module: MODULES.find((m) => !passed.includes(m.id) && passed.length >= m.requires)?.id ?? 'intro' })}>Buka modul yang tersedia</a>
               </div>
             ) : (
               <ModuleView key={module.id} module={module} />
