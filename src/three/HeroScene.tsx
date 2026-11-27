@@ -165,7 +165,7 @@ function Rig({ look, still }: { look: RefObject<Look>; still: boolean }) {
     // On wide screens, shift the view so the headline does not cover the house.
     const { width, height } = { width: 1000 * aspect, height: 1000 };
     if (wide) camera.setViewOffset(width, height, -width * 0.19, 0, width, height);
-    else camera.setViewOffset(width, height, 0, height * 0.13, width, height);
+    else camera.setViewOffset(width, height, 0, height * 0.2, width, height);
   });
   return null;
 }

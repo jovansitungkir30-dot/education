@@ -9,7 +9,7 @@ const ALT: Record<PhotoId, string> = {
   'gorga-house': 'Batak Toba house decorated with gorga carving in Lumban Lontung, Samosir',
   'ulos-weaving': 'A weaver making ulos cloth on a traditional loom',
   'ulos-museum': 'A ulos ceremonial cloth in the Honolulu Museum of Art collection',
-  tortor: 'A dancer performing tortor',
+  tortor: 'Dancers performing tortor',
   gondang: 'Toba Batak gondang sabangunan instruments displayed in a museum in Osaka',
   'karo-house': 'A siwaluh jabu house in Lingga cultural village, Karo',
   'karo-wedding': 'A couple in Karo wedding dress',

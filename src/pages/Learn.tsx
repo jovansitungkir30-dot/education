@@ -158,8 +158,8 @@ export default function Learn({ params }: { params: URLSearchParams }) {
           Read, try an activity, then take a short quiz. Passing modules opens further paths.
         </SectionHead>
 
-        <div ref={body} className="mt-10 grid scroll-mt-24 items-start gap-6 lg:grid-cols-[20rem_1fr]">
-          <nav aria-label="Learning modules" className="lg:sticky lg:top-22 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
+        <div ref={body} className="mt-10 grid scroll-mt-24 grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
+          <nav aria-label="Learning modules" className="min-w-0 lg:sticky lg:top-22 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
             <button type="button" className="chip mb-3 w-full" aria-pressed={showProgress} onClick={() => go('/learn', { view: 'progress' })}>Progress, badges and certificate</button>
             <ol className="m-0 flex gap-2 overflow-x-auto p-0 lg:block lg:space-y-2">
               {MODULES.map((m, i) => {

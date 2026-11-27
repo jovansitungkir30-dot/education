@@ -49,12 +49,12 @@ export function Navbar({ path }: { path: string }) {
       <nav className="wrap flex h-18 items-center justify-between gap-4" aria-label="Main">
         <a href={href('/')} className="flex items-center gap-2.5">
           <Mark />
-          <span className="font-display text-xl">RuangNusantara</span>
+          <span className="font-display text-lg sm:text-xl">RuangNusantara</span>
         </a>
         <ul className="m-0 hidden items-center gap-1 p-0 lg:flex">{links}</ul>
         <div className="flex items-center gap-2">
-          <a href={href('/learn', { view: 'progress' })} className="rounded-full border border-gold-500/50 px-3.5 py-2 text-xs font-extrabold text-gold-300 tabular-nums">
-            {points} <span className="font-semibold">points</span>
+          <a href={href('/learn', { view: 'progress' })} className="whitespace-nowrap rounded-full border border-gold-500/50 px-3.5 py-2 text-xs font-extrabold text-gold-300 tabular-nums">
+            {points} <span className="font-semibold max-sm:sr-only">points</span><span aria-hidden="true" className="sm:hidden">pt</span>
           </a>
           <button type="button" className="chip lg:hidden" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>
             {open ? 'Close' : 'Menu'}
