@@ -86,18 +86,16 @@ function useRoofGeometry({ eaveY, ridgeY, halfWidth, eaveHalf, ridgeHalf, sweep 
   }, [eaveY, ridgeY, halfWidth, eaveHalf, ridgeHalf, sweep]);
 }
 
-function Roof({ gable = true, ...shape }: RoofShape & { gable?: boolean }) {
+function Roof({ gable = 'ornament', ...shape }: RoofShape & { gable?: 'ornament' | 'thatch' }) {
   const g = useRoofGeometry(shape);
   return (
     <group>
       <mesh geometry={g.slopes} castShadow receiveShadow>
         <meshStandardMaterial map={thatchTexture()} side={DoubleSide} roughness={1} />
       </mesh>
-      {gable && (
-        <mesh geometry={g.gables}>
-          <meshStandardMaterial map={ornamentTexture()} side={DoubleSide} roughness={0.85} />
-        </mesh>
-      )}
+      <mesh geometry={g.gables}>
+        <meshStandardMaterial map={gable === 'ornament' ? ornamentTexture() : thatchTexture()} side={DoubleSide} roughness={0.9} />
+      </mesh>
       {g.ridgeLine.slice(1).map((pt, i) => (
         <Beam key={i} a={g.ridgeLine[i]} b={pt} radius={0.07} color="#1d150f" />
       ))}
@@ -209,7 +207,7 @@ export function OmoSebua() {
           ))}
         </group>
       ))}
-      <Roof gable={false} eaveY={2.75} ridgeY={5.7} halfWidth={1.95} eaveHalf={2.0} ridgeHalf={0.95} sweep={0.1} />
+      <Roof gable="thatch" eaveY={2.75} ridgeY={5.7} halfWidth={1.95} eaveHalf={2.0} ridgeHalf={0.95} sweep={0.1} />
       {/* Roof window flap. */}
       <Box p={[1.05, 4.2, 0]} s={[0.05, 0.5, 0.8]} r={[0, 0, 0.62]} color="#150e09" />
     </group>
@@ -323,7 +321,7 @@ export function Gong({ p, radius = 0.55 }: { p: V3; radius?: number }) {
     <group position={p}>
       <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
         <cylinderGeometry args={[radius, radius, 0.14, 36]} />
-        <meshStandardMaterial color="#a8802f" metalness={0.75} roughness={0.38} />
+        <meshStandardMaterial color="#b88f3a" metalness={0.45} roughness={0.4} />
       </mesh>
       <mesh>
         <torusGeometry args={[radius * 0.66, 0.025, 8, 36]} />
@@ -331,7 +329,7 @@ export function Gong({ p, radius = 0.55 }: { p: V3; radius?: number }) {
       </mesh>
       <mesh position={[0, 0, 0.07]} scale={[1, 1, 0.55]}>
         <sphereGeometry args={[radius * 0.24, 20, 14]} />
-        <meshStandardMaterial color="#c9a24b" metalness={0.8} roughness={0.3} />
+        <meshStandardMaterial color="#d9b45c" metalness={0.5} roughness={0.32} />
       </mesh>
     </group>
   );

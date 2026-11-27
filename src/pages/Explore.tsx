@@ -123,8 +123,8 @@ function Artifacts({ requested }: { requested: string | null }) {
           ))}
         </div>
 
-        <div className="mt-4 grid overflow-hidden rounded-3xl border border-gold-500/25 lg:grid-cols-[1.5fr_1fr]">
-          <div className="flex flex-col bg-forest-900">
+        <div className="mt-4 grid items-start rounded-3xl border border-gold-500/25 bg-ivory lg:grid-cols-[1.5fr_1fr]">
+          <div className="flex flex-col overflow-hidden rounded-t-3xl bg-forest-900 lg:sticky lg:top-22 lg:h-[calc(100dvh-7rem)] lg:rounded-3xl">
             <div className="relative h-[55dvh] min-h-[360px] lg:h-auto lg:flex-1" onPointerDown={() => setEngaged(true)}>
               <Suspense fallback={<div className="grid h-full place-items-center" role="status">Preparing the 3D model…</div>}>
                 <ArtifactViewer artifact={artifact} hotspot={hotspot} onHotspot={pick} spin={spin} command={command} showHotspots={dots} />
@@ -141,7 +141,7 @@ function Artifacts({ requested }: { requested: string | null }) {
             </div>
           </div>
 
-          <div className="paper p-6 sm:p-8">
+          <div className="p-6 text-ink sm:p-8">
             <p className="eyebrow text-terracotta-700">{artifact.origin}</p>
             <h3 className="mt-2 mb-3 text-3xl">{artifact.name}</h3>
             <p className="leading-relaxed">{artifact.description}</p>

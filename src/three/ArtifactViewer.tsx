@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { useThree } from '@react-three/fiber';
-import { Bounds, Html, OrbitControls, useBounds } from '@react-three/drei';
-import type { Group } from 'three';
+import { useFrame, useThree } from '@react-three/fiber';
+import { Bounds, OrbitControls, useBounds } from '@react-three/drei';
+import { Vector3, type Group } from 'three';
 import type { OrbitControls as OrbitImpl } from 'three-stdlib';
 import type { Artifact } from '../data/artifacts';
 import { MODELS } from './models';
@@ -28,7 +28,26 @@ function Fit({ target, trigger }: { target: React.RefObject<Group | null>; trigg
   return null;
 }
 
-function Scene({ artifact, hotspot, onHotspot, spin, command, showHotspots }: Props) {
+/** Moves the HTML hotspot buttons to follow their 3D positions on screen. */
+function Project({ points, dots }: { points: Artifact['hotspots']; dots: React.RefObject<(HTMLButtonElement | null)[]> }) {
+  const v = useRef(new Vector3());
+  useFrame(({ camera, size }) => {
+    points.forEach((h, i) => {
+      const el = dots.current[i];
+      if (!el) return;
+      v.current.set(...h.position).project(camera);
+      const x = ((v.current.x + 1) / 2) * size.width;
+      const y = ((1 - v.current.y) / 2) * size.height;
+      el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      el.style.visibility = v.current.z < 1 && x >= 0 && x <= size.width && y >= 0 && y <= size.height ? 'visible' : 'hidden';
+    });
+  });
+  return null;
+}
+
+type SceneProps = Pick<Props, 'artifact' | 'spin' | 'command'> & { dots: React.RefObject<(HTMLButtonElement | null)[]> };
+
+function Scene({ artifact, spin, command, dots }: SceneProps) {
   const controls = useRef<OrbitImpl>(null);
   const model = useRef<Group>(null);
   const camera = useThree((s) => s.camera);
@@ -59,28 +78,13 @@ function Scene({ artifact, hotspot, onHotspot, spin, command, showHotspots }: Pr
       <hemisphereLight args={['#fff1d6', '#20352b', 1.5]} />
       <directionalLight position={[6, 10, 7]} intensity={2.4} color="#ffdfb0" castShadow shadow-mapSize={[1024, 1024]} />
       <directionalLight position={[-7, 4, -5]} intensity={0.8} color="#8fc3be" />
-      <Bounds margin={1.15} maxDuration={0.7}>
+      <Bounds margin={1.3} maxDuration={0.7}>
         <group ref={model} key={artifact.id}>
           <Model />
         </group>
         <Fit target={model} trigger={`${artifact.id}-${resetKey}`} />
       </Bounds>
-      {showHotspots &&
-        artifact.hotspots.map((h, i) => (
-          <Html key={`${artifact.id}-${i}`} position={h.position} center zIndexRange={[20, 0]}>
-            <button
-              type="button"
-              onClick={() => onHotspot(i)}
-              aria-pressed={hotspot === i}
-              aria-label={`Hotspot ${i + 1}: ${h.label}`}
-              className={`grid size-9 cursor-pointer place-items-center rounded-full border-2 text-sm font-extrabold shadow-lg ${
-                hotspot === i ? 'border-ivory bg-gold-500 text-forest-950' : 'border-gold-300 bg-forest-950/85 text-gold-300'
-              }`}
-            >
-              {i + 1}
-            </button>
-          </Html>
-        ))}
+      <Project points={artifact.hotspots} dots={dots} />
       <OrbitControls
         ref={controls}
         makeDefault
@@ -95,18 +99,41 @@ function Scene({ artifact, hotspot, onHotspot, spin, command, showHotspots }: Pr
   );
 }
 
-export default function ArtifactViewer(props: Props) {
+export default function ArtifactViewer({ artifact, hotspot, onHotspot, spin, command, showHotspots }: Props) {
+  const dots = useRef<(HTMLButtonElement | null)[]>([]);
   return (
-    <Stage
-      label={`Interactive 3D model: ${props.artifact.name}. Drag to rotate, pinch or scroll to zoom.`}
-      camera={{ position: props.artifact.camera, fov: 40 }}
-      fallback={
-        <div className="grid h-full place-items-center p-8 text-center">
-          <p className="max-w-sm">3D rendering is not available on this device. The description and numbered notes beside this panel contain the same learning content.</p>
+    <>
+      <Stage
+        label={`Interactive 3D model: ${artifact.name}. Drag to rotate, pinch or scroll to zoom.`}
+        camera={{ position: artifact.camera, fov: 40 }}
+        fallback={
+          <div className="grid h-full place-items-center p-8 text-center">
+            <p className="max-w-sm">3D rendering is not available on this device. The description and numbered notes beside this panel contain the same learning content.</p>
+          </div>
+        }
+      >
+        <Scene artifact={artifact} spin={spin} command={command} dots={dots} />
+      </Stage>
+      {showHotspots && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {artifact.hotspots.map((h, i) => (
+            <button
+              key={`${artifact.id}-${i}`}
+              ref={(el) => { dots.current[i] = el; }}
+              type="button"
+              onClick={() => onHotspot(i)}
+              aria-pressed={hotspot === i}
+              aria-label={`Hotspot ${i + 1}: ${h.label}`}
+              style={{ visibility: 'hidden' }}
+              className={`pointer-events-auto absolute top-0 left-0 grid size-9 cursor-pointer place-items-center rounded-full border-2 text-sm font-extrabold shadow-lg ${
+                hotspot === i ? 'border-ivory bg-gold-500 text-forest-950' : 'border-gold-300 bg-forest-950/85 text-gold-300'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
         </div>
-      }
-    >
-      <Scene {...props} />
-    </Stage>
+      )}
+    </>
   );
 }

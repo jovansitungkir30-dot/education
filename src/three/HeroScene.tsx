@@ -70,7 +70,7 @@ function Water({ still }: { still: boolean }) {
   });
   return (
     <mesh ref={ref} geometry={geometry} position={[0, 0, 0]} receiveShadow>
-      <meshStandardMaterial color="#2b6168" metalness={0.45} roughness={0.28} flatShading />
+      <meshStandardMaterial color="#2b6168" metalness={0.2} roughness={0.55} flatShading />
     </mesh>
   );
 }
@@ -203,7 +203,7 @@ export default function HeroScene({ look }: { look: RefObject<Look> }) {
       <Floating position={[-3.3, 4.1, 1.4]} speed={0.8} still={still}>
         <group scale={0.36}><UlosCloth /></group>
       </Floating>
-      <Floating position={[5.4, 4.6, 0.6]} speed={0.65} still={still}>
+      <Floating position={[3.7, 5.1, 0.6]} speed={0.65} still={still}>
         <Gong p={[0, 0, 0]} radius={0.58} />
       </Floating>
       <Floating position={[4.9, 2.2, 3.4]} speed={0.95} still={still}>
