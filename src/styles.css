@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest-950: #0a1812;
+  --color-forest-900: #0f231b;
+  --color-forest-800: #17352a;
+  --color-forest-700: #214a3a;
+  --color-terracotta-400: #d4825f;
+  --color-terracotta-500: #a94f32;
+  --color-terracotta-700: #823a25;
+  --color-ivory: #f6f0e1;
+  --color-cream: #ebe1c9;
+  --color-gold-300: #e2c47c;
+  --color-gold-500: #c9a24b;
+  --color-gold-700: #75591b;
+  --color-ink: #1e1a14;
+  --font-display: "Fraunces Variable", Georgia, serif;
+  --font-sans: "Manrope Variable", system-ui, sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--color-forest-950); color: var(--color-ivory); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.015em; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--color-gold-500); outline-offset: 3px; }
+  ::selection { background: var(--color-terracotta-500); color: var(--color-ivory); }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.28em]; }
+  .display { font-family: var(--font-display); @apply text-4xl leading-[1.05] sm:text-6xl; }
+  .btn { @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full border border-transparent px-6 py-2.5 text-sm font-bold tracking-wide transition disabled:cursor-not-allowed disabled:opacity-40; }
+  .btn-gold { @apply bg-gold-500 text-forest-950 hover:bg-gold-300; }
+  .btn-terra { @apply bg-terracotta-500 text-ivory hover:bg-terracotta-700; }
+  .btn-line { @apply border-current/40 hover:border-current hover:bg-current/10; }
+  .chip { @apply min-h-10 shrink-0 cursor-pointer rounded-full border border-current/25 px-4 py-2 text-sm font-semibold transition hover:border-current; }
+  .chip[aria-pressed="true"], .chip[aria-selected="true"] { @apply border-gold-500 bg-gold-500 text-forest-950; }
+  .paper { @apply bg-ivory text-ink; }
+}
+
+/* Original geometric border with a woven rhythm. It is not a reproduction of any specific cultural motif. */
+.weave {
+  height: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='18'%3E%3Cpath d='M0 9L9 1L18 9L27 1L36 9M0 9L9 17L18 9L27 17L36 9' fill='none' stroke='%23c9a24b' stroke-width='1.2'/%3E%3Cpath d='M9 6l3 3-3 3-3-3zM27 6l3 3-3 3-3-3z' fill='%23a94f32'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+}
+
+.leaflet-container { background: #16332a; font-family: var(--font-sans); }
+.leaflet-tile-pane { filter: sepia(0.4) saturate(0.8) brightness(0.93); }
+.map-pin { display: grid; place-items: center; }
+.map-pin span { width: 18px; height: 18px; border-radius: 99px; background: #a94f32; border: 3px solid #f6f0e1; box-shadow: 0 2px 8px #0008; transition: transform .2s; }
+.map-pin.is-active span { background: #c9a24b; transform: scale(1.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+@media print {
+  body * { visibility: hidden; }
+  #certificate, #certificate * { visibility: visible; }
+  #certificate { position: absolute; inset: 0; margin: 0; }
+}
