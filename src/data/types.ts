@@ -3,11 +3,11 @@ import type { SourceId } from './sources';
 export type Knowledge = 'history' | 'tradition' | 'folklore' | 'interpretation' | 'contemporary';
 
 export const KNOWLEDGE: Record<Knowledge, { label: string; hint: string }> = {
-  history: { label: 'Documented history', hint: 'Supported by records, research or physical evidence.' },
-  tradition: { label: 'Cultural tradition', hint: 'Practice or custom held by a community. Details vary by place and family.' },
-  folklore: { label: 'Folklore', hint: 'A told story. Valuable as culture, not a factual account.' },
-  interpretation: { label: 'Interpretation', hint: 'A reading of meaning offered by researchers or practitioners.' },
-  contemporary: { label: 'Contemporary practice', hint: 'How something is done or recognised today.' },
+  history: { label: 'Sejarah terdokumentasi', hint: 'Didukung catatan, penelitian, atau bukti fisik.' },
+  tradition: { label: 'Tradisi budaya', hint: 'Praktik atau adat yang dipegang komunitas. Rinciannya berbeda menurut tempat dan keluarga.' },
+  folklore: { label: 'Cerita rakyat', hint: 'Cerita tutur. Bernilai sebagai budaya, bukan catatan fakta.' },
+  interpretation: { label: 'Penafsiran', hint: 'Pembacaan makna dari peneliti atau pelaku budaya.' },
+  contemporary: { label: 'Praktik masa kini', hint: 'Bagaimana sesuatu dijalankan atau diakui saat ini.' },
 };
 
 export interface Fact {
