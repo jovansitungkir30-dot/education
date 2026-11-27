@@ -3,7 +3,7 @@ import Activity from '../components/Activity';
 import Quiz from '../components/Quiz';
 import { Credit, Photo, ReviewNote, SectionHead, SourceLinks } from '../components/ui';
 import { MODULES, type Module } from '../data/modules';
-import { REGIONS } from '../data/regions';
+import { ADMIN, visitedDistricts } from '../data/atlas';
 import { ARTIFACTS } from '../data/artifacts';
 import { STORIES } from '../data/stories';
 import { go, href } from '../lib/router';
@@ -12,7 +12,7 @@ import { passedModules, useProgress, type ProgressState } from '../lib/progress'
 const EXPLORER = { regions: 5, artifacts: 3, stories: 2 };
 
 const isExplorer = (s: ProgressState) =>
-  s.visited.region.length >= EXPLORER.regions && s.visited.artifact.length >= EXPLORER.artifacts && s.visited.story.length >= EXPLORER.stories;
+  visitedDistricts(s).length >= EXPLORER.regions && s.visited.artifact.length >= EXPLORER.artifacts && s.visited.story.length >= EXPLORER.stories;
 
 function ModuleView({ module }: { module: Module }) {
   const { visit, state } = useProgress();
@@ -56,7 +56,7 @@ function Achievements() {
   const complete = passed.length === MODULES.length;
   const meters = [
     ['Modul lulus', passed.length, MODULES.length],
-    ['Tempat dikunjungi', state.visited.region.length, REGIONS.length],
+    ['Wilayah dijelajahi', visitedDistricts(state).length, ADMIN.length],
     ['Artefak dijelajahi', state.visited.artifact.length, ARTIFACTS.length],
     ['Cerita selesai', state.visited.story.length, STORIES.length],
   ] as const;

@@ -10,7 +10,7 @@ const LIMITS = [
   'Angkola dan beberapa topik lain masih dibahas tipis, dan Pakpak belum punya foto. Kekosongan ditampilkan apa adanya, tidak diisi tebakan.',
   'Model 3D adalah representasi prosedural yang disederhanakan, bukan replika terukur atau akurat secara sejarah.',
   'Contoh audio disintesis di browser, bukan rekaman atau komposisi tradisional. Narasi memakai suara komputer perangkat Anda; pelafalan nama lokal bisa keliru, dan mutunya bergantung pada ketersediaan suara bahasa Indonesia.',
-  'Titik peta adalah lokasi acuan perkiraan, bukan batas budaya atau administrasi.',
+  'Peta menampilkan batas administrasi dari data 2020 yang disederhanakan, jadi tidak untuk keperluan hukum atau navigasi. Batas administrasi bukan batas budaya.',
   'Ejaan dan istilah setempat bisa beragam. Sebagian judul rujukan ditulis dalam bahasa Inggris.',
 ];
 
@@ -54,7 +54,7 @@ export default function About() {
               <li key={p.id} className="list-none text-sm"><strong>{p.alt}.</strong> <Credit id={p.id} /></li>
             ))}
           </ul>
-          <p className="mt-6 text-sm opacity-75">Data peta © kontributor OpenStreetMap. Huruf: Fraunces dan Manrope (SIL Open Font License).</p>
+          <p className="mt-6 text-sm opacity-75">Batas wilayah: geoBoundaries (sumber BPS, WFP, OCHA ROAP; data 2020), CC BY 3.0 IGO, disederhanakan. Huruf: Fraunces dan Manrope (SIL Open Font License).</p>
         </section>
       </div>
     </div>

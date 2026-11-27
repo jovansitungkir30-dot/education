@@ -1,7 +1,8 @@
 # RuangNusantara: North Sumatra Cultural Experience
 
 An interactive, front-end-only learning site about the cultural heritage of North Sumatra.
-Built with React, TypeScript, Vite, Tailwind CSS, Framer Motion, Three.js (React Three Fiber, Drei) and Leaflet.
+Built with React, TypeScript, Vite, Tailwind CSS, Framer Motion, Three.js (React Three Fiber, Drei).
+Map boundaries: geoBoundaries IDN ADM2 (BPS, WFP, OCHA ROAP), 2020, CC BY 3.0 IGO, simplified with mapshaper.
 
 ## Run it
 
@@ -19,7 +20,7 @@ npm run preview   # serve the production build
 | Route | Contents |
 | --- | --- |
 | `#/` | 3D landscape hero, virtual journey progress, sound desk |
-| `#/explore` | Map with 10 destinations, 9 procedural 3D artifacts with hotspots |
+| `#/explore` | 3D/2D atlas of the 25 regencies and 8 cities, 9 procedural 3D artifacts with hotspots |
 | `#/cultures` | Scroll storytelling with narration, timeline |
 | `#/gallery` | Walk-through gallery with themed rooms |
 | `#/learn` | 8 modules with activities, quizzes, badges and a printable certificate |
@@ -49,7 +50,5 @@ Leave a topic out when it has not been researched; the interface lists it as a g
   and, ideally, by members of the communities described.
 - Angkola is thinly covered, and there is no Pakpak photo yet.
 - 3D models are simplified representations, and audio is synthesised. Neither is a replica or a recording.
-- Map tiles load from OpenStreetMap's public tile server, which has a usage policy. Use a dedicated tile
-  provider if the site will get significant traffic.
 
 Photo authors and licences are listed in `src/data/photos.json` and on the About page.

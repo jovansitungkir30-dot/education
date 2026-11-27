@@ -46,11 +46,6 @@
   background-repeat: repeat-x;
 }
 
-.leaflet-container { background: #16332a; font-family: var(--font-sans); }
-.leaflet-tile-pane { filter: sepia(0.4) saturate(0.8) brightness(0.93); }
-.map-pin { display: grid; place-items: center; }
-.map-pin span { width: 18px; height: 18px; border-radius: 99px; background: #a94f32; border: 3px solid #f6f0e1; box-shadow: 0 2px 8px #0008; transition: transform .2s; }
-.map-pin.is-active span { background: #c9a24b; transform: scale(1.5); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { go, href } from '../lib/router';
 import { useProgress, passedModules } from '../lib/progress';
 import { REGIONS } from '../data/regions';
+import { ADMIN } from '../data/atlas';
 import { ARTIFACTS } from '../data/artifacts';
 import { STORIES } from '../data/stories';
 import { MODULES } from '../data/modules';
@@ -98,7 +99,7 @@ function Hero() {
 }
 
 const STOPS = [
-  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih bentang alam, komunitas, atau kota, lalu baca apa yang diketahui tentangnya.', done: (v: Record<string, string[]>) => v.region.length, total: REGIONS.length },
+  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih bentang alam, komunitas, atau kota, lalu baca apa yang diketahui tentangnya.', done: (v: Record<string, string[]>) => ADMIN.filter((d) => v.region.includes(d.id)).length, total: ADMIN.length },
   { to: '/explore?view=artifacts', n: '02', title: 'Putar objeknya', text: 'Putar rumah adat, gendang, dan kain dalam 3D.', done: (v: Record<string, string[]>) => v.artifact.length, total: ARTIFACTS.length },
   { to: '/cultures', n: '03', title: 'Ikuti ceritanya', text: 'Sejarah, tradisi, dan cerita rakyat, masing-masing diberi label jelas.', done: (v: Record<string, string[]>) => v.story.length, total: STORIES.length },
 ];
