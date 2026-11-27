@@ -57,8 +57,11 @@
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 
+/* When a certificate is on screen, printing outputs only the certificate, on one page. */
 @media print {
-  body * { visibility: hidden; }
-  #certificate, #certificate * { visibility: visible; }
-  #certificate { position: absolute; inset: 0; margin: 0; }
+  @page { size: landscape; margin: 12mm; }
+  body:has(#certificate) { background: #fff; }
+  body:has(#certificate) *:not(:has(#certificate), #certificate, #certificate *) { display: none !important; }
+  body:has(#certificate) *:has(#certificate) { display: block !important; position: static !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; transform: none !important; }
+  #certificate { break-inside: avoid; print-color-adjust: exact; }
 }
