@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Credit, Photo, SectionHead, SourceLinks } from '../components/ui';
+import { Credit, Photo, ReviewNote, SectionHead, SourceLinks } from '../components/ui';
 import { GALLERY, THEMES, type Theme, type GalleryItem } from '../data/gallery';
 import type { PhotoId } from '../data/photos';
 import { useProgress } from '../lib/progress';
@@ -58,6 +58,7 @@ function Viewer({ items, index, onIndex, onOpen, onClose }: { items: GalleryItem
             <div><dt className="text-sm font-extrabold">Look and learn</dt><dd className="m-0 leading-relaxed">{item.learn}</dd></div>
           </dl>
           <SourceLinks ids={item.sources} />
+          <ReviewNote className="mt-3" />
           <h3 className="mt-8 mb-3 text-xl">Related</h3>
           <div className="grid grid-cols-3 gap-2">
             {item.related.map((id) => {

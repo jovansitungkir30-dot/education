@@ -402,7 +402,48 @@ export function GorgaPanel() {
   );
 }
 
+/** Intentionally plain figure: no attempt to reproduce a real puppet's face, dress or mechanism. */
+export function SigaleGale() {
+  return (
+    <group>
+      <Box p={[0, 0.45, 0]} s={[2.4, 0.8, 1.25]} />
+      <mesh position={[0, 0.45, 0.635]}>
+        <planeGeometry args={[2.2, 0.55]} />
+        <meshStandardMaterial map={ornamentTexture()} roughness={0.9} />
+      </mesh>
+      <Box p={[0, 0.9, 0]} s={[2.55, 0.1, 1.4]} color={DARK_WOOD} />
+      <mesh position={[0, 1.55, 0]} castShadow>
+        <cylinderGeometry args={[0.3, 0.5, 1.25, 16]} />
+        <meshStandardMaterial color="#3b2a22" roughness={0.95} />
+      </mesh>
+      <mesh position={[0, 2.45, 0]} castShadow>
+        <cylinderGeometry args={[0.38, 0.27, 0.75, 16]} />
+        <meshStandardMaterial color="#7e3224" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 3.12, 0]} castShadow>
+        <sphereGeometry args={[0.3, 24, 18]} />
+        <meshStandardMaterial color="#9a6a42" roughness={0.75} />
+      </mesh>
+      <mesh position={[0, 3.36, 0]}>
+        <cylinderGeometry args={[0.26, 0.31, 0.18, 20]} />
+        <meshStandardMaterial color="#17110d" />
+      </mesh>
+      {[-1, 1].map((side) => (
+        <group key={side}>
+          <Beam a={[side * 0.34, 2.72, 0]} b={[side * 0.74, 2.2, 0.08]} radius={0.09} color="#7e3224" />
+          <Beam a={[side * 0.74, 2.2, 0.08]} b={[side * 0.72, 2.28, 0.68]} radius={0.075} color="#9a6a42" />
+          <mesh position={[side * 0.74, 2.2, 0.08]}>
+            <sphereGeometry args={[0.11, 14, 10]} />
+            <meshStandardMaterial color={DARK_WOOD} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
 export const MODELS: Record<ModelId, () => ReactNode> = {
+  'sigale-gale': SigaleGale,
   'rumah-bolon': RumahBolon,
   'siwaluh-jabu': SiwaluhJabu,
   'omo-sebua': OmoSebua,

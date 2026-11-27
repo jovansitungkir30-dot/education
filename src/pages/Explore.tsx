@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import CultureMap from '../components/CultureMap';
-import { Credit, FactBlock, Photo, SectionHead } from '../components/ui';
+import { Credit, FactBlock, Photo, ReviewNote, SectionHead } from '../components/ui';
 import { REGIONS, TOPICS, regionById, type Region, type TopicKey } from '../data/regions';
 import { ARTIFACTS } from '../data/artifacts';
 import { MODULES } from '../data/modules';
@@ -147,6 +147,7 @@ function Artifacts({ requested }: { requested: string | null }) {
             <p className="leading-relaxed">{artifact.description}</p>
 
             <h4 className="mt-6 mb-2 text-xl">Hotspots</h4>
+            <ReviewNote className="mb-3" />
             <ol className="m-0 space-y-2 p-0">
               {artifact.hotspots.map((h, i) => (
                 <li key={h.label} className="list-none">

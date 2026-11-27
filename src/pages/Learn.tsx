@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Activity from '../components/Activity';
 import Quiz from '../components/Quiz';
-import { Credit, Photo, SectionHead, SourceLinks } from '../components/ui';
+import { Credit, Photo, ReviewNote, SectionHead, SourceLinks } from '../components/ui';
 import { MODULES, type Module } from '../data/modules';
 import { REGIONS } from '../data/regions';
 import { ARTIFACTS } from '../data/artifacts';
@@ -20,6 +20,7 @@ function ModuleView({ module }: { module: Module }) {
     <article className="paper rounded-3xl p-5 sm:p-10">
       <p className="eyebrow text-terracotta-700">Learning module</p>
       <h2 className="display mt-2 mb-6">{module.title}</h2>
+      <ReviewNote className="mb-6" />
       <h3 className="text-2xl">Learning objectives</h3>
       <ul className="list-disc pl-5">{module.objectives.map((o) => <li key={o}>{o}</li>)}</ul>
 

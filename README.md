@@ -19,7 +19,7 @@ npm run preview   # serve the production build
 | Route | Contents |
 | --- | --- |
 | `#/` | 3D landscape hero, virtual journey progress, sound desk |
-| `#/explore` | Map with 10 destinations, 8 procedural 3D artifacts with hotspots |
+| `#/explore` | Map with 10 destinations, 9 procedural 3D artifacts with hotspots |
 | `#/cultures` | Scroll storytelling with narration, timeline |
 | `#/gallery` | Walk-through gallery with themed rooms |
 | `#/learn` | 8 modules with activities, quizzes, badges and a printable certificate |
@@ -43,10 +43,11 @@ Leave a topic out when it has not been researched; the interface lists it as a g
 
 ## Review needed before publishing
 
-- Sources were found by web search and reviewed as summaries and excerpts, not full texts.
+- Source check levels are recorded in `src/data/sources.ts` and shown in the interface. Only those marked
+  "read" were opened and used. Even those have not been specialist-reviewed.
 - Module lesson text, quiz answers, gallery notes and some hotspot text need a check by a subject specialist
   and, ideally, by members of the communities described.
-- Angkola and Pakpak are thinly covered.
+- Angkola is thinly covered, and there is no Pakpak photo yet.
 - 3D models are simplified representations, and audio is synthesised. Neither is a replica or a recording.
 - Map tiles load from OpenStreetMap's public tile server, which has a usage policy. Use a dedicated tile
   provider if the site will get significant traffic.

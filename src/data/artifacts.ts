@@ -1,6 +1,6 @@
 import { fact, type Fact } from './types';
 
-export type ModelId = 'rumah-bolon' | 'siwaluh-jabu' | 'omo-sebua' | 'hombo-batu' | 'ulos' | 'gondang' | 'gordang' | 'gorga';
+export type ModelId = 'rumah-bolon' | 'siwaluh-jabu' | 'omo-sebua' | 'hombo-batu' | 'ulos' | 'gondang' | 'gordang' | 'sigale-gale' | 'gorga';
 
 export interface Hotspot {
   position: [number, number, number];
@@ -27,7 +27,7 @@ export const ARTIFACTS: Artifact[] = [
     id: 'rumah-bolon', name: 'Batak Toba house (Rumah Bolon)', origin: 'Batak Toba', regionId: 'samosir', camera: [7, 3.5, 8],
     description: 'A simplified study of a raised house with a sweeping saddle roof and a decorated front gable.',
     history: fact('history', 'Batak Toba architecture is known for raised timber houses with curved roof ridges and projecting gables.', 'batakArchitecture', 'tobaHouseForm'),
-    significance: fact('interpretation', 'Researchers read the form and ornament of the house as carrying cultural meaning. A Siallagan study reports a protective reading of the singa-singa motif.', 'tobaHouseForm', 'gorgaFloresiensis'),
+    significance: fact('interpretation', 'Researchers read the form and ornament of the house as carrying cultural meaning.', 'tobaHouseForm'),
     hotspots: [
       { position: [0, 3.55, 2.35], label: 'Saddle roof', text: 'The ridge dips in the middle and rises toward both gables.' },
       { position: [0, 2.15, 2.05], label: 'Front gable', text: 'The front is a focus for carved and painted ornament. The patterns here are abstract placeholders for gorga, not copies of real motifs.' },
@@ -37,11 +37,11 @@ export const ARTIFACTS: Artifact[] = [
   {
     id: 'siwaluh-jabu', name: 'Karo house (Siwaluh Jabu)', origin: 'Karo', regionId: 'karo', camera: [7.5, 4, 8.5],
     description: 'A simplified study of a large shared house with a tall, layered roof.',
-    history: fact('history', 'Siwaluh jabu houses are associated with Karo villages such as Lingga and Dokan.', 'karoSpace', 'karoHeritage'),
-    significance: fact('tradition', 'The house accommodates several household units, positioned according to customary rules.', 'karoSpace'),
+    history: fact('history', 'A study documents siwaluh jabu houses in Lingga, a Karo village.', 'karoSpace'),
+    significance: fact('tradition', 'Traditionally, eight households shared the house in places set by custom. A 2020 study found this placement is no longer practised in Lingga.', 'karoSpace'),
     hotspots: [
       { position: [0, 4.1, 0], label: 'Layered roof', text: 'A tall roof dominates the profile. This model simplifies its tiers and gables.' },
-      { position: [2.25, 1.35, 0], label: 'Shared interior', text: 'Several households live under one roof, each in its own customary position.' },
+      { position: [2.25, 1.35, 0], label: 'Shared interior', text: 'Traditionally several households lived under one roof, each in its own customary position.' },
       { position: [0, 0.75, 2.2], label: 'Front platform', text: 'A raised platform leads to the entrance in this representation.' },
     ],
   },
@@ -49,8 +49,8 @@ export const ARTIFACTS: Artifact[] = [
     id: 'omo-sebua', name: 'Nias great house (Omo Sebua)', origin: 'Nias, southern tradition', regionId: 'nias', camera: [7.5, 4.5, 9],
     description: 'A simplified study of a chief’s house with a very tall roof and a dense system of posts and braces.',
     history: fact('history', 'Omo sebua are the great houses of chiefs, built on massive timber posts under steep roofs.', 'omoSebua'),
-    significance: fact('history', 'Nias timber architecture is studied for its response to earthquakes.', 'niasQuake', 'wmfNias'),
-    materials: fact('history', 'Heavy hardwood posts, with structural members joined without relying on nails.', 'omoSebua', 'wmfNias'),
+    significance: fact('history', 'Nias timber architecture is studied for its response to earthquakes.', 'niasQuake'),
+    materials: fact('history', 'Heavy hardwood posts, with structural members joined without relying on nails.', 'omoSebua'),
     hotspots: [
       { position: [0, 4.9, 0.9], label: 'Steep roof', text: 'Roof height is one of the most striking features of these houses.' },
       { position: [1.2, 0.8, 1.55], label: 'Diagonal braces', text: 'Upright and oblique timbers work together. This helps the structure respond to shaking.' },
@@ -101,10 +101,21 @@ export const ARTIFACTS: Artifact[] = [
     ],
   },
   {
+    id: 'sigale-gale', name: 'Sigale-gale puppet study', origin: 'Batak Toba, Samosir', regionId: 'samosir', camera: [3.5, 2.5, 7],
+    description: 'A deliberately plain representation of a wooden puppet figure standing on a box platform. It does not reproduce the face, dress or mechanism of any real sigale-gale.',
+    history: fact('tradition', 'Sigale-gale is a Batak Toba wooden puppet from Samosir, associated with the papurpur sapata funeral rite for people of high standing who died without children.', 'sigalegale'),
+    significance: fact('contemporary', 'Today it is also well known to visitors. Its funerary background deserves respect when it is presented as a performance.', 'sigalegale'),
+    hotspots: [
+      { position: [0, 3.15, 0.35], label: 'Figure', text: 'The puppet is a human-like wooden figure. Features are left plain here on purpose.' },
+      { position: [0.74, 2.2, 0.3], label: 'Arms', text: 'The figure is made to move. The joints in this model are illustrative.' },
+      { position: [1.0, 0.55, 0.68], label: 'Platform', text: 'The figure stands on a box-like platform in this representation.' },
+    ],
+  },
+  {
     id: 'gorga', name: 'Ornament panel study', origin: 'Inspired by Batak Toba gorga colours', regionId: 'samosir', camera: [0, 0.6, 6],
     description: 'An original geometric panel using the red, white and black palette. It is deliberately not a reproduction of a gorga motif.',
-    history: fact('tradition', 'Gorga is Batak Toba decorative carving and painting.', 'gorgaFloresiensis'),
-    significance: fact('interpretation', 'Individual motifs carry meanings that researchers and practitioners explain in relation to Toba beliefs and values.', 'gorgaFloresiensis'),
+    history: fact('contemporary', 'Gorga carving is a Batak Toba craft that UNESCO included in a recovery project.', 'unescoUlosProject'),
+    significance: fact('interpretation', 'Individual motifs are understood to carry meanings. This site does not assign meanings to motifs without a verified source.'),
     hotspots: [
       { position: [0, 0, 0.35], label: 'Three colours', text: 'Red, white and black are widely associated with gorga.' },
       { position: [1.45, 1.1, 0.3], label: 'Why not a copy?', text: 'Inventing a lookalike motif and giving it a meaning would mislead. This panel claims no symbolic meaning.' },

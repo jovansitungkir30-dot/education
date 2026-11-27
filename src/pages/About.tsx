@@ -1,10 +1,10 @@
 import { SectionHead, Credit, KindTag } from '../components/ui';
-import { SOURCES } from '../data/sources';
+import { SOURCES, CHECK_LABEL, checkOf, type SourceId } from '../data/sources';
 import { ALL_PHOTOS } from '../data/photos';
 import { KNOWLEDGE, type Knowledge } from '../data/types';
 
 const LIMITS = [
-  'Sources were located by web search and reviewed through summaries and excerpts, not full texts. Treat every citation as a starting point to verify.',
+  'Each reference below shows how far it was checked. Several could not be opened or were seen only as search summaries, so verify those first. Some are encyclopedia or press pages.',
   'Some statements have no source attached. They are marked “Pending expert review” where facts are shown, and still need confirmation.',
   'No community representative or subject specialist has reviewed this content yet.',
   'Angkola, Pakpak and several other topics are thinly covered. Gaps are shown openly instead of being filled with guesses.',
@@ -37,10 +37,10 @@ export default function About() {
         <section className="mt-14">
           <h2 className="text-3xl">References</h2>
           <ul className="grid gap-4 p-0 md:grid-cols-2">
-            {Object.values(SOURCES).map((s) => (
+            {(Object.keys(SOURCES) as SourceId[]).map((id) => ({ id, ...SOURCES[id] })).map((s) => (
               <li key={s.url} className="list-none rounded-2xl border border-ivory/15 p-4">
                 <a className="font-bold underline underline-offset-2" href={s.url} target="_blank" rel="noreferrer">{s.title}</a>
-                <span className="mt-1 block text-sm opacity-70">{s.publisher} · {s.type}</span>
+                <span className="mt-1 block text-sm opacity-70">{s.publisher} · {s.type} · {CHECK_LABEL[checkOf(s.id)]}</span>
               </li>
             ))}
           </ul>

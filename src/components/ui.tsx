@@ -1,7 +1,7 @@
 import { useEffect, useSyncExternalStore, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { KNOWLEDGE, type Fact, type Knowledge } from '../data/types';
-import { SOURCES, type SourceId } from '../data/sources';
+import { SOURCES, CHECK_LABEL, checkOf, type SourceId } from '../data/sources';
 import { photo, type PhotoId } from '../data/photos';
 import { SAMPLES, audioState, play, setVolume, stop } from '../lib/audio';
 
@@ -32,8 +32,18 @@ export function SourceLinks({ ids }: { ids: SourceId[] }) {
           <a className="underline underline-offset-2 hover:opacity-100" href={SOURCES[id].url} target="_blank" rel="noreferrer">
             {SOURCES[id].publisher}
           </a>
+          {checkOf(id) !== 'read' && <span> ({CHECK_LABEL[checkOf(id)]})</span>}
         </span>
       ))}
+    </p>
+  );
+}
+
+/** For summaries, activities and notes that are not tied sentence by sentence to a source. */
+export function ReviewNote({ className = '' }: { className?: string }) {
+  return (
+    <p className={`rounded-lg border border-dashed border-current/35 px-3 py-2 text-xs leading-relaxed opacity-80 ${className}`}>
+      Written for this site and not yet reviewed by a subject specialist. Linked sources are for further checking and do not confirm every sentence here.
     </p>
   );
 }

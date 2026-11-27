@@ -111,7 +111,7 @@ export const MODULES: Module[] = [
     objectives: ['Compare Toba, Karo, Mandailing and Nias buildings', 'Read a house as both structure and social space', 'Link timber construction with earthquake response'],
     lessons: [
       { title: 'Roofs and posts', photo: 'gorga-house', body: 'Many traditional houses in the province are raised on posts, but their forms differ. The Toba house has a saddle-shaped roof; the Karo siwaluh jabu houses several households.' },
-      { title: 'Social space', photo: 'mandailing-house', body: 'In Mandailing villages the ruler’s house, the open hall and the yard have different civic roles. In a Karo siwaluh jabu, household positions follow customary rules.' },
+      { title: 'Social space', photo: 'mandailing-house', body: 'In Mandailing villages the ruler’s house, the open hall and the yard have different civic roles. In a Karo siwaluh jabu, custom traditionally set each household’s position, although a 2020 study in Lingga found this is no longer practised.' },
       { title: 'Structure that moves', photo: 'nias-house', body: 'Research on Nias after the 2004 and 2005 earthquakes found that traditional houses largely performed well. Bracing, joints and supports that can accommodate movement are central to the explanation. Performance still depends on maintenance and the strength of shaking.' },
     ],
     activity: { type: 'match', title: 'Match the building and its role', pairs: [

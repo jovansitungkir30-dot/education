@@ -43,7 +43,7 @@ export const STORIES: Story[] = [
     chapters: [
       { title: 'Dalihan Na Tolu', photo: 'angkola-tortor', fact: fact('tradition', 'In Toba, Angkola and Mandailing settings, Dalihan Na Tolu names three interdependent kinship positions. Terms differ between communities.', 'dalihanCore') },
       { title: 'The hearth image', photo: 'tortor', fact: fact('interpretation', 'The phrase is often explained through a hearth of three stones: the pot is steady only when all three support it.', 'dalihanCore') },
-      { title: 'Simalungun’s framework', photo: 'simalungun-house', fact: fact('tradition', 'Simalungun custom speaks of Tolu Sahundulan, Lima Saodoran, which is its own framework and not a copy of another community’s.', 'simalungunAdat') },
+      { title: 'Simalungun’s framework', photo: 'simalungun-house', fact: fact('tradition', 'Simalungun custom speaks of Tolu Sahundulan: tondong for counsel, sanina for deliberation and boru for strength. It is Simalungun’s own framework.', 'simalungunAdat') },
       { title: 'Roles move', photo: 'tortor', fact: fact('tradition', 'A position describes a relationship, not a permanent rank. A person can serve in one ceremony and be honoured in another.', 'dalihanCore') },
     ],
   },
@@ -70,7 +70,7 @@ export const STORIES: Story[] = [
     intro: 'An island heritage with its own language and history.',
     chapters: [
       { title: 'A planned settlement', photo: 'nias-house', fact: fact('history', 'At Bawomataluo, monumental stonework and houses form one designed settlement.', 'unescoBawomataluo') },
-      { title: 'Built to move', photo: 'nias-house', fact: fact('history', 'Braced timber houses resting on posts and stones came through the 2004 and 2005 earthquakes better than many modern buildings.', 'niasQuake', 'wmfNias') },
+      { title: 'Built to move', photo: 'nias-house', fact: fact('history', 'Traditional timber houses largely came through the 2004 and 2005 earthquakes well, although some were damaged.', 'niasQuake') },
       { title: 'The leap', photo: 'nias-hombo', fact: fact('history', 'Stone jumping is connected in accounts to past warfare training, and is now a cultural symbol and demonstration.', 'hombo') },
       { title: 'Living arts', photo: 'nias-dance', fact: fact('contemporary', 'Dance, maena and other performing arts are the subject of current preservation efforts in South Nias.', 'niasMinistry') },
     ],

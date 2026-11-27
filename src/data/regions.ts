@@ -50,9 +50,11 @@ export const REGIONS: Region[] = [
       identity: [fact('tradition', 'Samosir is closely associated with Batak Toba communities, villages and family histories.')],
       architecture: [
         fact('history', 'Batak Toba houses are raised on posts and have a sweeping, saddle-shaped roof with projecting gables.', 'batakArchitecture', 'tobaHouseForm'),
-        fact('interpretation', 'A study of a house in Siallagan village reports that the carved singa-singa motif is understood as protection for the house.', 'gorgaFloresiensis'),
       ],
-      crafts: [fact('tradition', 'Gorga is the Batak Toba art of decorative carving and painting, widely recognised for its use of red, white and black.', 'gorgaFloresiensis')],
+      crafts: [
+        fact('contemporary', 'Gorga, Batak Toba decorative carving, was part of a UNESCO recovery project for local craft practitioners.', 'unescoUlosProject'),
+        fact('tradition', 'Gorga is widely recognised for its use of red, white and black.'),
+      ],
       stories: [fact('folklore', 'In versions of the Lake Toba legend, the son Samosir climbs to high ground as the water rises, linking his name to the island.', 'legendGnfi')],
       food: [fact('tradition', 'Arsik, a spiced fish dish often made with carp, is strongly associated with Batak cooking in the Toba area.', 'arsik')],
     },
@@ -83,11 +85,15 @@ export const REGIONS: Region[] = [
     topics: {
       identity: [fact('tradition', 'Karo people have their own language and customary system. Many describe their identity specifically as Karo, and views differ on the wider “Batak” label.')],
       architecture: [
-        fact('history', 'Siwaluh jabu refers to a large house for eight household units. Examples are associated with villages such as Lingga and Dokan.', 'karoSpace', 'karoHeritage'),
-        fact('tradition', 'The position of each household inside the house follows Karo customary rules.', 'karoSpace'),
-        fact('contemporary', 'Research from Lingga records changes in how interior space is used today.', 'karoSpace'),
+        fact('history', 'Siwaluh jabu is a raised house, reaching about 12 metres, with outward-sloping walls. The name refers to eight household units under one roof. A study documents examples in Lingga village.', 'karoSpace'),
+        fact('tradition', 'Traditionally the rooms had no walls between them. Custom marked the boundaries and set which relatives lived in each of the eight places, with their own responsibilities.', 'karoSpace'),
+        fact('contemporary', 'A 2020 study in Lingga found added partitions, houses no longer occupied by eight families, and the role-based placement no longer practised. It also reports declining upkeep.', 'karoSpace'),
       ],
-      clothing: [fact('tradition', 'Karo ceremonial dress uses woven textiles known as uis, with distinctive headdresses in wedding attire.')],
+      clothing: [
+        fact('tradition', 'Uis nipes is a thin woven cloth worn by Karo women at customary events. Bright versions appear at weddings and black ones in mourning.', 'uisKaro'),
+        fact('tradition', 'Beka buluh is a larger, heavier, red-based cloth. At weddings it is worn as a head covering by the groom and the couple’s fathers, or folded over the shoulder.', 'uisKaro'),
+        fact('contemporary', 'A study in Barusjahe describes parents passing on these cloths by bringing children to ceremonies, while many young people mostly choose modern clothing.', 'uisKaro'),
+      ],
       food: [fact('contemporary', 'Karo versions of arsik are described as using torch ginger flower and fruit, in places where other versions rely on andaliman.', 'arsik')],
     },
     photos: ['karo-house', 'karo-wedding'], modules: ['batak', 'architecture', 'culinary'],
@@ -97,12 +103,16 @@ export const REGIONS: Region[] = [
     summary: 'A southern community known for the Gordang Sambilan drum ensemble and customary village architecture.',
     topics: {
       identity: [fact('tradition', 'Mandailing is a distinct southern community. Islam is central to the lives of most Mandailing people today, and many identify as Mandailing rather than under a broader label.', 'dalihanCore')],
-      architecture: [fact('history', 'Bagas Godang is the house of the traditional ruler. Sopo Godang is an open public hall for customary deliberation. They belong to a planned village setting with a wide yard.', 'mandailingBuildings')],
+      architecture: [
+        fact('history', 'Bagas Godang is the raised house of the traditional ruler. It has also served as a place for customary ceremonies and as a refuge for community members.', 'mandailingBuildings'),
+        fact('history', 'Sopo Godang is an open hall without walls, across the wide yard. It is used for deliberation, customary justice, performances and learning.', 'mandailingBuildings'),
+      ],
+      clothing: [fact('tradition', 'The hampu and bulang headdresses were first part of the dress of the ruler and consort. Today they are worn by couples at customary weddings.', 'mandailingBuildings')],
       traditions: [
-        fact('tradition', 'Dalihan Na Tolu, with the groups known as mora, kahanggi and anak boru, structures obligations in ceremony.', 'dalihanCore'),
+        fact('tradition', 'Dalihan Na Tolu groups kin as suhut with kahanggi, anak boru, and mora. Each has distinct roles in ceremony and decision-making.', 'mandailingBuildings'),
         fact('tradition', 'Gordang Sambilan is an ensemble of nine drums of graded size, played at significant ceremonies. Its use has customary rules.', 'gordang'),
       ],
-      crafts: [fact('tradition', 'Customary buildings carry painted and carved geometric ornament.')],
+      crafts: [fact('interpretation', 'A triangular ornament called bindu, on the front roof of the Bagas Godang and Sopo Godang, is read as a symbol of Dalihan Na Tolu.', 'mandailingBuildings')],
     },
     photos: ['mandailing-house', 'gordang-sambilan'], modules: ['music', 'wisdom'],
   },
@@ -111,7 +121,11 @@ export const REGIONS: Region[] = [
     summary: 'A southern community of the Tapanuli region, related to but distinct from Mandailing.',
     topics: {
       identity: [fact('tradition', 'Angkola has its own community identity. It shares many cultural features with neighbouring Mandailing, and the two are often studied together, but they should not be treated as interchangeable.', 'dalihanCore')],
-      traditions: [fact('tradition', 'Dalihan Na Tolu relationships guide roles and speech in customary ceremonies.', 'dalihanCore')],
+      history: [fact('history', 'A study of Mandailing rulers records that one village head took office under Angkola custom in 1885 and led until 1928.', 'mandailingBuildings')],
+      traditions: [
+        fact('tradition', 'Dalihan Na Tolu relationships guide roles and speech in customary ceremonies.', 'dalihanCore'),
+        fact('tradition', 'In Angkola and Sipirok, a respected leader is described with the expression banir parkolipkolipan, an image of someone who gives shelter.', 'mandailingBuildings'),
+      ],
     },
     photos: ['angkola-tortor'], modules: ['wisdom'],
   },
@@ -119,9 +133,17 @@ export const REGIONS: Region[] = [
     id: 'pakpak', name: 'Pakpak', category: 'Cultural community', coords: [2.55, 98.32], anchor: 'Salak, Pakpak Bharat',
     summary: 'A community of the western highlands whose homeland crosses modern administrative borders.',
     topics: {
-      identity: [fact('tradition', 'The idea of Silima Suak, five customary areas, names Simsim, Keppas, Pegagan, Kelasen and Boang. They are distinguished partly by dialect and linked by kinship. Boang communities live in Aceh.', 'pakpakSuak')],
+      identity: [
+        fact('tradition', 'Silima Suak, five customary areas, names Simsim, Keppas, Pegagan, Kelasen and Boang. They differ mainly in dialect and historically dominant clans, within one Pakpak identity.', 'pakpakSuak'),
+        fact('contemporary', 'Pakpak communities live in areas including Dairi, Pakpak Bharat, Humbang Hasundutan and Central Tapanuli, and in Aceh Singkil and Subulussalam in Aceh.', 'pakpakSuak'),
+      ],
       history: [fact('history', 'Colonial-era administration divided the Pakpak customary areas among separate government units in the early twentieth century.', 'pakpakHistory')],
-      traditions: [fact('contemporary', 'Research reports declining use of the Pakpak language in some mixed areas, such as parts of Sumbul.', 'pakpakSuak')],
+      traditions: [
+        fact('tradition', 'Sulang Silima joins five kinship elements: the eldest, middle and youngest sibling lines (perisang-isang, pertulan tengah, perekur-ekur), berru and puang. They take part in customary decisions.', 'pakpakSuak'),
+        fact('contemporary', 'The community association HIMPAK describes itself as a shared home for the five areas and works on culture, youth training and welfare.', 'pakpakSuak'),
+      ],
+      crafts: [fact('contemporary', 'Tatak moccak, a Pakpak martial art, and traditional dance studios are among the arts being passed on.', 'pakpakSuak')],
+      food: [fact('contemporary', 'Pelleng is described as a signature Pakpak food and was the focus of a community celebration day in 2025.', 'pakpakSuak')],
     },
     photos: [], modules: ['intro'],
   },
@@ -129,13 +151,17 @@ export const REGIONS: Region[] = [
     id: 'simalungun', name: 'Simalungun', category: 'Cultural community', coords: [2.94, 98.69], anchor: 'Pematang Purba',
     summary: 'A community northeast of the lake with its own language, royal heritage and customary food.',
     topics: {
-      identity: [fact('tradition', 'Simalungun is a distinct community with its own language and customs.')],
+      identity: [
+        fact('tradition', 'Simalungun is a distinct community, set apart by its own custom, culture and history.', 'simalungunAdat'),
+        fact('interpretation', 'The saying habonaron do bona, “truth is the foundation”, is described as a guiding Simalungun philosophy.', 'simalungunAdat'),
+      ],
       architecture: [
         fact('history', 'The Rumah Bolon complex at Pematang Purba is associated with the former Purba ruling house. Its ornament has been the subject of semiotic study.', 'simalungunOrnament'),
       ],
-      traditions: [fact('tradition', 'Tolu Sahundulan, Lima Saodoran is a Simalungun customary framework describing kinship positions and how they sit and act together.', 'simalungunAdat')],
+      traditions: [fact('tradition', 'Tolu Sahundulan names three kin positions with complementary gifts: tondong offers counsel, sanina shares in deliberation, and boru provides strength. It is spoken of together with Lima Saodoran.', 'simalungunAdat')],
+      stories: [fact('tradition', 'Hata-hata mambere podah is an oral tradition at weddings: elders and relatives give the couple advice, often introduced by a verse. The study notes it is fading, especially in cities.', 'simalungunAdat')],
       food: [fact('tradition', 'Dayok binatur is chicken arranged in an orderly way on a plate and served with words of advice at customary occasions, including weddings.', 'simalungunAdat')],
-      clothing: [fact('tradition', 'Simalungun woven textiles are known as hiou.')],
+      clothing: [fact('tradition', 'Wedding dress includes the gotong headdress for men, the bulang headdress for women, the suri-suri shoulder cloth and the hiou, a woven cloth wrapped around the body.', 'simalungunAdat')],
     },
     photos: ['simalungun-house'], modules: ['batak', 'culinary', 'wisdom'],
   },
@@ -149,7 +175,7 @@ export const REGIONS: Region[] = [
       ],
       architecture: [
         fact('history', 'Omo sebua, the great houses of chiefs, stand on massive timber posts under very tall, steep roofs.', 'omoSebua'),
-        fact('history', 'Traditional timber houses with joined, braced structures performed notably well in the earthquakes of 2004 and 2005.', 'niasQuake', 'wmfNias'),
+        fact('history', 'Research on the 2004 and 2005 earthquakes found that traditional Nias houses performed notably well, although some tilted, toppled or were damaged.', 'niasQuake'),
       ],
       traditions: [
         fact('history', 'Hombo batu, or fahombo, is stone jumping associated especially with South Nias. Accounts connect it to preparation for inter-village conflict. Today it is a cultural demonstration and symbol.', 'hombo'),
@@ -164,8 +190,11 @@ export const REGIONS: Region[] = [
     id: 'medan', name: 'Medan', category: 'City', coords: [3.585, 98.675], anchor: 'City centre',
     summary: 'The provincial capital: a plural city with deep Malay Deli roots and many communities.',
     topics: {
-      identity: [fact('contemporary', 'Medan is home to many communities, including Malay, Batak groups, Javanese, Chinese Indonesian, Minangkabau, Indian-descended and other residents. No single culture stands for the city.')],
-      history: [fact('history', 'The city grew with the plantation economy of the colonial era, in lands linked to the Malay Sultanate of Deli.')],
+      identity: [fact('contemporary', 'Medan is home to many communities, including Malay, Batak groups, Javanese, Chinese Indonesian, Minangkabau, Indian-descended and other residents. No single culture stands for the city.', 'medanWiki')],
+      history: [
+        fact('history', 'From the 1860s, land in Deli was opened to tobacco plantations, and Medan grew with this colonial plantation economy in the lands of the Malay Sultanate of Deli.', 'medanWiki'),
+        fact('tradition', 'The city’s earlier founding is attributed to Guru Patimpus, a Karo man.', 'medanWiki'),
+      ],
       architecture: [
         fact('history', 'Istana Maimun, a palace of the Sultanate of Deli, was built around 1887 to 1892; sources give slightly different dates. Its design combines several architectural traditions.', 'maimun'),
         fact('history', 'The Tjong A Fie Mansion, home of a prominent Chinese merchant, blends Chinese, Malay and European-influenced design. It opened to the public as a museum in 2009.', 'medanSites'),
