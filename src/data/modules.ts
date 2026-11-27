@@ -33,7 +33,16 @@ export interface Module {
   sources: SourceId[];
 }
 
-const q = (text: string, options: string[], answer: number, why: string): Question => ({ q: text, options, answer, why });
+/** Rotates the options by a stable amount so the correct answer does not cluster in one position. */
+const q = (text: string, options: string[], answer: number, why: string): Question => {
+  const shift = text.length % options.length;
+  return {
+    q: text,
+    options: options.map((_, i) => options[(i + shift) % options.length]),
+    answer: (answer - shift + options.length) % options.length,
+    why,
+  };
+};
 
 export const MODULES: Module[] = [
   {
