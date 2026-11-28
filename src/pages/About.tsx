@@ -30,7 +30,7 @@ export default function About() {
             {[
               ['Buka peta', 'Lihat 25 kabupaten dan 8 kota dengan batas aslinya. Geser, perbesar, atau pilih dari daftar.'],
               ['Pilih wilayah', 'Baca materi budaya yang sudah diriset. Wilayah yang belum, ditandai apa adanya.'],
-              ['Masuk diorama', 'Di Samosir, Karo, Mandailing Natal, dan Nias Selatan, buka titik temuan pada miniatur 3D.'],
+              ['Buka halaman wilayah', 'Setiap kabupaten dan kota punya landmark 3D dengan titik budaya. Samosir, Karo, Mandailing Natal, dan Nias Selatan punya diorama yang lebih rinci.'],
               ['Uji dan lanjutkan', 'Kerjakan mini kuis, lihat catatan temuan, lalu jelajahi wilayah lain. Tidak ada materi yang dikunci di peta.'],
             ].map(([title, text], i) => (
               <li key={title} className="list-none border-t-2 border-gold-500 pt-4">

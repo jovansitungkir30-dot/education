@@ -1,7 +1,7 @@
 /** Game-style overlays on the full-screen atlas. */
 import { useState, useSyncExternalStore } from 'react';
-import { ADMIN, CONTENT_LINKS, DISTRICTS, visitedDistricts } from '../../data/atlas';
-import { DIORAMAS } from '../../data/dioramas';
+import { ADMIN, DISTRICTS, visitedDistricts } from '../../data/atlas';
+import { LANDMARKS } from '../../data/landmarks';
 import { STOPS } from '../../data/pins';
 import { badges, completedDioramas } from '../../lib/badges';
 import { audioState, play, stop } from '../../lib/audio';
@@ -33,7 +33,7 @@ export function TopLeft({ selected, onSelect }: { selected: string | null; onSel
           {(['kabupaten', 'kota', 'air'] as const).map((type) => (
             <optgroup key={type} label={type === 'air' ? 'Badan air' : `${type === 'kota' ? 'Kota' : 'Kabupaten'} (${ADMIN.filter((d) => d.type === type).length})`}>
               {DISTRICTS.filter((d) => d.type === type).map((d) => (
-                <option key={d.id} value={d.id}>{d.name}{DIORAMAS[d.id] ? ' ◆' : ''}{CONTENT_LINKS[d.id] ? ' •' : ''}{visited.has(d.id) ? ' ✓' : ''}</option>
+                <option key={d.id} value={d.id}>{d.name}{LANDMARKS[d.id] ? ` · ${LANDMARKS[d.id].name}` : ''}{visited.has(d.id) ? ' ✓' : ''}</option>
               ))}
             </optgroup>
           ))}
@@ -92,8 +92,8 @@ export function SoundAndHelp() {
           <p className="m-0 font-extrabold">Cara menjelajah</p>
           <ul className="mt-2 mb-0 list-disc space-y-1 pl-4">
             <li>Geser untuk berpindah, tombol ＋ － untuk memperbesar.</li>
-            <li>Klik penanda atau wilayah untuk membuka materinya.</li>
-            <li>Penanda bernomor punya diorama 3D.</li>
+            <li>Klik miniatur atau wilayah untuk membuka halaman belajarnya.</li>
+            <li>Perbesar peta untuk melihat nama setiap wilayah, atau pakai “Cari wilayah”.</li>
             <li>Suara adalah suasana sintetis, bukan rekaman Danau Toba.</li>
           </ul>
         </div>

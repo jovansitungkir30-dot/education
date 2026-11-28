@@ -6,6 +6,7 @@ import type { OrbitControls as OrbitImpl } from 'three-stdlib';
 import type { Diorama } from '../../data/dioramas';
 import { prefersReducedMotion } from '../device';
 import Stage from '../Stage';
+import LandmarkScene, { LANDMARK_SCALE } from './LandmarkScene';
 
 /** Each scene is its own chunk, so only the chosen one is downloaded. */
 const SCENES: Record<string, ComponentType> = {
@@ -25,6 +26,9 @@ function Rig({ diorama, active, spin, reset, dots, onReady }: { diorama: Diorama
   const point = useRef(new Vector3());
   const home = MathUtils.clamp(39 / Math.min(aspect, 1.2) ** 0.85, 34, 64);
 
+  // Hand-built dioramas use scene coordinates; landmark studies use model coordinates.
+  const positions = diorama.id in SCENES ? diorama.spots.map((s) => s.position) : diorama.spots.map((s) => s.position.map((v) => v * LANDMARK_SCALE) as [number, number, number]);
+
   useEffect(onReady, []);
 
   // Intro: start far away and settle into the overview.
@@ -37,8 +41,7 @@ function Rig({ diorama, active, spin, reset, dots, onReady }: { diorama: Diorama
 
   useEffect(() => {
     if (active === null) return;
-    const spot = diorama.spots[active];
-    goal.current = { target: new Vector3(...spot.position), distance: home * 0.55 };
+    goal.current = { target: new Vector3(...positions[active]), distance: home * 0.55 };
   }, [active]);
 
   useFrame(({ size }, dt) => {
@@ -54,10 +57,10 @@ function Rig({ diorama, active, spin, reset, dots, onReady }: { diorama: Diorama
       c.update();
       if (c.target.distanceTo(g.target) < 0.02 && Math.abs(offset.length() - g.distance) < 0.05) goal.current = null;
     }
-    diorama.spots.forEach((spot, i) => {
+    positions.forEach((position, i) => {
       const el = dots.current[i];
       if (!el) return;
-      point.current.set(...spot.position).project(camera);
+      point.current.set(...position).project(camera);
       const x = ((point.current.x + 1) / 2) * size.width;
       const y = ((1 - point.current.y) / 2) * size.height;
       el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
@@ -107,7 +110,7 @@ export default function DioramaCanvas({ diorama, active, found, spin, reset, onS
         <directionalLight position={[12, 18, 10]} intensity={2.6} color="#ffe0b0" castShadow shadow-mapSize={[2048, 2048]} shadow-bias={-0.0004} shadow-camera-left={-13} shadow-camera-right={13} shadow-camera-top={13} shadow-camera-bottom={-13} shadow-camera-far={60} />
         <directionalLight position={[-14, 8, -6]} intensity={0.75} color="#b9d8e8" />
         <Suspense fallback={null}>
-          <Scene />
+          {Scene ? <Scene /> : <LandmarkScene id={diorama.id} />}
           <Rig diorama={diorama} active={active} spin={spin} reset={reset} dots={dots} onReady={() => setReady(true)} />
         </Suspense>
       </Stage>

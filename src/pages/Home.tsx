@@ -85,7 +85,7 @@ function Hero() {
         </motion.div>
       </motion.div>
       <div className="absolute right-4 bottom-5 flex items-center gap-2 text-xs sm:right-8">
-        <span className="hidden opacity-75 sm:inline">Geser untuk memutar · pilih label untuk masuk diorama</span>
+        <span className="hidden opacity-75 sm:inline">Geser untuk memutar · pilih label untuk membuka wilayah</span>
         <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kiri" onClick={() => turn(-0.35)}>←</button>
         <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kanan" onClick={() => turn(0.35)}>→</button>
       </div>
@@ -94,7 +94,7 @@ function Hero() {
 }
 
 const STOPS = [
-  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih kabupaten atau kota, lalu jelajahi diorama dan materi budayanya.', done: (v: Record<string, string[]>) => ADMIN.filter((d) => v.region.includes(d.id)).length, total: ADMIN.length },
+  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih kabupaten atau kota, lalu pelajari landmark 3D dan budayanya.', done: (v: Record<string, string[]>) => ADMIN.filter((d) => v.region.includes(d.id)).length, total: ADMIN.length },
   { to: '/explore?view=artifacts', n: '02', title: 'Putar objeknya', text: 'Putar rumah adat, gendang, dan kain dalam 3D.', done: (v: Record<string, string[]>) => v.artifact.length, total: ARTIFACTS.length },
   { to: '/cultures', n: '03', title: 'Ikuti ceritanya', text: 'Sejarah, tradisi, dan cerita rakyat, masing-masing diberi label jelas.', done: (v: Record<string, string[]>) => v.story.length, total: STORIES.length },
 ];
@@ -114,7 +114,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={0.1}>
             <dl className="m-0 grid grid-cols-3 gap-4 text-center">
-              {([[ADMIN.filter((d) => d.type === 'kabupaten').length, 'kabupaten'], [ADMIN.filter((d) => d.type === 'kota').length, 'kota'], [4, 'diorama 3D']] as const).map(([n, label]) => (
+              {([[ADMIN.filter((d) => d.type === 'kabupaten').length, 'kabupaten'], [ADMIN.filter((d) => d.type === 'kota').length, 'kota'], [ADMIN.length, 'landmark 3D']] as const).map(([n, label]) => (
                 <div key={label}><dd className="m-0 font-display text-5xl text-gold-300">{n}</dd><dt className="text-sm opacity-75">{label}</dt></div>
               ))}
             </dl>

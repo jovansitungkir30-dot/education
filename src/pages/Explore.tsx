@@ -2,10 +2,11 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AtlasMap from '../components/map/AtlasMap';
 import { ExplorerCard, SoundAndHelp, TopLeft, TrailCard } from '../components/exploration/MapHud';
-import { completedDioramas } from '../lib/badges';
-import DioramaView from '../components/exploration/DioramaView';
-import { DIORAMAS, SPOT_COUNT } from '../data/dioramas';
-import { CONTENT_LINKS, HOME_DISTRICT, districtById, fullName, visitedDistricts, type District } from '../data/atlas';
+import ExplorationProgress from '../components/region/ExplorationProgress';
+import { DIORAMAS } from '../data/dioramas';
+import { completedAreas } from '../data/scenes';
+import { HOME_DISTRICT, districtById, fullName, visitedDistricts } from '../data/atlas';
+import { prefersReducedMotion } from '../three/device';
 import { Credit, FactBlock, Photo, ReviewNote, SectionHead } from '../components/ui';
 import { TOPICS, regionById, type Region, type TopicKey } from '../data/regions';
 import { ARTIFACTS } from '../data/artifacts';
@@ -196,45 +197,9 @@ function Artifacts({ requested }: { requested: string | null }) {
 
 const PANEL_WIDTH = 500;
 
-/** Panel for one administrative area. Cultural content is shown only where it has been researched. */
-function DistrictPanel({ district }: { district: District }) {
-  const links = CONTENT_LINKS[district.id] ?? [];
-  const [chosen, setChosen] = useState(links[0] ?? null);
-  const content = regionById(chosen);
-
-  return (
-    <div>
-      <div className="border-b border-ink/15 p-5 sm:px-8">
-        <p className="eyebrow text-terracotta-700">{district.type === 'air' ? 'Badan air' : district.type}</p>
-        <h2 className="mt-1 mb-2 text-3xl sm:text-4xl">{fullName(district)}</h2>
-        <p className="m-0 text-sm opacity-75">Wilayah administrasi bukan batas budaya. Satu wilayah dihuni beragam komunitas, dan satu komunitas bisa tersebar di banyak wilayah.</p>
-        {links.length > 1 && (
-          <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Konten terkait">
-            {links.map((id) => (
-              <button key={id} type="button" className="chip" aria-pressed={chosen === id} onClick={() => setChosen(id)}>{regionById(id)!.name}</button>
-            ))}
-          </div>
-        )}
-      </div>
-      {DIORAMAS[district.id] && (
-        <a className="group block border-b border-ink/15 bg-forest-900 p-5 text-ivory sm:px-8" href={href('/explore', { wilayah: district.id, diorama: '1' })}>
-          <span className="eyebrow text-gold-300">Diorama 3D tersedia</span>
-          <span className="mt-1 block font-display text-2xl">{DIORAMAS[district.id].title}</span>
-          <span className="mt-1 block text-sm opacity-80">{DIORAMAS[district.id].summary} {DIORAMAS[district.id].spots.length} titik temuan dan mini kuis.</span>
-          <span className="btn btn-gold mt-3 group-hover:bg-gold-300">Masuk ke diorama →</span>
-        </a>
-      )}
-      {content ? (
-        <RegionPanel key={content.id} region={content} />
-      ) : (
-        <div className="p-5 sm:p-8">
-          <h3 className="mt-0 text-2xl">Konten budaya belum diriset</h3>
-          <p>Batas {fullName(district)} sudah ada di peta, tetapi kami belum punya materi budaya dengan sumber yang cukup untuk wilayah ini. Bagian ini sengaja tidak diisi tebakan.</p>
-          <a className="btn btn-terra" href={href('/explore', { wilayah: 'karo' })}>Jelajahi wilayah yang sudah berisi</a>
-        </div>
-      )}
-    </div>
-  );
+/** The lake is a water body rather than an area, so it keeps a side panel instead of its own page. */
+function LakePanel() {
+  return <RegionPanel region={regionById('lake-toba')!} />;
 }
 
 function ProvinceIntro() {
@@ -245,15 +210,15 @@ function ProvinceIntro() {
       <h2 className="mt-1 mb-3 text-3xl sm:text-4xl">Provinsi Sumatera Utara</h2>
       <p>Terdiri atas 25 kabupaten dan 8 kota, dari pesisir timur, dataran tinggi di sekitar Danau Toba, hingga Kepulauan Nias di barat.</p>
       <p>Klik wilayah pada peta, atau pilih dari daftar, untuk mulai menjelajah.</p>
-      <h3 className="mt-6 mb-1 text-xl">Catatan temuan</h3>
-      <p className="mt-0 text-sm font-bold">Anda sudah membuka {state.visited.warisan.length} dari {SPOT_COUNT} temuan warisan budaya.</p>
+      <div className="mt-6"><ExplorationProgress /></div>
+      <h3 className="mt-6 mb-3 text-xl">Empat diorama rinci</h3>
       <ul className="m-0 grid gap-2 p-0">
         {Object.values(DIORAMAS).map((d) => {
           const n = state.visited.warisan.filter((k) => k.startsWith(d.id + ':')).length;
           const done = n === d.spots.length;
           return (
             <li key={d.id} className="list-none">
-              <a className={`flex items-center justify-between gap-3 rounded-2xl border-2 p-3 ${done ? 'border-gold-700 bg-cream' : 'border-ink/15 hover:border-terracotta-500'}`} href={href('/explore', { wilayah: d.id, diorama: '1' })}>
+              <a className={`flex items-center justify-between gap-3 rounded-2xl border-2 p-3 ${done ? 'border-gold-700 bg-cream' : 'border-ink/15 hover:border-terracotta-500'}`} href={href('/wilayah', { id: d.id })}>
                 <span>
                   <span className="block font-display text-xl leading-tight">{d.title}</span>
                   <span className="text-xs">{districtById(d.id)!.name} · diorama 3D</span>
@@ -264,12 +229,6 @@ function ProvinceIntro() {
           );
         })}
       </ul>
-      <h3 className="mt-6 mb-3 text-xl">Wilayah lain</h3>
-      <div className="flex flex-wrap gap-2">
-        {['simalungun', 'toba', 'pakpak-bharat', 'kota-medan'].map((id) => (
-          <a key={id} className="btn btn-line" href={href('/explore', { wilayah: id })}>{districtById(id)!.name}</a>
-        ))}
-      </div>
     </div>
   );
 }
@@ -277,14 +236,26 @@ function ProvinceIntro() {
 export default function Explore({ params }: { params: URLSearchParams }) {
   // ?wilayah= names an administrative area. ?region= (older links) names a community or place.
   const wilayah = params.get('wilayah') ?? HOME_DISTRICT[params.get('region') ?? ''] ?? null;
-  const district = districtById(wilayah) ?? null;
   const artifactParam = params.get('artifact');
-  const { visit, state } = useProgress();
+  const linked = artifactParam ? undefined : districtById(wilayah);
+  const lake = linked?.type === 'air';
+  const { state } = useProgress();
   const visited = new Set(visitedDistricts(state).map((d) => d.id));
+  const [flying, setFlying] = useState<string | null>(null);
+  const [log, setLog] = useState(false);
 
+  // Links that name an area lead straight to its page.
+  const redirect = linked && !lake ? linked.id : null;
   useEffect(() => {
-    if (district && district.type !== 'air' && !artifactParam) visit('region', district.id);
-  }, [district, artifactParam, visit]);
+    if (redirect) window.location.replace(href('/wilayah', { id: redirect }));
+  }, [redirect]);
+
+  // Choosing an area flies the camera to its landmark before the page changes.
+  useEffect(() => {
+    if (!flying) return;
+    const t = window.setTimeout(() => go('/wilayah', { id: flying }), prefersReducedMotion() ? 0 : 1300);
+    return () => window.clearTimeout(t);
+  }, [flying]);
 
   const wantsArtifacts = !!artifactParam || params.get('view') === 'artifacts';
   useEffect(() => {
@@ -293,40 +264,49 @@ export default function Explore({ params }: { params: URLSearchParams }) {
     return () => window.clearTimeout(t);
   }, [wantsArtifacts, artifactParam]);
 
-  const select = (id: string | null) => go('/explore', id ? { wilayah: id } : undefined);
+  const select = (id: string | null) => {
+    if (id && districtById(id)!.type !== 'air') {
+      setLog(false);
+      setFlying(id);
+    } else {
+      setFlying(null);
+      go('/explore', id ? { wilayah: id } : undefined);
+    }
+  };
+  const open = !flying && (lake || log);
+  const target = districtById(flying);
 
-  const inDiorama = !!district && !!DIORAMAS[district.id] && params.get('diorama') === '1';
-  const [log, setLog] = useState(false);
-  const open = !!district || log;
+  if (redirect) return <div className="grid min-h-dvh place-items-center" role="status">Membuka halaman wilayah…</div>;
 
   return (
     <>
-      {inDiorama && <DioramaView key={district.id} id={district.id} />}
       <section id="map" className="relative h-dvh min-h-[600px] overflow-hidden">
         <h1 className="sr-only">Peta jelajah budaya Sumatera Utara</h1>
-        {/* Only one heavy 3D view at a time: the map unmounts while a diorama is open. */}
-        {!inDiorama && <AtlasMap selected={district?.id ?? null} visited={visited} completed={completedDioramas(state)} panel={open ? PANEL_WIDTH : 0} onSelect={select} />}
-        {!open && (
+        <AtlasMap selected={flying ?? (lake ? 'danau-toba' : null)} visited={visited} completed={completedAreas(state.visited.warisan)} panel={open ? PANEL_WIDTH : 0} onSelect={select} />
+        {target && (
+          <div className="pointer-events-none absolute inset-0 z-40 grid animate-[fade-in_0.9s_0.4s_both] items-end bg-gradient-to-t from-forest-950/90 to-transparent p-8 text-center text-ivory">
+            <p className="m-0 font-display text-3xl" role="status">Membuka {fullName(target)}…</p>
+          </div>
+        )}
+        {!open && !flying && (
           <p className="hud pointer-events-none absolute top-3 left-1/2 z-10 m-0 -translate-x-1/2 rounded-full px-4 py-2 text-xs font-bold whitespace-nowrap max-xl:top-auto max-xl:bottom-24 max-md:hidden">
-            Geser peta untuk menjelajahi Sumatera Utara
+            Arahkan ke miniatur, lalu klik untuk menjelajah
           </p>
         )}
-        <TopLeft selected={district?.id ?? null} onSelect={select} />
-        <ExplorerCard onLog={() => { if (district) select(null); setLog(!log || !!district); }} />
+        <TopLeft selected={lake ? 'danau-toba' : flying} onSelect={select} />
+        <ExplorerCard onLog={() => { if (lake) select(null); setLog(!log || lake); }} />
         {!open && <TrailCard selected={null} onSelect={select} />}
         {!open && <SoundAndHelp />}
 
         {open && (
-          <aside className="paper absolute z-30 flex flex-col overflow-hidden rounded-3xl shadow-[0_24px_60px_#000a] max-lg:inset-x-2 max-lg:bottom-2 max-lg:max-h-[56%] lg:top-20 lg:right-16 lg:bottom-8 lg:w-[27rem]" aria-label={district ? 'Panel wilayah' : 'Catatan temuan'} aria-live="polite">
-            <button type="button" className="map-btn absolute top-3 right-3 z-10" aria-label="Tutup panel" onClick={() => { setLog(false); if (district) select(null); }}>✕</button>
-            <div className="overflow-y-auto">
-              {district ? <DistrictPanel key={district.id} district={district} /> : <ProvinceIntro />}
-            </div>
+          <aside className="paper absolute z-30 flex flex-col overflow-hidden rounded-3xl shadow-[0_24px_60px_#000a] max-lg:inset-x-2 max-lg:bottom-2 max-lg:max-h-[56%] lg:top-20 lg:right-16 lg:bottom-8 lg:w-[27rem]" aria-label={lake ? 'Panel Danau Toba' : 'Catatan temuan'} aria-live="polite">
+            <button type="button" className="map-btn absolute top-3 right-3 z-10" aria-label="Tutup panel" onClick={() => { setLog(false); if (lake) select(null); }}>✕</button>
+            <div className="overflow-y-auto">{lake ? <LakePanel /> : <ProvinceIntro />}</div>
           </aside>
         )}
       </section>
       <div className="weave" aria-hidden="true" />
-      {!inDiorama && <Artifacts requested={artifactParam} />}
+      <Artifacts requested={artifactParam} />
     </>
   );
 }

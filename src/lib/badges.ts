@@ -19,6 +19,11 @@ export function badges(s: ProgressState) {
       earned: visitedDistricts(s).length >= EXPLORER.regions && s.visited.artifact.length >= EXPLORER.artifacts && s.visited.story.length >= EXPLORER.stories,
     },
     ...Object.values(DIORAMAS).map((d) => ({ name: `Jejak: ${d.title}`, how: 'Buka semua titik temuan di diorama ini.', earned: done.has(d.id) })),
+    ...[5, 15, 33].map((n) => ({
+      name: n === 33 ? 'Keliling Sumatera Utara' : `Penjelajah ${n} Wilayah`,
+      how: `Buka halaman ${n} kabupaten atau kota.`,
+      earned: visitedDistricts(s).length >= n,
+    })),
     ...MODULES.map((m) => ({ name: m.badge, how: `Lulus kuis modul “${m.title}”.`, earned: passed.includes(m.id) })),
   ];
 }

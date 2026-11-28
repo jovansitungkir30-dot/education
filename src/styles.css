@@ -69,3 +69,8 @@
 .paper .map-btn { background: #fff; }
 @keyframes pin-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
 .pin-tile { animation: pin-float 3.2s ease-in-out infinite; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
