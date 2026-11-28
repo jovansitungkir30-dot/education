@@ -361,7 +361,7 @@ function RegionalExplorer({ district }: { district: District }) {
             )}
           </Part>
 
-          <Part id="kuis" title="Kuis pemahaman" lead="Pilihan. Tidak ada materi yang dikunci, dan boleh diulang."><CulturalQuiz scene={scene} /></Part>
+          <Part id="kuis" title="Kuis pemahaman"><CulturalQuiz areaId={id} onJump={jump} /></Part>
 
           <p className="border-t-2 border-ink/80 pt-4 pb-10">
             <button type="button" className="btn btn-line" onClick={() => setPanel({})}>Buka Sumber &amp; Kredit ({references.length} rujukan)</button>
