@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import { districtById, fullName } from '../../data/atlas';
+import { LANDMARKS } from '../../data/landmarks';
 import { TERRAIN_CREDIT } from '../../lib/terrain';
 import { hasWebGL } from '../../three/device';
 import Map2D from './Map2D';
@@ -49,8 +50,17 @@ export default function AtlasMap({ selected, visited, completed, panel, onSelect
       )}
 
       {hovered && hover && hover.id !== selected && (
-        <div className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[160%] rounded-full bg-white px-3 py-1.5 text-sm font-extrabold whitespace-nowrap text-[#0d3f4f] shadow-xl" style={{ left: hover.x, top: hover.y }}>
-          {fullName(hovered)}
+        <div role="tooltip" className="hud pointer-events-none absolute z-20 w-60 -translate-x-1/2 -translate-y-[115%] rounded-2xl px-4 py-3 shadow-2xl" style={{ left: Math.max(128, hover.x), top: Math.max(150, hover.y) }}>
+          <p className="m-0 text-sm font-extrabold">{fullName(hovered)}</p>
+          {LANDMARKS[hovered.id] ? (
+            <>
+              <p className="m-0 mt-0.5 font-display text-base leading-tight text-terracotta-700">{LANDMARKS[hovered.id].name}</p>
+              <p className="m-0 mt-1 text-xs leading-snug">{LANDMARKS[hovered.id].preview}</p>
+              <p className="m-0 mt-1.5 text-[11px] font-extrabold">Klik untuk menjelajah →</p>
+            </>
+          ) : (
+            <p className="m-0 mt-0.5 text-xs">Badan air. Klik untuk membaca cerita bentang alamnya.</p>
+          )}
         </div>
       )}
 

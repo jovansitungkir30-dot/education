@@ -4,13 +4,16 @@ import { Line, MapControls } from '@react-three/drei';
 import { CatmullRomCurve3, MathUtils, PerspectiveCamera, Ray, Vector3 } from 'three';
 import type { MapControls as MapControlsImpl } from 'three-stdlib';
 import { districtById } from '../../data/atlas';
-import { PINS, STOPS } from '../../data/pins';
+import { STOPS } from '../../data/pins';
+import { ADMIN } from '../../data/atlas';
+import { LANDMARKS } from '../../data/landmarks';
+import { PLACEMENTS, placementById } from '../../lib/placement';
+import LandmarkLayer, { standingHeight } from '../../three/LandmarkLayer';
 import { HALF_HEIGHT, HALF_WIDTH, shapeOf } from '../../lib/geo';
 import { districtAt, useTerrain, type TerrainData } from '../../lib/terrain';
 import { prefersReducedMotion } from '../../three/device';
 import Stage from '../../three/Stage';
 import Terrain from '../../three/Terrain';
-import PinMarker from './PinMarker';
 
 export type MapCommand = { type: 'in' | 'out' | 'reset'; n: number } | null;
 
@@ -32,8 +35,8 @@ function groundPoint(ray: Ray, data: TerrainData) {
 }
 
 const pinAnchor = (data: TerrainData, id: string) => {
-  const [x, y] = shapeOf(districtById(id)!).center;
-  return new Vector3(x, data.heightAt(x, y) + 0.12, -y);
+  const p = placementById.get(id)!;
+  return new Vector3(p.at[0], standingHeight(data, p), -p.at[1]);
 };
 
 /** Dashed route linking the diorama stops. It is a game route, not a road. */
@@ -53,7 +56,8 @@ function Camera({ data, selected, command, pins, panel, compass }: { data: Terra
   const goal = useRef<{ target: Vector3; position: Vector3 } | null>(null);
   const first = useRef(true);
   const point = useRef(new Vector3());
-  const anchors = useMemo(() => PINS.map((p) => pinAnchor(data, p.id)), [data]);
+  // Name labels float just above each miniature.
+  const anchors = useMemo(() => PLACEMENTS.map((p) => pinAnchor(data, p.id).add(new Vector3(0, p.scale * 5, 0))), [data]);
 
   const frame = (target: Vector3, distance: number) => ({
     target,
@@ -121,17 +125,16 @@ function Camera({ data, selected, command, pins, panel, compass }: { data: Terra
     camera.updateMatrixWorld();
     if (compass.current && c) compass.current.style.rotate = `${Math.atan2(camera.position.x - c.target.x, camera.position.z - c.target.z)}rad`;
     // Smaller markers appear once the view is close enough to give them room.
-    const far = c ? camera.position.distanceTo(c.target) > 20 : false;
+    const far = c ? camera.position.distanceTo(c.target) > 17 : false;
     anchors.forEach((anchor, i) => {
       const el = pins.current[i];
       if (!el) return;
       point.current.copy(anchor).project(camera);
       const x = ((point.current.x + 1) / 2) * state.size.width;
       const y = ((1 - point.current.y) / 2) * state.size.height;
-      const [dx, dy] = PINS[i].shift ?? [0, 0];
-      el.style.transform = `translate(${x + dx}px, ${y + dy}px) translate(-50%, -100%)`;
-      const crowded = far && !PINS[i].stop && !['kota-medan', 'tapanuli-selatan'].includes(PINS[i].id);
-      el.style.visibility = !crowded && point.current.z < 1 && x > -40 && x < state.size.width + 40 && y > 0 && y < state.size.height + 20 ? 'visible' : 'hidden';
+      el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`;
+      // All 33 names would collide in the province view, so they appear once the view is closer.
+      el.style.visibility = !far && point.current.z < 1 && x > -40 && x < state.size.width + 40 && y > 0 && y < state.size.height + 20 ? 'visible' : 'hidden';
     });
   });
 
@@ -182,8 +185,19 @@ export default function Map3D({ selected, hovered, completed, boundaries, panel,
     <>
       <Stage label="Peta 3D Sumatera Utara dengan bentang alam. Geser untuk berpindah, klik wilayah atau penanda untuk menjelajah. Daftar wilayah tersedia sebagai alternatif." camera={{ fov: 30, position: [0, 34, 28], near: 0.5, far: 400 }} fallback={fallback}>
         <color attach="background" args={['#0a4f86']} />
+        {/* The terrain shader lights itself; these lights are for the miniatures. */}
+        <hemisphereLight args={['#fff3d6', '#3c6a70', 1.7]} />
+        <directionalLight position={[-14, 20, 8]} intensity={2.2} color="#ffe2b0" />
         <Terrain data={data} selected={selected} hovered={hovered} boundaries={boundaries} />
         <Trail data={data} />
+        <LandmarkLayer
+          data={data}
+          hovered={hovered}
+          selected={selected}
+          completed={completed}
+          onSelect={onSelect}
+          onHover={(id, e) => onHover(id, e && { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY })}
+        />
         {/* Invisible sheet that receives pointer events for the whole map. */}
         <mesh
           rotation={[-Math.PI / 2, 0, 0]}
@@ -212,18 +226,17 @@ export default function Map3D({ selected, hovered, completed, boundaries, panel,
         </span>
       </div>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {PINS.map((pin, i) => (
+        {PLACEMENTS.map((p, i) => (
           <button
-            key={pin.id}
+            key={p.id}
             ref={(el) => { pins.current[i] = el; }}
             type="button"
-            onClick={() => onSelect(pin.id)}
-            aria-pressed={selected === pin.id}
-            aria-label={`${pin.stop ? `Perhentian ${pin.stop}: ` : ''}${pin.label}`}
-            style={{ visibility: 'hidden', zIndex: pin.stop ? 3 : 2 }}
-            className="group pointer-events-auto absolute top-0 left-0 cursor-pointer"
+            onClick={() => onSelect(p.id)}
+            aria-label={`Jelajahi ${ADMIN.find((d) => d.id === p.id)!.name}: ${LANDMARKS[p.id].name}`}
+            style={{ visibility: 'hidden' }}
+            className="pointer-events-auto absolute top-0 left-0 cursor-pointer rounded-full bg-[#bfe4ee] px-2.5 py-0.5 text-[11px] font-extrabold whitespace-nowrap text-[#0d3f4f] shadow-md hover:bg-[#ffd45e]"
           >
-            <PinMarker pin={pin} active={selected === pin.id} done={completed.has(pin.id)} />
+            {ADMIN.find((d) => d.id === p.id)!.name}
           </button>
         ))}
       </div>

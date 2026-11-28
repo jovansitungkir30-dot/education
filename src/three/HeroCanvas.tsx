@@ -1,6 +1,6 @@
 import { useRef, type ReactNode, type RefObject } from 'react';
 import Stage from './Stage';
-import HeroMapScene, { LANDMARKS, type Look } from './HeroMapScene';
+import HeroMapScene, { FEATURED, type Look } from './HeroMapScene';
 import { districtById } from '../data/atlas';
 import { hasWebGL } from './device';
 import { href } from '../lib/router';
@@ -11,7 +11,7 @@ export default function HeroCanvas({ look, onReady, fallback }: { look: RefObjec
   return (
     <>
       <Stage
-        label="Peta 3D Sumatera Utara dengan batas kabupaten dan kota, Danau Toba, serta miniatur rumah adat di empat wilayah"
+        label="Peta 3D Sumatera Utara dengan miniatur landmark di setiap kabupaten dan kota"
         camera={{ fov: 32, position: [0, 28, 30], far: 220 }}
         fallback={fallback}
         onCreated={({ gl }) => { if (!gl) onReady(); }}
@@ -20,17 +20,17 @@ export default function HeroCanvas({ look, onReady, fallback }: { look: RefObjec
       </Stage>
       {hasWebGL() && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {LANDMARKS.map((l, i) => (
+          {FEATURED.map((id, i) => (
             <a
-              key={l.id}
+              key={id}
               ref={(el) => { dots.current[i] = el; }}
-              href={href('/explore', { wilayah: l.id, diorama: '1' })}
+              href={href('/wilayah', { id })}
               onPointerDown={(e) => e.stopPropagation()}
               style={{ visibility: 'hidden' }}
               className="pointer-events-auto absolute top-0 left-0 flex flex-col items-center"
-              aria-label={`Masuk ke diorama ${districtById(l.id)!.name}`}
+              aria-label={`Jelajahi ${districtById(id)!.name}`}
             >
-              <span className="rounded-full border border-gold-300 bg-forest-950/90 px-3 py-1.5 text-[11px] font-extrabold whitespace-nowrap text-ivory shadow-lg hover:bg-gold-500 hover:text-forest-950 sm:text-xs">{districtById(l.id)!.name}</span>
+              <span className="rounded-full border border-gold-300 bg-forest-950/90 px-3 py-1.5 text-[11px] font-extrabold whitespace-nowrap text-ivory shadow-lg hover:bg-gold-500 hover:text-forest-950 sm:text-xs">{districtById(id)!.name}</span>
               <span className="h-4 w-px bg-gold-300" />
             </a>
           ))}

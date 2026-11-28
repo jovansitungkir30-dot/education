@@ -1,13 +1,11 @@
 /** Home hero: satellite imagery over real relief, with small illustrative landmark models. */
-import { useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
+import { useEffect, useMemo, useRef, type RefObject } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { MathUtils, PerspectiveCamera, Vector3 } from 'three';
-import { districtById } from '../data/atlas';
-import { shapeOf } from '../lib/geo';
 import { useTerrain, type TerrainData } from '../lib/terrain';
 import Terrain from './Terrain';
-import { OmoSebua, RumahBolon, SiwaluhJabu } from './models';
-import { BagasGodang } from './diorama/Mandailing';
+import LandmarkLayer, { standingHeight } from './LandmarkLayer';
+import { placementById } from '../lib/placement';
 import { prefersReducedMotion } from './device';
 
 export interface Look {
@@ -18,19 +16,10 @@ export interface Look {
   py: number;
 }
 
-export const LANDMARKS: { id: string; model: () => ReactNode; scale: number; turn: number }[] = [
-  { id: 'karo', model: SiwaluhJabu, scale: 0.25, turn: 0.5 },
-  { id: 'samosir', model: RumahBolon, scale: 0.24, turn: 0.7 },
-  { id: 'mandailing-natal', model: BagasGodang, scale: 0.21, turn: 0.2 },
-  { id: 'nias-selatan', model: OmoSebua, scale: 0.23, turn: 0.4 },
-];
+/** The four detailed dioramas get a clickable label on the hero. */
+export const FEATURED = ['karo', 'samosir', 'mandailing-natal', 'nias-selatan'];
 
 export type LandmarkDots = RefObject<(HTMLAnchorElement | null)[]>;
-
-const groundOf = (data: TerrainData | null, id: string) => {
-  const [x, y] = shapeOf(districtById(id)!).center;
-  return { x, y, h: data?.heightAt(x, y) ?? 0 };
-};
 
 function Rig({ look, dots, still, data }: { look: RefObject<Look>; dots: LandmarkDots; still: boolean; data: TerrainData | null }) {
   const camera = useThree((s) => s.camera) as PerspectiveCamera;
@@ -55,11 +44,11 @@ function Rig({ look, dots, still, data }: { look: RefObject<Look>; dots: Landmar
     else camera.setViewOffset(w, 1000, 0, 215, w, 1000);
     camera.updateMatrixWorld();
 
-    LANDMARKS.forEach((l, i) => {
+    FEATURED.forEach((id, i) => {
       const el = dots.current[i];
       if (!el) return;
-      const { x, y, h } = groundOf(data, l.id);
-      point.current.set(x, h + 1.45, -y).project(camera);
+      const p = placementById.get(id)!;
+      point.current.set(p.at[0], (data ? standingHeight(data, p) : 0) + 1, -p.at[1]).project(camera);
       el.style.transform = `translate(${((point.current.x + 1) / 2) * size.width}px, ${((1 - point.current.y) / 2) * size.height}px) translate(-50%, -100%)`;
       el.style.visibility = 'visible';
     });
@@ -80,14 +69,7 @@ export default function HeroMapScene({ look, dots, onReady }: { look: RefObject<
       <hemisphereLight args={['#fff3d6', '#24505a', 1.5]} />
       <directionalLight position={[-14, 20, 8]} intensity={2.2} color="#ffe2b0" />
       {data && <Terrain data={data} boundaries />}
-      {data && LANDMARKS.map(({ id, model: Model, scale, turn }) => {
-        const { x, y, h } = groundOf(data, id);
-        return (
-          <group key={id} position={[x, h, -y]} rotation={[0, turn, 0]} scale={scale}>
-            <Model />
-          </group>
-        );
-      })}
+      {data && <LandmarkLayer data={data} />}
       <Rig look={look} dots={dots} still={still} data={data} />
     </>
   );
