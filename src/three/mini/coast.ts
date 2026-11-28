@@ -43,8 +43,8 @@ export const coast: Record<string, Model> = {
   },
   'serdang-bedagai'(b) {
     // Sulaimaniyah mosque in Perbaungan: low wide hall with a verandah and tiered roof.
-    b.box([0, 0.14, 0], [5.6, 0.28, 4.2], C.stone).box([0, 1, -0.2], [3.9, 1.45, 2.9], C.white);
-    for (let i = 0; i < 8; i++) b.cyl([-2.35 + i * 0.67, 0.95, 1.75], 0.09, 0.09, 1.35, C.yellow, 8);
+    b.box([0, 0.14, 0], [5.6, 0.28, 4.2], C.stone).box([0, 1, -0.2], [3.9, 1.45, 2.9], C.yellow);
+    for (let i = 0; i < 8; i++) b.cyl([-2.35 + i * 0.67, 0.95, 1.75], 0.09, 0.09, 1.35, C.cream, 8);
     b.box([0, 1.7, 1.5], [5.1, 0.14, 0.85], C.green);
     arcade(b, 0.32, 1.28, -1.35, 0.9, 4, 0.42, 0.65, C.green);
     b.hip([0, 1.78, -0.2], 5, 4, 0.75, C.green, [2.5, 1.9]).box([0, 2.72, -0.2], [2.2, 0.4, 1.7], C.yellow);
@@ -59,21 +59,34 @@ export const coast: Record<string, Model> = {
     arcade(b, 0.32, 1.27, -2.4, 0.57, 8, 0.32, 0.65, C.green);
     b.box([-0.4, 1.8, 0], [5.15, 0.16, 2.85], C.yellow).hip([-0.4, 1.88, 0], 5.1, 2.85, 0.85, C.maroon, [3, 0.6]);
     b.box([-0.4, 2.85, 0], [1.5, 0.45, 1.1], C.white).hip([-0.4, 3.08, 0], 2, 1.55, 0.65, C.maroon, [0.4, 0.2]).dome([-0.4, 3.72, 0], 0.22, C.gold);
-    b.box([-3, 0.9, 0], [0.7, 1.3, 1.6], C.yellow).dome([-3, 1.56, 0], 0.42, C.green);
+    for (let i = 0; i < 24; i++) for (const z of [-1.44, 1.44]) b.cone([-2.9 + i * 0.217, 1.64, z], 0.075, 0.22, C.yellow, 4, [Math.PI, 0, 0]);
+    b.box([-0.4, 0.95, 1.5], [1.25, 1.45, 0.55], C.white).arch([-0.4, 0.3, 1.79], 0.55, 0.75, C.green).box([-0.4, 1.74, 1.5], [1.45, 0.14, 0.72], C.yellow).dome([-0.4, 1.8, 1.55], 0.45, C.green);
+    b.box([-3, 0.9, 0], [0.7, 1.3, 1.6], C.yellow).hip([-3, 1.55, 0], 0.95, 1.85, 0.5, C.maroon, [0.1, 0.7]);
     minaret(b, 2.75, 0.5, 2.7, C.white, C.green);
     b.pool([0.5, 0, 2.9], 1.9, 0.6).palm([-3.5, 0, 1.6], 2).tree([3.4, 0, -1.4], 1.1);
   },
   labuhanbatu(b) {
-    // Rantauprapat grand mosque: blends several architectural influences.
-    b.box([0, 0.12, 0], [5.4, 0.24, 4.6], C.cream).box([0, 1.2, 0], [3.2, 1.95, 3.2], C.white);
-    for (let i = 0; i < 4; i++) {
-      b.arch([-1.1 + i * 0.73, 0.35, 1.62], 0.42, 0.85, C.blue).arch([1.62, 0.35, -1.1 + i * 0.73], 0.42, 0.85, C.blue, Math.PI / 2);
+    // Rantauprapat grand mosque, following open photographs: yellow walls, green piers, a dark dome and one minaret.
+    const yellow = '#e3c23f';
+    const green = '#2f6b45';
+    const slate = '#3d4448';
+    b.box([0, 0.12, 0], [6.2, 0.24, 4.6], C.cream).box([0.6, 1.05, -0.3], [3.9, 1.65, 2.9], yellow);
+    for (let i = 0; i < 6; i++) b.box([-1.3 + i * 0.76, 1.15, 1.2], [0.16, 1.9, 0.16], green).cone([-1.3 + i * 0.76, 2.22, 1.2], 0.11, 0.26, yellow, 4);
+    for (let i = 0; i < 5; i++) b.arch([-0.92 + i * 0.76, 0.3, 1.17], i === 2 ? 0.5 : 0.4, i === 2 ? 0.95 : 0.65, C.darkWood);
+    b.box([0.6, 1.93, -0.3], [4.1, 0.14, 3.1], green).hip([0.6, 2, -0.3], 3.9, 2.9, 0.42, slate, [2.2, 1.7]);
+    // Porch gable in the middle of the front.
+    b.box([0.6, 1.1, 1.55], [1.5, 1.7, 0.6], yellow).arch([0.6, 0.28, 1.87], 0.8, 0.9, C.black).torus([0.6, 1.2, 1.9], 0.46, 0.07, green, [0, 0, 0], Math.PI);
+    b.hip([0.6, 1.96, 1.55], 1.7, 0.8, 0.4, green, [0.3, 0.1]);
+    b.cyl([0.6, 2.7, -0.4], 0.92, 0.98, 0.7, yellow, 8);
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 + Math.PI / 8;
+      b.box([0.6 + Math.sin(a) * 0.92, 2.7, -0.4 + Math.cos(a) * 0.92], [0.28, 0.38, 0.04], green, [0, a, 0]);
     }
-    b.box([0, 2.25, 0], [3.45, 0.18, 3.45], C.blue);
-    for (let i = 0; i < 9; i++) b.cone([-1.5 + i * 0.375, 2.48, 1.66], 0.1, 0.28, C.white, 4);
-    b.cyl([0, 2.75, 0], 0.95, 1.05, 0.85, C.white, 12).dome([0, 3.17, 0], 1.02, C.blue);
-    for (const x of [-1.6, 1.6]) for (const z of [-1.6, 1.6]) minaret(b, x, z, 2.7, C.white, C.blue);
-    b.stairs(0, 2.1, 0.24, 1.3, C.stone, 3).tree([-3.2, 0, 1.3], 1.2).palm([3.1, 0, 0.9], 2.1);
+    b.dome([0.6, 3.05, -0.4], 0.96, slate);
+    minaret(b, -2.4, 0.7, 3.6, yellow, slate);
+    for (const y of [1.2, 2.1]) b.torus([-2.4, y, 0.7], 0.29, 0.06, green, [Math.PI / 2, 0, 0]);
+    b.box([3.0, 0.75, 0.4], [0.5, 1.05, 2], green).box([3.0, 1.33, 0.4], [0.58, 0.12, 2.1], yellow);
+    b.stairs(0.6, 2.2, 0.24, 1.5, C.stone, 3).tree([-3.4, 0, -1.2], 1.2).palm([3.5, 0, -1.3], 2.1);
   },
   'labuhanbatu-utara'(b) {
     // Al-Haji Muhammad Syah mosque (Kualuh): Malay and Middle Eastern blend.

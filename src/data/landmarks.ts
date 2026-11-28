@@ -66,33 +66,43 @@ const MIXED = 'Wilayah ini dihuni beragam komunitas. Susunan komunitasnya belum 
 
 export const LANDMARKS: Record<string, Landmark> = {
   asahan: {
-    id: 'asahan', name: 'Air Terjun Ponot dan Sungai Asahan', category: 'Warisan alam', evidence: 'terbatas',
+    id: 'asahan', name: 'Air Terjun Ponot dan Sungai Asahan', category: 'Warisan alam', evidence: 'cukup',
     preview: 'Jeram sungai yang dikenal pegiat arung jeram.', place: 'Kabupaten di sisi timur provinsi, dilalui Sungai Asahan.', communities: MIXED,
-    why: 'Sungai Asahan dan air terjun di sekitarnya adalah penanda bentang alam yang dikenal luas. Ini penanda alam, bukan simbol satu kebudayaan.',
+    why: 'Air Terjun Ponot berada di kabupaten ini dan, bersama Sungai Asahan, menjadi penanda bentang alam yang dikenal luas. Ini penanda alam, bukan simbol satu kebudayaan.',
     modelNote: 'Tebing, jeram, dan perahu karet bergaya miniatur. Tinggi dan bentuk air terjun tidak diukur dari aslinya.',
     facts: {
-      history: [fact('contemporary', 'Sungai Asahan dikenal sebagai lokasi arung jeram yang pernah menjadi tuan rumah lomba.', 'asahanSungai', 'asahanJeram')],
-      traditions: [fact('contemporary', 'Jeramnya dinilai berkelas tinggi, sehingga tidak disarankan bagi pemula.', 'asahanJeram')],
+      history: [
+        fact('contemporary', 'Air Terjun Ponot berada di Desa Tangga, Kecamatan Aek Songsongan. Ia jatuh dalam tiga tingkat setinggi sekitar 250 meter di Sungai Ponot, anak Sungai Asahan.', 'ponotWiki'),
+        fact('contemporary', 'Sungai Asahan berhulu di Danau Toba dan bermuara di Selat Malaka. Alirannya melintasi lebih dari satu kabupaten, jadi arung jeramnya tidak hanya berlangsung di Kabupaten Asahan.', 'asahanJeram'),
+      ],
+      traditions: [fact('contemporary', 'Jeramnya berada pada tingkat kesulitan 4–5 dari 6, sehingga ditujukan bagi pengarung berpengalaman. Festival arung jeram Asahan disebut digelar sejak tahun 2000.', 'asahanSungai')],
     },
     spots: [
-      spot('Air terjun', 'Lanskap', [0, 3.4, -2.2], fact('contemporary', 'Air Terjun Ponot disebut berada di kawasan Desa Tangga. Catatan lokasi dan tingginya berbeda antarsumber.', 'asahanJeram')),
+      spot('Air terjun', 'Lanskap', [0, 3.4, -2.2], fact('contemporary', 'Air Terjun Ponot berada di Desa Tangga dengan tinggi sekitar 250 meter dalam tiga tingkat.', 'ponotWiki', 'asahanJeram')),
       spot('Jeram', 'Lanskap', [0, 0.8, 0.5], fact('contemporary', 'Arung jeram di Sungai Asahan ditujukan bagi pengarung berpengalaman.', 'asahanJeram')),
       spot('Reputasi', 'Makna', [2.8, 1.4, 2], fact('contemporary', 'Sumber pariwisata menyebut sungai ini dikenal hingga mancanegara.', 'asahanSungai')),
     ],
     quiz: [
       q('Sungai Asahan dikenal sebagai lokasi…', ['Arung jeram', 'Balap perahu layar', 'Tambak garam'], 0, 'Jeramnya menarik pegiat arung jeram.'),
       q('Landmark Asahan di atlas ini termasuk jenis…', ['Warisan alam', 'Tempat ibadah', 'Kerajinan'], 0, 'Ini penanda bentang alam.'),
+      q('Mengapa Sungai Asahan tidak disebut milik satu kabupaten saja?', ['Alirannya melintasi lebih dari satu kabupaten', 'Sungainya tidak punya air', 'Namanya baru dibuat'], 0, 'Batas administrasi tidak memotong bentang alam.'),
     ],
   },
   'batu-bara': {
     id: 'batu-bara', name: 'Istana Niat Lima Laras', category: 'Bangunan bersejarah', evidence: 'cukup',
     preview: 'Istana kayu peninggalan Kerajaan Lima Laras.', place: 'Kabupaten di pesisir timur Sumatera Utara.', communities: 'Istana ini terkait sejarah kerajaan Melayu setempat. Penduduk kabupaten ini lebih beragam daripada itu.',
     why: 'Peninggalan arsitektur yang paling jelas terdokumentasi untuk wilayah ini dalam penelusuran kami.',
-    modelNote: 'Dua lantai kayu dengan anjungan depan. Jumlah anjungan, ukuran, dan hiasan disederhanakan.',
+    modelNote: 'Dua lantai dengan satu anjungan depan. Jumlah anjungan, pintu, jendela, ukuran, dan hiasan disederhanakan.',
     facts: {
-      history: [fact('history', 'Istana dibangun pada awal abad ke-20. Satu sumber menyebut 1912 dan mengaitkan namanya dengan nazar (niat) Datuk Matyoeda; ejaan nama pendirinya berbeda antarsumber.', 'limaLaras', 'limaLarasJurnal')],
-      architecture: [fact('history', 'Rancangannya digambarkan memadukan unsur Melayu, Tiongkok, dan Eropa.', 'limaLarasJurnal')],
-      stories: [fact('contemporary', 'Bangunan ini dilaporkan mengalami kerusakan, dan ada rencana revitalisasi.', 'limaLaras')],
+      history: [
+        fact('history', 'Istana di Desa Lima Laras, Kecamatan Tanjung Tiram, dibangun oleh Datuk Matyoeda Sri Diraja (Datuk Muhammad Yuda), penguasa ke-12 Lima Laras. Sumber menyebut tahun 1912, tetapi juga mencatat keluarga sudah menempatinya sejak 1883.', 'limaLaras'),
+        fact('contemporary', 'Istana ini ditetapkan sebagai bangunan cagar budaya pada Maret 2024.', 'limaLaras'),
+      ],
+      architecture: [fact('history', 'Lantai dasarnya beton berhias gaya Tionghoa dan lantai atasnya kayu. Disebut ada 6 anjungan, 28 pintu, dan 66 pasang jendela, dikerjakan tukang dari Tiongkok dan Penang.', 'limaLaras')],
+      stories: [
+        fact('tradition', 'Pembangunannya dikisahkan sebagai pemenuhan nazar setelah pelayaran dagang berlangsung selamat.', 'limaLaras'),
+        fact('contemporary', 'Bangunan ini mengalami pelapukan dan pemerintah merencanakan pemulihannya.', 'limaLaras'),
+      ],
     },
     spots: [
       spot('Atap', 'Struktur', [0, 4, -0.1], fact('history', 'Istana menggabungkan beberapa gaya arsitektur.', 'limaLarasJurnal')),
@@ -102,6 +112,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Istana Niat Lima Laras dibangun sekitar…', ['Awal abad ke-20', 'Abad ke-11', 'Tahun 1990-an'], 0, 'Sumber menempatkannya pada awal abad ke-20.'),
       q('Gaya arsitekturnya digambarkan sebagai…', ['Campuran Melayu, Tiongkok, dan Eropa', 'Murni gaya Jawa', 'Gaya modern minimalis'], 0, 'Ketiga unsur itu disebut berpadu.'),
+      q('Sumber menyebut tahun 1912, tetapi keluarga disebut menempati istana sejak 1883. Sikap yang tepat adalah…', ['Mencatat bahwa keterangannya belum seragam', 'Memilih tahun yang paling tua tanpa alasan', 'Menganggap istana tidak pernah ada'], 0, 'Perbedaan antarketerangan perlu disampaikan apa adanya.'),
     ],
   },
   dairi: {
@@ -121,6 +132,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Kopi Sidikalang berasal dari kabupaten…', ['Dairi', 'Asahan', 'Nias'], 0, 'Sidikalang adalah ibu kota Dairi.'),
       q('Jenis yang paling lekat dengan nama Sidikalang adalah…', ['Robusta', 'Liberika', 'Excelsa'], 0, 'Robusta Sidikalang yang paling dikenal.'),
+      q('Mengapa kopi di sini tidak disebut simbol satu suku?', ['Ini hasil bumi daerah yang dihuni beragam komunitas', 'Kopi tidak ditanam manusia', 'Dairi tidak berpenghuni'], 0, 'Hasil bumi melekat pada daerah, bukan otomatis pada satu kelompok.'),
     ],
   },
   'deli-serdang': {
@@ -133,16 +145,17 @@ export const LANDMARKS: Record<string, Landmark> = {
         fact('contemporary', 'Situs di Desa Deli Tua, Namorambe, ditetapkan sebagai cagar budaya tingkat provinsi pada 2019.', 'putriHijauBerita'),
         fact('interpretation', 'Situs ini dikaitkan dengan Kerajaan Aru.', 'putriHijau'),
       ],
-      stories: [fact('folklore', 'Masyarakat setempat memiliki cerita dan kepercayaan tentang sosok Putri Hijau di sekitar situs ini. Ini cerita rakyat, bukan catatan sejarah.', 'putriHijau')],
+      stories: [fact('folklore', 'Menurut legenda, nama situs berasal dari Putri Hijau yang berlindung di sini saat menghindari pasukan Aceh. Ini cerita rakyat, bukan catatan sejarah.', 'putriHijau'), fact('folklore', 'Di situs ini ada dua pancuran, Pancuran Putri dan Pancuran Panglima. Sebagian pengunjung percaya airnya berkhasiat. Kepercayaan itu tidak terbukti secara medis.', 'putriHijau')],
     },
     spots: [
-      spot('Tanggul tanah', 'Struktur', [-2.6, 1.3, 0.4], fact('contemporary', 'Peninggalan utamanya berupa struktur benteng tanah yang pernah rusak lalu dipulihkan bentuknya.', 'putriHijauBerita')),
+      spot('Tanggul tanah', 'Struktur', [-2.6, 1.3, 0.4], fact('contemporary', 'Wujudnya berupa gundukan tanah, berbeda dari bayangan benteng berdinding batu.', 'putriHijau')),
       spot('Status', 'Makna', [-0.9, 1.4, 1.5], fact('contemporary', 'Statusnya cagar budaya tingkat provinsi, dan kawasan intinya masih rawan dirusak.', 'putriHijauBerita')),
       spot('Putri Hijau', 'Cerita', [0.2, 0.7, 0.2], fact('folklore', 'Nama situs terhubung dengan cerita tentang Putri Hijau.', 'putriHijau')),
     ],
     quiz: [
       q('Benteng Putri Hijau berada di wilayah…', ['Deli Tua', 'Barus', 'Bawomataluo'], 0, 'Situsnya di Desa Deli Tua.'),
       q('Cerita tentang Putri Hijau sebaiknya dipahami sebagai…', ['Cerita rakyat', 'Laporan geologi', 'Data sensus'], 0, 'Itu cerita tutur masyarakat.'),
+      q('Kepercayaan bahwa air pancuran berkhasiat sebaiknya dipahami sebagai…', ['Kepercayaan setempat yang tidak terbukti medis', 'Hasil uji klinis', 'Aturan pemerintah'], 0, 'Kepercayaan bisa dihormati tanpa dianggap fakta medis.'),
     ],
   },
   'humbang-hasundutan': {
@@ -162,6 +175,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Kompleks istana di Bakkara terkait dengan dinasti…', ['Sisingamangaraja', 'Kesultanan Deli', 'Kerajaan Lima Laras'], 0, 'Itu pusat dinasti Sisingamangaraja.'),
       q('Bakkara berada di kabupaten…', ['Humbang Hasundutan', 'Langkat', 'Padang Lawas'], 0, 'Kecamatan Baktiraja ada di Humbang Hasundutan.'),
+      q('Apakah semua warga Humbang Hasundutan berbudaya sama?', ['Tidak, kabupaten ini dihuni lebih dari satu komunitas', 'Ya, selalu sama', 'Budaya ditentukan oleh nama kabupaten'], 0, 'Komunitas Batak Toba dan Pakpak termasuk yang disebut.'),
     ],
   },
   karo: {
@@ -170,21 +184,28 @@ export const LANDMARKS: Record<string, Landmark> = {
     why: 'Bentuk arsitektur Karo yang terdokumentasi dalam kajian.', modelNote: 'Susunan atap disederhanakan.', facts: {}, spots: [], quiz: [],
   },
   'kota-binjai': {
-    id: 'kota-binjai', name: 'Rambutan Binjai', category: 'Kuliner dan hasil bumi', evidence: 'terbatas',
-    preview: 'Buah yang menjadi ciri Kota Rambutan.', place: 'Kota di barat Medan.', communities: MIXED,
-    why: 'Rambutan disebut sebagai ciri dan julukan kota. Ini penanda hasil bumi.',
-    modelNote: 'Buah diperbesar sebagai simbol.',
+    id: 'kota-binjai', name: 'Stasiun Binjai', category: 'Bangunan bersejarah', evidence: 'cukup',
+    preview: 'Stasiun kereta cagar budaya dari jalur Deli.', place: 'Kota di barat Medan, di jalur kereta Medan–Binjai.', communities: MIXED,
+    why: 'Stasiun ini termasuk lima bangunan yang ditetapkan Wali Kota Binjai sebagai cagar budaya.',
+    modelNote: 'Bangunan stasiun, kanopi peron, rel, dan satu gerbong digambarkan bebas. Ukuran, jumlah pintu, dan detail fasad tidak diukur.',
     facts: {
-      culinary: [fact('contemporary', 'Binjai dijuluki Kota Rambutan, dan nama Binjai juga dipakai untuk salah satu varietas rambutan.', 'rambutan')],
+      history: [
+        fact('history', 'Stasiun dibuka pada 1 Mei 1887 oleh perusahaan swasta Deli Spoorweg Maatschappij, semula bernama Stasiun Timbang Langkat. Bangunan yang dipakai sekarang adalah generasi kedua, dibangun sekitar 1920.', 'binjaiStasiun'),
+        fact('contemporary', 'Lewat keputusan wali kota tahun 2021, stasiun ini menjadi cagar budaya bersama Masjid Raya Kota Binjai, gedung pengadilan lama, Kuil Sri Mariamman, dan Vihara Setia Buddha.', 'binjaiCagar'),
+      ],
+      architecture: [fact('history', 'Gaya bangunannya digambarkan sebagai arsitektur Indis (Indische Empire), perpaduan unsur Eropa dan setempat.', 'binjaiStasiun')],
+      culinary: [fact('contemporary', 'Binjai juga dijuluki Kota Rambutan, dan nama Binjai dipakai untuk salah satu varietas rambutan.', 'rambutan')],
+      stories: [fact('contemporary', 'Lima bangunan cagar budaya itu mencakup masjid, kuil Hindu, dan vihara, cerminan kota yang dihuni umat dari berbagai keyakinan.', 'binjaiCagar')],
     },
     spots: [
-      spot('Pohon rambutan', 'Hasil bumi', [-1.3, 3.5, -1], fact('contemporary', 'Rambutan lazim dikaitkan dengan identitas Kota Binjai.', 'rambutan')),
-      spot('Buah', 'Ciri', [-0.4, 0.8, 2.1], fact('interpretation', 'Kulit berambut berwarna merah membuat buah ini mudah dikenali.')),
-      spot('Julukan', 'Makna', [1.5, 1.7, 0.9], fact('contemporary', 'Julukan Kota Rambutan menempel pada Binjai.', 'rambutan')),
+      spot('Gedung stasiun', 'Arsitektur', [0, 3.1, -1], fact('history', 'Bangunan generasi kedua ini berasal dari sekitar 1920 dan bergaya Indis.', 'binjaiStasiun')),
+      spot('Peron dan rel', 'Fungsi', [-2.4, 0.9, 1.3], fact('contemporary', 'Stasiun masih melayani kereta komuter Sri Lelawangsa yang menghubungkan Binjai dengan Medan.', 'binjaiStasiun')),
+      spot('Menara air', 'Peninggalan', [3.2, 3.2, -1.3], fact('history', 'Menara air dan sumur termasuk peninggalan lama yang disebut masih ada di kawasan stasiun. Bentuknya pada model direka.', 'binjaiStasiun')),
     ],
     quiz: [
-      q('Julukan Kota Binjai adalah…', ['Kota Rambutan', 'Kota Salak', 'Kota Lemang'], 0, 'Binjai lekat dengan rambutan.'),
-      q('Landmark Binjai di atlas ini termasuk…', ['Kuliner dan hasil bumi', 'Situs arkeologi', 'Museum'], 0, 'Yang diangkat adalah buahnya.'),
+      q('Mengapa Stasiun Binjai dianggap penting sebagai warisan?', ['Ditetapkan sebagai cagar budaya kota', 'Merupakan candi kuno', 'Baru dibangun tahun ini'], 0, 'Ia ditetapkan lewat keputusan wali kota tahun 2021.'),
+      q('Siapa yang membuka stasiun ini pada 1887?', ['Deli Spoorweg Maatschappij', 'Kesultanan Asahan', 'Yayasan Pusaka Nias'], 0, 'Perusahaan kereta swasta di wilayah Deli.'),
+      q('Apa yang ditunjukkan oleh daftar lima cagar budaya Binjai?', ['Warisan dari beragam komunitas dan fungsi', 'Hanya satu jenis bangunan', 'Semua bangunannya adalah stasiun'], 0, 'Ada rumah ibadah berbagai agama, gedung pengadilan, dan stasiun.'),
     ],
   },
   'kota-gunungsitoli': {
@@ -204,6 +225,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Museum Pusaka Nias berada di…', ['Gunungsitoli', 'Sibolga', 'Medan'], 0, 'Museumnya di Kota Gunungsitoli.'),
       q('Peran utama museum ini adalah…', ['Melestarikan budaya Nias', 'Memproduksi kendaraan', 'Menambang batu'], 0, 'Museum merawat dan memamerkan warisan Nias.'),
+      q('Apa gunanya museum merawat benda budaya?', ['Agar warisan dapat dipelajari generasi berikutnya', 'Agar benda cepat rusak', 'Agar tidak ada yang melihat'], 0, 'Pelestarian membuat pengetahuan bisa diteruskan.'),
     ],
   },
   'kota-medan': {
@@ -223,6 +245,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Istana Maimun terkait dengan…', ['Kesultanan Deli', 'Kerajaan Lima Laras', 'Dinasti Sisingamangaraja'], 0, 'Ini istana Kesultanan Deli.'),
       q('Medan paling tepat digambarkan sebagai…', ['Kota dengan satu budaya', 'Kota majemuk', 'Kota tanpa sejarah'], 1, 'Banyak komunitas hidup di Medan.'),
+      q('Istana Maimun mewakili…', ['Satu lapisan sejarah kota yang majemuk', 'Seluruh budaya semua warga Medan', 'Budaya yang hanya ada di museum'], 0, 'Medan punya banyak warisan dari banyak komunitas.'),
     ],
   },
   'kota-padangsidimpuan': {
@@ -240,6 +263,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Julukan Padangsidimpuan adalah…', ['Kota Salak', 'Kota Ikan', 'Kota Rambutan'], 0, 'Kota ini lekat dengan salak.'),
       q('Salak di kota ini lazim menjadi…', ['Buah tangan khas', 'Bahan bangunan', 'Alat musik'], 0, 'Banyak dibawa sebagai oleh-oleh.'),
+      q('Julukan “Kota Salak” terutama memberi tahu tentang…', ['Hubungan kota dengan kebun dan buah salak', 'Agama semua warganya', 'Bentuk atap rumahnya'], 0, 'Julukan hasil bumi tidak menjelaskan seluruh budaya.'),
     ],
   },
   'kota-pematangsiantar': {
@@ -258,25 +282,35 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Motor yang dipakai becak ikonik Siantar adalah…', ['BSA', 'Skuter listrik', 'Sepeda kayuh'], 0, 'BSA berasal dari Inggris.'),
       q('Tantangan becak BSA saat ini adalah…', ['Jumlahnya berkurang', 'Terlalu banyak diproduksi', 'Dilarang punya roda'], 0, 'Unitnya makin sedikit.'),
+      q('Mengapa kendaraan buatan Inggris bisa menjadi warisan kota?', ['Warga mengubah dan memakainya selama puluhan tahun', 'Karena warnanya', 'Karena tidak pernah dipakai'], 0, 'Warisan bisa tumbuh dari cara masyarakat memakai suatu benda.'),
     ],
   },
   'kota-sibolga': {
-    id: 'kota-sibolga', name: 'Perahu nelayan Pesisir Sibolga', category: 'Kehidupan pesisir', evidence: 'terbatas',
-    preview: 'Gambaran kota pelabuhan yang dijuluki Kota Ikan.', place: 'Kota pelabuhan di pantai barat.', communities: 'Kota Pesisir yang majemuk, antara lain Batak, Minangkabau, Mandailing, dan Tionghoa.',
-    why: 'Laut dan perikanan membentuk kehidupan kota. Perahu dipilih sebagai gambaran, karena belum ada satu bangunan ikonik yang kami verifikasi.',
-    modelNote: 'Perahu nelayan bergaya umum, bukan jenis perahu tradisional tertentu.',
+    id: 'kota-sibolga', name: 'Tangga Seratus', category: 'Bangunan bersejarah', evidence: 'cukup',
+    preview: 'Tangga bukit dengan jejak masa Belanda dan Jepang.', place: 'Kelurahan Pasar Baru, di perbukitan kota pelabuhan di pantai barat.', communities: 'Kota Pesisir yang majemuk, antara lain Batak, Minangkabau, Mandailing, dan Tionghoa.',
+    why: 'Pemerintah kota menetapkannya sebagai bagian situs cagar budaya, dan letaknya memperlihatkan hubungan bukit, kota, dan laut Sibolga.',
+    modelNote: 'Bukit, anak tangga, bangunan air, sirene, gua, dan kota di kaki bukit disusun bebas. Jumlah anak tangga pada model jauh lebih sedikit.',
     facts: {
-      history: [fact('contemporary', 'Sibolga dijuluki Kota Ikan; perikanan dan perdagangan laut menjadi tumpuan ekonominya.', 'sibolgaIkan')],
+      history: [
+        fact('history', 'Tangga ini memiliki 298 anak tangga, jauh lebih banyak daripada namanya. Usianya diyakini lebih dari seratus tahun.', 'tanggaDetik', 'tanggaGnfi'),
+        fact('history', 'Pembangunannya pada masa Hindia Belanda melibatkan kerja paksa warga. Bentuk awalnya dari bambu dan kayu tanpa pegangan.', 'tanggaDetik', 'tanggaGnfi'),
+        fact('history', 'Puncaknya dipakai sebagai tempat pengintaian kapal pada masa Agresi Militer Belanda II.', 'tanggaDetik', 'tanggaGnfi'),
+      ],
+      architecture: [fact('history', 'Di atas bukit ada bangunan perusahaan air dari 1929 dan sebuah gua pengintaian buatan Jepang berbentuk huruf Y.', 'tanggaDetik', 'tanggaGnfi')],
+      traditions: [fact('contemporary', 'Sirene lama di kawasan ini dibunyikan sebagai tanda berbuka puasa pada bulan Ramadan.', 'tanggaDetik', 'tanggaGnfi')],
       arts: [fact('tradition', 'Kesenian Sikambang diteliti sebagai penanda identitas budaya Pesisir Sibolga dalam lingkungan yang multikultural.', 'sikambang')],
+      culinary: [fact('contemporary', 'Sibolga juga dijuluki Kota Ikan; perikanan dan perdagangan laut menjadi tumpuan ekonominya.', 'sibolgaIkan')],
     },
     spots: [
-      spot('Perahu', 'Kehidupan laut', [-0.6, 2.4, 0.6], fact('contemporary', 'Banyak kegiatan ekonomi kota bertumpu pada laut.', 'sibolgaIkan')),
-      spot('Dermaga', 'Fungsi', [-1.6, 1.2, -1.5], fact('interpretation', 'Dermaga pada model menggambarkan tempat bongkar hasil tangkapan.')),
-      spot('Sikambang', 'Kesenian', [2.9, 1.1, 2], fact('tradition', 'Sikambang adalah kesenian yang lekat dengan identitas Pesisir.', 'sikambang')),
+      spot('Anak tangga', 'Struktur', [-0.4, 1.7, 1.2], fact('history', 'Anak tangganya berjumlah 298 dan telah direnovasi dengan semen serta pagar pegangan.', 'tanggaDetik')),
+      spot('Bangunan air 1929', 'Peninggalan', [1.3, 4.2, -1.6], fact('history', 'Bangunan perusahaan air peninggalan pemerintah Belanda ini bertahun 1929.', 'tanggaDetik', 'tanggaGnfi')),
+      spot('Sirene', 'Kebiasaan', [-1.5, 4.6, -1.7], fact('contemporary', 'Bunyi sirene menjadi penanda waktu berbuka puasa.', 'tanggaDetik', 'tanggaGnfi')),
+      spot('Gua pengintaian', 'Sejarah', [2.2, 1.9, 0.1], fact('history', 'Gua buatan Jepang ini bercabang menyerupai huruf Y.', 'tanggaDetik', 'tanggaGnfi')),
     ],
     quiz: [
-      q('Julukan Sibolga adalah…', ['Kota Ikan', 'Kota Salak', 'Kota Kopi'], 0, 'Sebutan itu terkait potensi lautnya.'),
-      q('Kesenian yang diteliti sebagai identitas Pesisir Sibolga adalah…', ['Sikambang', 'Gordang Sambilan', 'Tari Moyo'], 0, 'Sikambang.'),
+      q('Berapa jumlah anak Tangga Seratus menurut sumber?', ['298', 'Tepat 100', '33'], 0, 'Namanya Tangga Seratus, tetapi anak tangganya 298.'),
+      q('Bagaimana tangga ini dibangun pada masa Belanda?', ['Dengan kerja paksa warga', 'Dengan mesin modern', 'Sebagai taman kerajaan'], 0, 'Sejarahnya mengingatkan pada penderitaan warga di masa kolonial.'),
+      q('Apa fungsi sirene di kawasan ini sekarang?', ['Penanda berbuka puasa', 'Tanda keberangkatan kereta', 'Pemanggil perahu'], 0, 'Dibunyikan saat Ramadan.'),
     ],
   },
   'kota-tanjungbalai': {
@@ -284,17 +318,19 @@ export const LANDMARKS: Record<string, Landmark> = {
     preview: 'Masjid peninggalan Kesultanan Asahan.', place: 'Kota pelabuhan sungai di pesisir timur.', communities: 'Terkait sejarah Melayu Asahan; warga kota beragam.',
     why: 'Disebut sebagai ikon kota dan bangunan cagar budaya.', modelNote: 'Ruang utama memanjang dan menara terpisah; detail fasad disederhanakan.',
     facts: {
-      history: [fact('history', 'Masjid dibangun pada masa Sultan Ahmadsyah, penguasa Asahan 1854–1888. Tahun pembangunan yang disebut berkisar 1883–1886.', 'ahmadsyah')],
-      architecture: [fact('contemporary', 'Masjid ini digambarkan bergaya Melayu dan dipandang sebagai ikon kota.', 'ahmadsyah')],
+      history: [fact('history', 'Pembangunan masjid di Jalan Mesjid, Indrasakti, dimulai pada 1883 dan dikaitkan dengan Sultan Ahmadsyah dari Kesultanan Asahan. Masjid ini tercantum di antara situs cagar budaya Tanjungbalai.', 'ahmadsyah')],
+      architecture: [fact('history', 'Bangunannya persegi panjang bergaya Melayu dengan tepi atap berukir pucuk rebung, kubah di bagian depan, dan ruang dalam tanpa tiang tengah. Mimbarnya berhias ornamen Tionghoa.', 'ahmadsyah')],
+      stories: [fact('contemporary', 'Di halaman masjid terdapat pemakaman keluarga kerajaan.', 'ahmadsyah')],
     },
     spots: [
-      spot('Atap', 'Struktur', [-0.4, 3.6, 0], fact('contemporary', 'Gaya bangunannya digambarkan bernuansa Melayu.', 'ahmadsyah')),
-      spot('Serambi', 'Fungsi', [-1.5, 1.1, 1.4], fact('contemporary', 'Masjid berada di kawasan Tanjungbalai Selatan.', 'ahmadsyah')),
+      spot('Atap', 'Struktur', [-0.4, 3.6, 0], fact('history', 'Tepi atapnya dihiasi ukiran pucuk rebung, motif yang dikenal dalam seni Melayu.', 'ahmadsyah')),
+      spot('Serambi', 'Fungsi', [-1.5, 1.1, 1.4], fact('history', 'Ruang dalamnya tidak memakai tiang tengah, dan mimbarnya didatangkan dari Tiongkok.', 'ahmadsyah')),
       spot('Kesultanan', 'Sejarah', [2.75, 3.2, 0.5], fact('history', 'Masjid ini peninggalan Kesultanan Asahan.', 'ahmadsyah')),
     ],
     quiz: [
       q('Masjid Raya Sultan Ahmadsyah terkait dengan…', ['Kesultanan Asahan', 'Kesultanan Langkat', 'Kerajaan Aru'], 0, 'Sultan Ahmadsyah adalah penguasa Asahan.'),
       q('Masjid ini berada di kota…', ['Tanjungbalai', 'Binjai', 'Sibolga'], 0, 'Letaknya di Tanjungbalai.'),
+      q('Mimbar berornamen Tionghoa di masjid Melayu menunjukkan…', ['Perjumpaan unsur budaya yang berbeda', 'Bahwa masjid itu bukan masjid', 'Bahwa tidak ada pengaruh luar'], 0, 'Warisan sering memadukan beberapa unsur.'),
     ],
   },
   'kota-tebing-tinggi': {
@@ -313,14 +349,15 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Lemang dibuat dari…', ['Ketan dalam bambu', 'Tepung yang digoreng', 'Ikan asap'], 0, 'Ketan dimasak dalam bambu.'),
       q('Perdagangan lemang di kota ini dirintis oleh pendatang…', ['Minangkabau', 'Eropa', 'Nias'], 0, 'Menurut kajian yang dirujuk.'),
+      q('Lemang dirintis pedagang perantau lalu menjadi identitas kota. Ini menunjukkan…', ['Identitas kuliner bisa tumbuh dari perjumpaan warga', 'Makanan tidak pernah berpindah', 'Hanya satu komunitas yang boleh menyantapnya'], 0, 'Makanan berpindah bersama orang.'),
     ],
   },
   labuhanbatu: {
-    id: 'labuhanbatu', name: 'Masjid Raya Rantauprapat', category: 'Tempat ibadah', evidence: 'terbatas',
+    id: 'labuhanbatu', name: 'Masjid Agung Rantauprapat', category: 'Tempat ibadah', evidence: 'terbatas',
     preview: 'Masjid yang terkait Kesultanan Bilah.', place: 'Kabupaten di bagian tenggara pesisir timur, beribu kota Rantauprapat.', communities: MIXED,
-    why: 'Peninggalan terkait Kesultanan Bilah yang paling jelas dalam penelusuran kami.', modelNote: 'Bentuk dan warna masjid adalah penafsiran, bukan salinan.',
+    why: 'Peninggalan terkait Kesultanan Bilah yang paling jelas dalam penelusuran kami.', modelNote: 'Warna kuning-hijau, kubah gelap, dan satu menara mengikuti foto terbuka masjid ini. Ukuran dan hiasannya disederhanakan.',
     facts: {
-      history: [fact('history', 'Sebuah skripsi menyebut masjid agung ini dibangun pada 1933 di atas tanah pemberian Kesultanan Bilah.', 'rantauprapat')],
+      history: [fact('history', 'Kesultanan Bilah berpusat di Negeri Lama, Bilah Hilir, dan disebut sebagai cikal bakal Kabupaten Labuhanbatu. Kesultanan ini tunduk kepada Belanda pada 1862 dan berakhir pada masa pergolakan 1945–1946.', 'bilahSejarah'), fact('interpretation', 'Tahun berdirinya disebut sekitar 1630, tetapi cerita tentang leluhur dinastinya tidak seragam.', 'bilahSejarah'), fact('history', 'Sebuah skripsi menyebut masjid agung ini dibangun pada 1933 di atas tanah pemberian Kesultanan Bilah.', 'rantauprapat')],
       architecture: [fact('history', 'Arsitekturnya digambarkan memadukan gaya Timur Tengah, India, dan Eropa.', 'rantauprapat')],
     },
     spots: [
@@ -331,6 +368,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Masjid ini terkait dengan kesultanan…', ['Bilah', 'Deli', 'Langkat'], 0, 'Tanahnya dari Kesultanan Bilah.'),
       q('Ibu kota Kabupaten Labuhanbatu adalah…', ['Rantauprapat', 'Kisaran', 'Balige'], 0, 'Rantauprapat.'),
+      q('Cerita leluhur Kesultanan Bilah tidak seragam antar-keterangan. Artinya…', ['Perlu dibandingkan dan tidak diterima begitu saja', 'Kesultanan itu pasti rekaan', 'Semua versi pasti benar sekaligus'], 0, 'Membandingkan sumber adalah bagian dari belajar sejarah.'),
     ],
   },
   'labuhanbatu-selatan': {
@@ -349,6 +387,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Istana Bahran adalah pusat kesultanan…', ['Kotapinang', 'Asahan', 'Serdang'], 0, 'Kesultanan Kotapinang.'),
       q('Kondisi istana saat ini…', ['Tinggal puing', 'Baru selesai dibangun', 'Menjadi pasar modern'], 0, 'Yang tersisa puing.'),
+      q('Sikap yang tepat saat mengunjungi puing bersejarah adalah…', ['Tidak merusak atau mengambil bagiannya', 'Membawa pulang batanya', 'Mencoret dindingnya'], 0, 'Puing masih menyimpan informasi sejarah.'),
     ],
   },
   'labuhanbatu-utara': {
@@ -367,6 +406,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Masjid ini peninggalan kesultanan…', ['Kualuh', 'Bilah', 'Deli'], 0, 'Kesultanan Kualuh.'),
       q('Arsitekturnya digambarkan memadukan gaya…', ['Melayu dan Timur Tengah', 'Romawi dan Gotik', 'Jepang dan Jawa'], 0, 'Dua unsur itu disebut.'),
+      q('Tahun pembangunan masjid ini berbeda antarsumber. Yang sebaiknya dilakukan…', ['Menyebut bahwa sumbernya berbeda dan perlu dicek', 'Mengarang satu tahun baru', 'Menghapus masjid dari sejarah'], 0, 'Ketidakpastian perlu disampaikan dengan jujur.'),
     ],
   },
   langkat: {
@@ -386,6 +426,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Masjid Azizi berada di…', ['Tanjung Pura, Langkat', 'Perbaungan', 'Barus'], 0, 'Di Tanjung Pura.'),
       q('Nama “Azizi” diambil dari…', ['Sultan Abdul Aziz', 'Nama sungai', 'Nama arsitek'], 0, 'Dari nama sang sultan.'),
+      q('Tahun awal pembangunan masjid ini berbeda antarsumber, sedangkan peresmiannya disebut…', ['13 Juni 1902', '17 Agustus 1945', '1 Januari 2000'], 0, 'Sumber yang dirujuk menyebut tanggal tersebut.'),
     ],
   },
   'mandailing-natal': {
@@ -414,6 +455,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Arti kata “moyo” dalam bahasa Nias adalah…', ['Elang', 'Gunung', 'Perahu'], 0, 'Moyo berarti elang.'),
       q('Tari Moyo kini lazim ditampilkan untuk…', ['Menyambut tamu', 'Membajak sawah', 'Menangkap ikan'], 0, 'Antara lain penyambutan tamu.'),
+      q('Mengapa Tari Moyo tidak disebut milik Kabupaten Nias saja?', ['Tarian ini dikenal di berbagai bagian Pulau Nias', 'Karena tidak ada penarinya', 'Karena berasal dari Medan'], 0, 'Tradisi komunitas melampaui batas kabupaten.'),
     ],
   },
   'nias-barat': {
@@ -433,6 +475,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Baladano Laina adalah situs…', ['Megalitik', 'Candi bata', 'Istana kayu'], 0, 'Peninggalan batu besar.'),
       q('Situs ini berada di wilayah…', ['Mandrehe, Nias Barat', 'Portibi', 'Deli Tua'], 0, 'Di Mandrehe.'),
+      q('Mengapa pendataan megalit penting?', ['Agar yang rusak atau hilang dapat diketahui dan dicegah', 'Agar batu bisa dijual', 'Agar situs bisa dipindah sesukanya'], 0, 'Pendataan adalah dasar pelindungan.'),
     ],
   },
   'nias-selatan': {
@@ -459,6 +502,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Omo hada adalah…', ['Rumah warga', 'Alat musik', 'Kain tenun'], 0, 'Rumah tradisional warga biasa.'),
       q('Bagian yang membantu menghadapi gempa antara lain…', ['Tiang bertumpu batu dan penopang miring', 'Dinding beton tebal', 'Atap logam berat'], 0, 'Menurut penelitian yang dirujuk.'),
+      q('Mengapa model rumah di halaman ini tidak disebut bentuk khas Nias Utara?', ['Ciri denah khas utara belum kami verifikasi', 'Di utara tidak ada rumah', 'Semua rumah di dunia sama'], 0, 'Yang belum terbukti tidak ditiru seolah pasti.'),
     ],
   },
   'padang-lawas': {
@@ -477,6 +521,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Bahan utama Biaro Sipamutung adalah…', ['Bata', 'Kayu', 'Besi'], 0, 'Candi bata.'),
       q('Istilah setempat untuk bangunan ini adalah…', ['Biaro', 'Sopo', 'Omo'], 0, 'Disebut biaro.'),
+      q('Perkiraan usia dan kaitan candi dengan suatu kerajaan diberi label penafsiran karena…', ['Masih berupa kesimpulan peneliti yang bisa diperdebatkan', 'Candinya tidak ada', 'Penafsiran sama dengan dongeng'], 0, 'Penafsiran berbasis bukti, tetapi belum tentu final.'),
     ],
   },
   'padang-lawas-utara': {
@@ -496,6 +541,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Candi Bahal bercorak…', ['Buddha Vajrayana', 'Arsitektur kolonial', 'Rumah adat'], 0, 'Buddha Vajrayana.'),
       q('Candi Bahal terutama dibangun dari…', ['Bata', 'Bambu', 'Ijuk'], 0, 'Bata merah.'),
+      q('Adanya candi Buddha di wilayah ini menunjukkan…', ['Sejarah daerah ini berlapis dan pernah punya corak keagamaan berbeda', 'Semua warga sekarang beragama Buddha', 'Wilayah ini baru dihuni'], 0, 'Peninggalan lama tidak menggambarkan keyakinan warga sekarang.'),
     ],
   },
   'pakpak-bharat': {
@@ -515,6 +561,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Mejan adalah…', ['Patung batu penunggang', 'Kain tenun', 'Gendang'], 0, 'Patung batu.'),
       q('Mejan terkait dengan masyarakat…', ['Pakpak', 'Nias', 'Melayu Deli'], 0, 'Warisan Pakpak.'),
+      q('Apa risiko utama bagi mejan saat ini?', ['Rusak atau hilang', 'Terlalu sering diperbanyak negara', 'Tumbuh terlalu besar'], 0, 'Karena itu pelindungannya mendesak.'),
     ],
   },
   samosir: {
@@ -525,7 +572,7 @@ export const LANDMARKS: Record<string, Landmark> = {
   'serdang-bedagai': {
     id: 'serdang-bedagai', name: 'Masjid Raya Sulaimaniyah, Perbaungan', category: 'Tempat ibadah', evidence: 'terbatas',
     preview: 'Masjid peninggalan Kesultanan Serdang.', place: 'Kabupaten pesisir timur di tenggara Medan.', communities: 'Terkait sejarah Melayu Serdang; warga kabupaten ini beragam.',
-    why: 'Peninggalan Kesultanan Serdang yang masih dikenal.', modelNote: 'Bentuk masjid adalah penafsiran.',
+    why: 'Peninggalan Kesultanan Serdang yang masih dikenal.', modelNote: 'Bentuk masjid adalah penafsiran. Hanya warna dinding kuning yang mengikuti foto bagian dalam serambinya.',
     facts: {
       history: [fact('history', 'Masjid di Perbaungan didirikan atas perintah Sultan Sulaiman Syariful Alamsyah ketika pusat Kesultanan Serdang dipindahkan; sebuah skripsi menyebut tahun 1894. Bangunan awalnya sederhana dan telah banyak diubah.', 'sulaimaniyah')],
     },
@@ -537,6 +584,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Masjid Sulaimaniyah Perbaungan terkait dengan kesultanan…', ['Serdang', 'Bilah', 'Asahan'], 0, 'Kesultanan Serdang.'),
       q('Bangunan masjid sekarang…', ['Sudah banyak berubah dari awal', 'Sama persis dengan aslinya', 'Belum pernah dibangun'], 0, 'Telah mengalami perubahan.'),
+      q('Bangunan masjid sudah banyak berubah dari awalnya. Maka…', ['Wujud sekarang tidak boleh dianggap sama dengan bentuk 1890-an', 'Sejarahnya batal', 'Bentuk aslinya pasti sama persis'], 0, 'Bangunan hidup bisa berubah seiring waktu.'),
     ],
   },
   simalungun: {
@@ -552,6 +600,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Rumah Bolon ini berada di…', ['Pematang Purba', 'Tanjung Pura', 'Portibi'], 0, 'Pematang Purba.'),
       q('Hidangan adat Simalungun yang ditata teratur adalah…', ['Dayok binatur', 'Lemang', 'Pelleng'], 0, 'Dayok binatur.'),
+      q('Apakah adat Simalungun sama persis dengan adat Batak Toba?', ['Tidak, Simalungun punya adat dan bahasanya sendiri', 'Ya, sama persis', 'Simalungun tidak punya adat'], 0, 'Komunitas yang berkerabat tetap punya identitas sendiri.'),
     ],
   },
   'tapanuli-selatan': {
@@ -570,6 +619,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Kain adat yang dihasilkan tenun Sipirok antara lain…', ['Abit godang', 'Uis nipes', 'Songket Palembang'], 0, 'Abit godang.'),
       q('Alat tenun yang dipakai tergolong…', ['Bukan mesin', 'Robot pabrik', 'Cetak digital'], 0, 'Alat tenun bukan mesin.'),
+      q('Kain adat dalam upacara berfungsi…', ['Membawa makna sesuai konteks adat', 'Sekadar penutup barang', 'Hanya sebagai uang'], 0, 'Maknanya terkait dengan siapa, kapan, dan untuk apa dipakai.'),
     ],
   },
   'tapanuli-tengah': {
@@ -590,24 +640,33 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Makam Mahligai berada di kawasan…', ['Barus', 'Balige', 'Bakkara'], 0, 'Di Barus.'),
       q('Sebutan Barus sebagai titik awal Islam di Nusantara adalah…', ['Penafsiran yang masih dikaji', 'Fakta yang disepakati semua ahli', 'Isi sebuah resep'], 0, 'Belum disepakati semua sejarawan.'),
+      q('Sikap yang tepat di kompleks makam bersejarah adalah…', ['Berperilaku hormat dan tidak menduduki atau memindahkan nisan', 'Menyalin nisan dengan cat', 'Memindahkan nisan untuk berfoto'], 0, 'Ini tempat pemakaman yang diziarahi.'),
     ],
   },
   'tapanuli-utara': {
-    id: 'tapanuli-utara', name: 'Salib Kasih, Tarutung', category: 'Bangunan bersejarah', evidence: 'terbatas',
+    id: 'tapanuli-utara', name: 'Salib Kasih, Tarutung', category: 'Bangunan bersejarah', evidence: 'cukup',
     preview: 'Ikon kota Tarutung di perbukitan.', place: 'Kabupaten dataran tinggi di selatan Danau Toba, beribu kota Tarutung.', communities: 'Batak Toba menjadi bagian besar sejarah wilayah ini; warganya tidak seragam.',
-    why: 'Salib Kasih disebut sebagai ikon Tarutung dan terkait sejarah penginjilan di wilayah ini.', modelNote: 'Bukit, hutan, dan monumen disederhanakan.',
+    why: 'Salib Kasih adalah penanda Tarutung yang paling jelas terdokumentasi dalam penelusuran kami. Ia monumen modern, dan mewakili satu lapisan sejarah, bukan seluruh budaya kabupaten.', modelNote: 'Bukit, hutan, jalan setapak, dan monumen disederhanakan.',
     facts: {
-      history: [fact('history', 'Misionaris Jerman I. L. Nommensen berperan besar dalam sejarah penyebaran Kristen di kawasan ini.', 'tarutungWiki')],
+      history: [
+        fact('history', 'Salib Kasih di bukit Siatas Barita dibangun pada 1993–1997 untuk mengenang misionaris Jerman I. L. Nommensen. Tingginya disebut sekitar 30–31 meter.', 'salibKasihWiki', 'salibKasih'),
+        fact('tradition', 'Dikisahkan bahwa di bukit inilah Nommensen mengucapkan tekad untuk mengabdikan hidupnya bagi pelayanan di Lembah Silindung.', 'salibKasihWiki'),
+      ],
+      arts: [
+        fact('contemporary', 'Ulos dari Tapanuli Utara dipromosikan pemerintah daerah sebagai identitas budaya yang perlu dijaga, antara lain lewat peragaan busana pada 2026.', 'ulosTaput'),
+        fact('contemporary', 'Gedung Kesenian Tarutung disebut menjadi tempat pertunjukan musik, tari, dan seni Batak.', 'salibKasih'),
+      ],
       traditions: [fact('contemporary', 'Tarutung dijuluki Kota Rohani, dan Salib Kasih menjadi ikonnya serta tujuan wisata rohani.', 'salibKasih', 'tarutungWiki')],
     },
     spots: [
-      spot('Salib', 'Monumen', [0, 4.8, -0.3], fact('contemporary', 'Monumen salib berukuran besar menjadi penanda Tarutung.', 'salibKasih')),
+      spot('Salib', 'Monumen', [0, 4.8, -0.3], fact('history', 'Salib setinggi sekitar 30 meter ini selesai pada 1997.', 'salibKasihWiki', 'salibKasih')),
       spot('Bukit', 'Lanskap', [1.6, 1.5, 0.4], fact('contemporary', 'Tarutung dikelilingi perbukitan Bukit Barisan.', 'tarutungWiki')),
       spot('Nommensen', 'Sejarah', [0, 1, 2.6], fact('history', 'Monumen ini terhubung dengan ingatan akan karya Nommensen.', 'tarutungWiki')),
     ],
     quiz: [
       q('Salib Kasih adalah ikon kota…', ['Tarutung', 'Kisaran', 'Kabanjahe'], 0, 'Tarutung.'),
       q('Tokoh yang lekat dengan sejarah ini adalah…', ['Nommensen', 'Sultan Abdul Aziz', 'Datuk Matyoeda'], 0, 'I. L. Nommensen.'),
+      q('Salib Kasih dibangun pada 1990-an. Jadi ia lebih tepat disebut…', ['Monumen modern yang mengenang peristiwa lebih lama', 'Bangunan dari abad ke-11', 'Rumah adat'], 0, 'Usia monumen berbeda dari usia peristiwa yang dikenang.'),
     ],
   },
   toba: {
@@ -627,6 +686,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     quiz: [
       q('Onan Balerong adalah…', ['Pasar tradisional di Balige', 'Candi di Portibi', 'Istana di Medan'], 0, 'Pasar di Balige.'),
       q('Ornamen pada bangunannya bermotif…', ['Batak (gorga)', 'Batik pesisir Jawa', 'Mozaik Romawi'], 0, 'Motif Batak.'),
+      q('Wilayah budaya Batak Toba dibandingkan Kabupaten Toba…', ['Lebih luas daripada batas kabupaten', 'Persis sama', 'Hanya sebatas pasar'], 0, 'Batas administrasi bukan batas budaya.'),
     ],
   },
 };

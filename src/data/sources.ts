@@ -61,6 +61,8 @@ export type Check = 'read' | 'partial' | 'unopened' | 'summary';
 const CHECKED: Partial<Record<SourceId, Check>> = {
   unescoUlosProject: 'read', niasQuake: 'read', karoSpace: 'read', simalungunAdat: 'read', mandailingBuildings: 'read',
   pakpakSuak: 'read', uisKaro: 'read', gordang: 'read', omoSebua: 'read', batakArchitecture: 'read',
+  binjaiCagar: 'read', binjaiStasiun: 'read', tanggaDetik: 'read', tanggaGnfi: 'read', ponotWiki: 'read', bilahSejarah: 'read',
+  salibKasihWiki: 'read', ulosTaput: 'read', asahanSungai: 'read', asahanJeram: 'read', ahmadsyah: 'read', putriHijau: 'read', limaLaras: 'read', salibKasih: 'read',
   taganing: 'partial', sigalegale: 'partial', medanWiki: 'partial',
   unescoBawomataluo: 'unopened', britannicaToba: 'unopened', gondangRitual: 'unopened', dalihanCore: 'unopened',
 };

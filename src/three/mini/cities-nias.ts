@@ -82,25 +82,34 @@ export const citiesAndNias: Record<string, Model> = {
     b.palm([-3.7, 0, 2.4], 2.3).palm([3.4, 0, 2.5], 2.1).tree([0, 0, -3.1], 1.2);
   },
   'kota-binjai'(b) {
-    // Rambutan Binjai: hairy red fruit on a tree and in a basket.
-    const fruit = (x: number, y: number, z: number, r: number, color: string) => {
-      b.ball([x, y, z], r, color, [1, 1.18, 1]);
-      for (let i = 0; i < 22; i++) {
-        const a = i * 2.4;
-        const h = 1 - (i / 21) * 2;
-        const q = Math.sqrt(1 - h * h);
-        const dir: V3 = [Math.cos(a) * q, h, Math.sin(a) * q];
-        b.beam([x + dir[0] * r * 0.9, y + dir[1] * r, z + dir[2] * r * 0.9], [x + dir[0] * r * 1.6, y + dir[1] * r * 1.7, z + dir[2] * r * 1.6], r * 0.07, i % 3 ? '#d4552f' : '#a9c25a');
-      }
-    };
-    b.cyl([-1.3, 0.9, -0.9], 0.22, 0.34, 1.8, C.darkWood, 9).beam([-1.3, 1.5, -0.9], [-0.3, 2.3, -0.7], 0.11).beam([-1.3, 1.4, -0.9], [-2.3, 2.2, -0.8], 0.11);
-    for (const [x, y, z, r] of [[-1.3, 2.7, -1.1, 1.2], [-0.3, 2.6, -0.8, 0.8], [-2.4, 2.5, -0.9, 0.85]] as const) b.rock([x, y, z], r, C.darkLeaf);
-    for (const [x, y, z] of [[-0.6, 2, 0.1], [-1, 1.75, 0.1], [-2.1, 2, 0], [-0.15, 2.35, 0.05], [-1.6, 3.1, 0]] as const) fruit(x, y, z, 0.2, C.red);
-    b.cyl([1.5, 0.45, 0.9], 1.15, 0.8, 0.9, '#b58a4e', 18);
-    for (const y of [0.3, 0.6, 0.88]) b.torus([1.5, y, 0.9], 0.84 + y * 0.34, 0.05, '#8d6a38', [Math.PI / 2, 0, 0]);
-    for (let i = 0; i < 11; i++) fruit(1.5 + Math.cos(i * 2.1) * (i % 3) * 0.34, 1.02 + (i < 3 ? 0.33 : 0), 0.9 + Math.sin(i * 2.1) * (i % 3) * 0.34, 0.24, i % 4 ? C.red : C.orange);
-    fruit(-0.4, 0.3, 2.1, 0.28, C.red);
-    b.tree([3.1, 0, -1.4], 1.2).tree([-3.2, 0, 1.4], 0.9);
+    // Binjai station: pale walls, blue-grey shutters, a gabled hall and a platform canopy beside the track.
+    const wall = '#d9dbd6';
+    const trim = '#5f7f8f';
+    const roofing = '#6c6f72';
+    b.box([0, 0.12, -0.6], [6.2, 0.24, 2.9], C.stone);
+    b.box([0, 1.05, -1], [5.4, 1.65, 1.6], wall).roof([0, 1.88, -1], 0.98, 5.6, 0.7, roofing, { turn: Math.PI / 2, gable: wall });
+    // The taller entrance bay with its own gable.
+    b.box([0, 1.5, -0.55], [1.7, 2.55, 1.5], wall).roof([0, 2.78, -0.5], 1.02, 1.75, 0.8, roofing, { gable: wall });
+    b.arch([0, 1.95, 0.22], 0.62, 0.35, trim).arch([0, 0.28, 0.22], 0.7, 0.85, C.darkWood).box([0, 1.62, 0.24], [1.8, 0.1, 0.08], trim);
+    for (const x of [-2.25, -1.6, -1.12, 1.12, 1.6, 2.25]) b.arch([x, 0.45, -0.18], 0.34, 0.75, trim);
+    // Platform canopy on slender columns.
+    for (let i = 0; i < 7; i++) b.cyl([-2.7 + i * 0.9, 0.85, 0.72], 0.045, 0.06, 1.22, trim, 8).beam([-2.7 + i * 0.9, 1.15, 0.72], [-2.45 + i * 0.9, 1.45, 0.72], 0.03, trim);
+    b.box([0, 1.5, 0.45], [5.9, 0.1, 0.95], roofing, [0.14, 0, 0]);
+    for (let i = 0; i < 20; i++) b.box([-2.85 + i * 0.3, 1.38, 0.92], [0.16, 0.14, 0.05], C.white);
+    // Track with sleepers and one carriage.
+    for (let i = 0; i < 21; i++) b.box([-3.6 + i * 0.36, 0.05, 1.9], [0.14, 0.07, 1], C.darkWood);
+    for (const z of [1.62, 2.18]) b.box([0, 0.13, z], [7.5, 0.07, 0.07], C.metal);
+    b.box([1.5, 0.78, 1.9], [2.5, 0.85, 0.82], C.white).box([1.5, 0.55, 1.9], [2.54, 0.22, 0.86], C.red).box([1.5, 1.25, 1.9], [2.4, 0.12, 0.7], C.metal);
+    for (let i = 0; i < 5; i++) b.box([0.62 + i * 0.44, 0.95, 2.33], [0.28, 0.3, 0.03], '#2d4352');
+    for (const x of [0.6, 1.0, 2.0, 2.4]) for (const z of [1.62, 2.18]) b.cyl([x, 0.26, z], 0.16, 0.16, 0.08, C.black, 12, [Math.PI / 2, 0, 0]);
+    // Old water tower.
+    b.posts([2.95, 3.55], [-1.65, -1.05], 2.1, 0.07, C.metal);
+    b.cyl([3.25, 2.5, -1.35], 0.55, 0.55, 0.8, '#8a6a55', 14).cone([3.25, 3.08, -1.35], 0.62, 0.36, C.darkStone, 14);
+    b.beam([2.95, 0.3, -1.05], [3.55, 1.9, -1.05], 0.03, C.metal).beam([3.55, 0.3, -1.05], [2.95, 1.9, -1.05], 0.03, C.metal);
+    // The red-and-white heritage marker seen at the entrance.
+    b.box([-2.7, 0.55, 0.15], [0.9, 0.6, 0.14], C.maroon).box([-2.7, 0.57, 0.23], [0.72, 0.38, 0.02], C.cream);
+    b.figure([-1.2, 0.24, 0.45], C.blue).figure([-0.75, 0.24, 0.55], C.maroon);
+    b.tree([-3.55, 0, -1.1], 1.25).palm([-3.7, 0, 0.7], 2);
   },
   'kota-tebing-tinggi'(b) {
     // Lemang: glutinous rice cooked in bamboo tubes beside a long fire.
@@ -169,21 +178,51 @@ export const citiesAndNias: Record<string, Model> = {
     b.cone([-0.2, 0.9, -3], 2.2, 1.8, C.darkLeaf, 10);
   },
   'kota-sibolga'(b) {
-    // A coastal fishing boat beside a jetty: Sibolga is known as a city of fish.
-    b.pool([0.2, 0, 0.5], 3.7, 2.7);
-    const hull = (x: number, z: number, s: number, color: string) => {
-      b.box([x, 0.42 * s, z], [2.6 * s, 0.55 * s, 1.05 * s], color);
-      for (const side of [-1, 1]) b.cone([x + side * 1.65 * s, 0.42 * s, z], 0.54 * s, 0.75 * s, color, 4, [0, 0, -side * Math.PI / 2]);
-      b.box([x, 0.73 * s, z], [2.75 * s, 0.1, 1.15 * s], C.white).box([x - 0.55 * s, 1.15 * s, z], [0.9 * s, 0.75 * s, 0.75 * s], C.white).box([x - 0.55 * s, 1.58 * s, z], [1.05 * s, 0.1, 0.9 * s], C.red);
-      for (let i = 0; i < 3; i++) b.box([x - (0.85 - i * 0.3) * s, 1.2 * s, z + 0.39 * s], [0.18 * s, 0.28 * s, 0.04], C.blue);
-      b.beam([x + 0.5 * s, 0.75 * s, z], [x + 0.5 * s, 2.7 * s, z], 0.055 * s).beam([x + 0.5 * s, 2.4 * s, z], [x + 1.6 * s, 1.3 * s, z], 0.03 * s).beam([x + 0.5 * s, 2.55 * s, z], [x - 0.5 * s, 1.65 * s, z], 0.02 * s);
-      b.box([x + 0.75 * s, 2.55 * s, z], [0.45 * s, 0.26 * s, 0.03], C.red);
-    };
-    hull(0, 0.6, 1.2, C.blue);
-    hull(1.7, -1.2, 0.65, C.green);
-    for (let i = 0; i < 8; i++) b.box([-2.8 + i * 0.34, 0.42, -1.5], [0.3, 0.1, 1.2], C.plank);
-    b.posts([-2.8, -1.65, -0.5], [-2, -1], 0.4, 0.08);
-    for (let i = 0; i < 3; i++) b.cyl([-2.6 + i * 0.5, 0.66, -1.5], 0.2, 0.17, 0.32, '#b58a4e', 10).ball([-2.6 + i * 0.5, 0.85, -1.5], 0.16, C.chrome, [1, 0.45, 0.7]);
-    b.figure([-1.1, 0.46, -1.4], C.red).palm([-3.5, 0, -0.4], 2.3).palm([3.4, 0, -1.9], 2).cone([-1.5, 1, -3.4], 2, 2, C.darkLeaf, 9).cone([1.2, 0.8, -3.5], 1.8, 1.6, '#4f6a47', 9);
+    // Tangga Seratus: a stair climbing a green hill above the harbour town.
+    const hill = ['#47703a', '#3e6433', '#547f40'];
+    // Hill built from receding terraces, so the stair has a surface to climb.
+    for (let i = 0; i < 6; i++) b.cyl([0, 0.3 + i * 0.55, -1.25 - i * 0.12], 2.75 - i * 0.34, 3.05 - i * 0.34, 0.6, hill[i % 3], 14);
+    for (let i = 0; i < 24; i++) {
+      const a = i * 2.39;
+      const level = i % 5;
+      const r = 2.5 - level * 0.34;
+      const x = Math.cos(a) * r;
+      if (Math.abs(x + 0.3) < 0.75 && Math.sin(a) > 0) continue;
+      b.rock([x, 0.65 + level * 0.55, -1.25 + Math.sin(a) * r * 0.9], 0.3 + (i % 3) * 0.07, i % 2 ? C.darkLeaf : C.leaf, [1, 0.85, 1]);
+    }
+    // The stair: two flights with a landing and handrails.
+    const steps = 22;
+    const at = (t: number): [number, number, number] => [-0.45 + Math.sin(t * Math.PI) * -0.35 + t * 0.35, 0.12 + t * 3.28, 2.05 - t * 3.15];
+    for (let i = 0; i < steps; i++) {
+      const [x, y, z] = at(i / (steps - 1));
+      b.box([x, y, z], [0.95, 0.16, 0.3], i % 2 ? '#cfc9b8' : '#bdb6a3');
+      if (i % 3 === 0) for (const side of [-0.52, 0.52]) b.cyl([x + side, y + 0.25, z], 0.03, 0.03, 0.46, C.yellow, 6);
+    }
+    for (const side of [-0.52, 0.52]) {
+      for (let i = 0; i < steps - 3; i += 3) {
+        const a = at(i / (steps - 1));
+        const c = at((i + 3) / (steps - 1));
+        b.beam([a[0] + side, a[1] + 0.48, a[2]], [c[0] + side, c[1] + 0.48, c[2]], 0.035, C.yellow);
+      }
+    }
+    // Summit: the 1929 water-company building and the siren mast.
+    b.box([0, 3.55, -1.85], [2.7, 0.16, 1.6], C.stone);
+    b.box([0.85, 4.05, -1.95], [1.25, 0.85, 0.9], C.cream).hip([0.85, 4.48, -1.95], 1.5, 1.15, 0.45, C.terracotta, [0.5, 0.1]);
+    for (const x of [0.5, 0.85, 1.2]) b.arch([x, 3.75, -1.48], 0.2, 0.34, C.green);
+    b.cyl([-0.95, 4.3, -1.95], 0.05, 0.07, 1.35, C.metal, 8).cone([-0.8, 4.98, -1.95], 0.18, 0.34, C.chrome, 12, [0, 0, -Math.PI / 2]).cone([-1.1, 4.98, -1.95], 0.18, 0.34, C.chrome, 12, [0, 0, Math.PI / 2]);
+    // Observation cave mouth in the flank.
+    b.box([2.05, 1.2, -0.05], [0.95, 0.85, 0.4], C.darkStone, [0, 0.55, 0]).arch([2.17, 0.82, 0.16], 0.46, 0.35, C.black, 0.55);
+    // Town roofs, the shore and two boats below.
+    for (let i = 0; i < 7; i++) {
+      const x = -3.1 + (i % 4) * 0.5 + (i > 3 ? 0.2 : 0);
+      const z = 1.1 + (i > 3 ? 0.6 : 0);
+      b.box([x, 0.24, z], [0.38, 0.42, 0.4], i % 2 ? C.white : C.cream).hip([x, 0.45, z], 0.5, 0.52, 0.25, i % 3 ? C.terracotta : C.maroon, [0.05, 0.2]);
+    }
+    b.pool([1.9, 0, 2.55], 2.05, 0.95);
+    for (const [x, z, k] of [[1.3, 2.6, 1], [3, 2.45, 0.75]] as const) {
+      b.box([x, 0.22 * k, z], [1.05 * k, 0.24 * k, 0.4 * k], C.blue).box([x - 0.15 * k, 0.44 * k, z], [0.4 * k, 0.24 * k, 0.28 * k], C.white);
+      b.beam([x + 0.25 * k, 0.3 * k, z], [x + 0.25 * k, 1.05 * k, z], 0.025, C.darkWood).box([x + 0.4 * k, 0.95 * k, z], [0.28 * k, 0.17 * k, 0.02], C.red);
+    }
+    b.figure([-0.55, 1.05, 1.2], C.red).palm([3.4, 0, 0.6], 2).palm([-3.6, 0, -0.4], 2.3);
   },
 };

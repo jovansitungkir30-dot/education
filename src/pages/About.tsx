@@ -1,17 +1,19 @@
 import { SectionHead, Credit, KindTag } from '../components/ui';
 import { SOURCES, CHECK_LABEL, checkOf, type SourceId } from '../data/sources';
 import { ALL_PHOTOS } from '../data/photos';
-import LANDMARK_PHOTOS from '../data/landmark-photos.json';
+import { AREA_PHOTOS, LANGUAGES, RECORDINGS, type Language } from '../data/media';
 import { KNOWLEDGE, type Knowledge } from '../data/types';
 
 const LIMITS = [
   'Tiap rujukan di bawah menunjukkan sejauh mana ia sudah dicek. Beberapa gagal dibuka atau hanya dilihat sebagai ringkasan pencarian, jadi periksa itu lebih dulu. Sebagian berupa halaman ensiklopedia atau pers.',
   'Beberapa pernyataan belum punya sumber. Pada panel fakta, pernyataan itu ditandai “Menunggu tinjauan ahli” dan masih perlu dikonfirmasi.',
   'Belum ada wakil komunitas atau ahli yang meninjau konten ini.',
-  'Angkola dan beberapa topik lain masih dibahas tipis, dan Pakpak belum punya foto. Kekosongan ditampilkan apa adanya, tidak diisi tebakan.',
+  'Banyak wilayah belum punya materi tradisi, musik, tari, atau kuliner. Kekosongan disebutkan di tiap halaman, tidak diisi tebakan.',
+  'Sebagian foto tidak memperlihatkan landmarknya. Tiap foto diberi label: objek yang dibahas, suasana wilayah, arsip, ilustrasi, atau materi komunitas.',
+  'Empat pilihan landmark masih lemah dasarnya (Labuhanbatu, Labuhanbatu Utara, Nias Utara, dan Serdang Bedagai) karena sumbernya belum bisa dibaca utuh atau belum cukup.',
   'Model 3D dan diorama adalah representasi prosedural yang disederhanakan, bukan replika terukur atau akurat secara sejarah. Tata letak diorama, vegetasi, gunung, dan pohon pada peta beranda hanya ilustrasi.',
   'Diorama baru tersedia untuk Samosir, Karo, Mandailing Natal, dan Nias Selatan.',
-  'Contoh audio disintesis di browser, bukan rekaman atau komposisi tradisional. Narasi memakai suara komputer perangkat Anda; pelafalan nama lokal bisa keliru, dan mutunya bergantung pada ketersediaan suara bahasa Indonesia.',
+  'Belum ada rekaman musik atau tari tradisional berlisensi. Rekaman asli yang tersedia hanya pelafalan kata dalam empat bahasa. Suara di meja suara disintesis di browser, bukan rekaman atau komposisi tradisional. Narasi memakai suara komputer perangkat Anda; pelafalan nama lokal bisa keliru, dan mutunya bergantung pada ketersediaan suara bahasa Indonesia.',
   'Peta menampilkan batas administrasi dari data 2020 yang disederhanakan, jadi tidak untuk keperluan hukum atau navigasi. Batas administrasi bukan batas budaya.',
   'Tampilan bentang alam adalah olahan: citra diambil 2016–2017, warnanya diperkuat, awan diredam secara otomatis, laut dan danau digambar ulang, dan relief diperbesar sekitar 11 kali. Jalur putus-putus adalah rute jelajah, bukan jalan.',
   'Ejaan dan istilah setempat bisa beragam. Sebagian judul rujukan ditulis dalam bahasa Inggris.',
@@ -70,12 +72,12 @@ export default function About() {
 
         <section className="mt-14">
           <h2 className="text-3xl">Kredit foto</h2>
-          <p className="text-sm opacity-75">Ukurannya diubah oleh Wikimedia Commons; sebagian terpotong oleh tata letak halaman. Tiap foto tetap berada di bawah lisensi yang tertera.</p>
+          <p className="text-sm opacity-75">Ukuran foto diperkecil dan dikonversi ke format WebP; sebagian terpotong oleh tata letak halaman. Tiap foto tetap berada di bawah lisensi yang tertera.</p>
           <ul className="grid gap-3 p-0 md:grid-cols-2">
             {ALL_PHOTOS.map((p) => (
               <li key={p.id} className="list-none text-sm"><strong>{p.alt}.</strong> <Credit id={p.id} /></li>
             ))}
-            {Object.values(LANDMARK_PHOTOS).map((p) => (
+            {Object.values(AREA_PHOTOS).flat().map((p) => (
               <li key={p.file} className="list-none text-sm">
                 <strong>{p.alt}.</strong>{' '}
                 <span className="text-[11px] opacity-80">
@@ -84,6 +86,15 @@ export default function About() {
                 </span>
               </li>
             ))}
+          </ul>
+          <h2 className="mt-10 text-3xl">Kredit rekaman suara</h2>
+          <p className="text-sm opacity-75">Pelafalan kata oleh penutur, dari proyek Lingua Libre melalui Wikimedia Commons, dalam versi MP3 yang disediakan Commons.</p>
+          <ul className="grid gap-2 p-0 md:grid-cols-2">
+            {(Object.keys(RECORDINGS) as Language[]).flatMap((l) => RECORDINGS[l].map((r) => (
+              <li key={r.file} className="list-none text-sm">
+                {LANGUAGES[l]}: <a className="underline" href={r.page} target="_blank" rel="noreferrer">“{r.word}”</a>, penutur {r.speaker}, {r.licenseUrl ? <a className="underline" href={r.licenseUrl} target="_blank" rel="noreferrer">{r.license}</a> : r.license}
+              </li>
+            )))}
           </ul>
           <p className="mt-6 text-sm opacity-75">Batas wilayah: geoBoundaries (sumber BPS, WFP, OCHA ROAP; data 2020), CC BY 3.0 IGO, disederhanakan. Citra peta: Sentinel-2 cloudless 2016, https://s2maps.eu oleh EOX IT Services GmbH (memuat data Copernicus Sentinel 2016 &amp; 2017 yang dimodifikasi), CC BY 4.0; warna diubah, awan diredam, dan laut digambar ulang. Ketinggian: AWS Terrain Tiles (Mapzen; SRTM, USGS). Huruf: Fraunces dan Manrope (SIL Open Font License).</p>
         </section>

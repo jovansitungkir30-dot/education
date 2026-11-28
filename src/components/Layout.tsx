@@ -3,7 +3,7 @@ import { href } from '../lib/router';
 import { useProgress } from '../lib/progress';
 
 export const NAV = [
-  ['/', 'Beranda'], ['/explore', 'Jelajah'], ['/cultures', 'Budaya'], ['/gallery', 'Galeri'], ['/learn', 'Belajar'], ['/about', 'Tentang'],
+  ['/', 'Beranda'], ['/explore', 'Jelajah'], ['/wilayah', 'Wilayah'], ['/cultures', 'Budaya'], ['/gallery', 'Galeri'], ['/learn', 'Belajar'], ['/about', 'Tentang'],
 ] as const;
 
 function Mark() {

@@ -1,137 +1,526 @@
 {
-  "asahan": {
-    "file": "images/landmarks/asahan.jpg",
-    "title": "Asahan River, Almanak Pemerintah Daerah Propinsi Sumatera Utara (1969), p245",
-    "author": "Government of North Sumatra",
-    "license": "Public domain",
-    "licenseUrl": "",
-    "page": "https://commons.wikimedia.org/wiki/File:Asahan_River,_Almanak_Pemerintah_Daerah_Propinsi_Sumatera_Utara_(1969),_p245.jpg",
-    "alt": "Foto lama Sungai Asahan di dekat air terjun Sigura-gura, dari terbitan 1969 (bukan Air Terjun Ponot)"
-  },
-  "dairi": {
-    "file": "images/landmarks/dairi.jpg",
-    "title": "Kopi Robusta Sidikalang",
-    "author": "Dyalim",
-    "license": "CC BY 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Kopi_Robusta_Sidikalang.jpg",
-    "alt": "Buah kopi robusta di Sidikalang"
-  },
-  "humbang-hasundutan": {
-    "file": "images/landmarks/humbang-hasundutan.jpg",
-    "title": "Rumah adat di situs Istana Raja Sisingamangaraja",
-    "author": "Nafisathallah",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Rumah_adat_di_situs_Istana_Raja_Sisingamangaraja.jpg",
-    "alt": "Atap rumah adat di situs Istana Sisingamangaraja, Bakkara"
-  },
-  "kota-binjai": {
-    "file": "images/landmarks/kota-binjai.jpg",
-    "title": "Rambutan Binjai",
-    "author": "Sakurai Midori",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
-    "page": "https://commons.wikimedia.org/wiki/File:Rambutan_Binjai.jpg",
-    "alt": "Rambutan Binjai yang dijual di Pasar Baru, Jakarta"
-  },
-  "kota-gunungsitoli": {
-    "file": "images/landmarks/kota-gunungsitoli.jpg",
-    "title": "Museum pusaka nias 02",
-    "author": "Unknown authorUnknown author",
-    "license": "CC BY 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Museum_pusaka_nias_02.jpg",
-    "alt": "Bangunan kayu di Museum Pusaka Nias"
-  },
-  "kota-pematangsiantar": {
-    "file": "images/landmarks/kota-pematangsiantar.jpg",
-    "title": "Becaksiantar",
-    "author": "Siantar",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Becaksiantar.jpg",
-    "alt": "Sepeda motor BSA yang dipakai sebagai becak di Pematangsiantar"
-  },
-  "kota-sibolga": {
-    "file": "images/landmarks/kota-sibolga.jpg",
-    "title": "Fishing-boat-in-sibolga-2013-10-18",
-    "author": "Pratyeka",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Fishing-boat-in-sibolga-2013-10-18.jpg",
-    "alt": "Perahu nelayan bersandar di Sibolga, 2013"
-  },
-  "labuhanbatu-selatan": {
-    "file": "images/landmarks/labuhanbatu-selatan.jpg",
-    "title": "Istana Kotapinang",
-    "author": "Government of North Sumatra, Indonesia",
-    "license": "Public domain",
-    "licenseUrl": "",
-    "page": "https://commons.wikimedia.org/wiki/File:Istana_Kotapinang.jpg",
-    "alt": "Puing istana di Kotapinang"
-  },
-  "langkat": {
-    "file": "images/landmarks/langkat.jpg",
-    "title": "Azizi Mosque",
-    "author": "Davidelit",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Azizi_Mosque.jpg",
-    "alt": "Masjid Azizi di Tanjung Pura"
-  },
-  "padang-lawas": {
-    "file": "images/landmarks/padang-lawas.jpg",
-    "title": "Candi sipamutung mirzabaihaqie",
-    "author": "Mirza Baihaqie",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Candi_sipamutung_mirzabaihaqie.jpg",
-    "alt": "Bangunan utama Candi Sipamutung di Desa Siparau"
-  },
-  "padang-lawas-utara": {
-    "file": "images/landmarks/padang-lawas-utara.jpg",
-    "title": "Candi Bahal 1",
-    "author": "Spiiiv",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Candi_Bahal_1.JPG",
-    "alt": "Candi Bahal I di Padang Lawas Utara"
-  },
-  "tapanuli-tengah": {
-    "file": "images/landmarks/tapanuli-tengah.jpg",
-    "title": "Kompleks Makam Mahligai Barus 19",
-    "author": "Lim Natee",
-    "license": "CC BY 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Kompleks_Makam_Mahligai_Barus_19.jpg",
-    "alt": "Nisan di Kompleks Makam Mahligai, Barus"
-  },
-  "tapanuli-utara": {
-    "file": "images/landmarks/tapanuli-utara.jpg",
-    "title": "Salib Kasih (Cross)",
-    "author": "Herryz",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Salib_Kasih_(Cross).jpg",
-    "alt": "Monumen Salib Kasih di Tarutung, 2022"
-  },
-  "toba": {
-    "file": "images/landmarks/toba.jpg",
-    "title": "KITLV A783 - De hallen van de pasar in Balige, KITLV 55263",
-    "author": "AnonymousUnknown author",
-    "license": "CC BY 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:KITLV_A783_-_De_hallen_van_de_pasar_in_Balige,_KITLV_55263.tiff",
-    "alt": "Foto arsip los pasar di Balige"
-  },
-  "pakpak-bharat": {
-    "file": "images/landmarks/pakpak-bharat.jpg",
-    "title": "Mejan Marga Boangmanalu (01)",
-    "author": "Christian Advs Sltg",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Mejan_Marga_Boangmanalu_(01).jpg",
-    "alt": "Arca mejan marga Boangmanalu"
-  }
+  "asahan": [
+    {
+      "file": "images/landmarks/asahan-1.webp",
+      "width": 900,
+      "height": 1200,
+      "title": "Air terjun Ponot",
+      "alt": "Air Terjun Ponot",
+      "relation": "objek",
+      "place": "Kabupaten Asahan",
+      "verification": "keterangan",
+      "author": "NauraTravel",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Air_terjun_Ponot.jpg"
+    },
+    {
+      "file": "images/landmarks/asahan-2.webp",
+      "width": 960,
+      "height": 731,
+      "title": "Asahan River, Almanak Pemerintah Daerah Propinsi Sumatera Utara (1969), p245",
+      "alt": "Sungai Asahan di dekat air terjun Sigura-gura, dari terbitan 1969. Ini bukan Air Terjun Ponot.",
+      "relation": "arsip",
+      "place": "Kawasan Sigura-gura",
+      "verification": "keterangan",
+      "author": "Government of North Sumatra",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "page": "https://commons.wikimedia.org/wiki/File:Asahan_River,_Almanak_Pemerintah_Daerah_Propinsi_Sumatera_Utara_(1969),_p245.jpg"
+    }
+  ],
+  "batu-bara": [
+    {
+      "file": "images/landmarks/batu-bara-1.webp",
+      "width": 960,
+      "height": 476,
+      "title": "Welcome Gate to Batu Bara, Sumatra Utara",
+      "alt": "Tulisan nama Kabupaten Batu Bara. Bukan foto Istana Niat Lima Laras.",
+      "relation": "wilayah",
+      "place": "Kabupaten Batu Bara",
+      "verification": "koordinat",
+      "author": "Christian Advs Sltg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Welcome_Gate_to_Batu_Bara,_Sumatra_Utara.jpg"
+    }
+  ],
+  "dairi": [
+    {
+      "file": "images/landmarks/dairi-1.webp",
+      "width": 900,
+      "height": 1200,
+      "title": "Kopi Robusta Sidikalang",
+      "alt": "Buah kopi robusta di Sidikalang",
+      "relation": "objek",
+      "place": "Sidikalang",
+      "verification": "keterangan",
+      "author": "Dyalim",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Kopi_Robusta_Sidikalang.jpg"
+    }
+  ],
+  "deli-serdang": [
+    {
+      "file": "images/landmarks/deli-serdang-1.webp",
+      "width": 960,
+      "height": 640,
+      "title": "Museum of Deli Serdang site visit by Wikimedia Indonesia; January 2020 (13)",
+      "alt": "Museum Daerah Deli Serdang. Bukan foto Benteng Putri Hijau.",
+      "relation": "wilayah",
+      "place": "Kabupaten Deli Serdang",
+      "verification": "koordinat",
+      "author": "Rachmat04",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Museum_of_Deli_Serdang_site_visit_by_Wikimedia_Indonesia;_January_2020_(13).jpg"
+    }
+  ],
+  "humbang-hasundutan": [
+    {
+      "file": "images/landmarks/humbang-hasundutan-1.webp",
+      "width": 675,
+      "height": 1200,
+      "title": "Rumah adat di situs Istana Raja Sisingamangaraja",
+      "alt": "Atap rumah adat di situs Istana Sisingamangaraja",
+      "relation": "objek",
+      "place": "Bakkara",
+      "verification": "keterangan",
+      "author": "Nafisathallah",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Rumah_adat_di_situs_Istana_Raja_Sisingamangaraja.jpg"
+    }
+  ],
+  "kota-binjai": [
+    {
+      "file": "images/landmarks/kota-binjai-1.webp",
+      "width": 960,
+      "height": 640,
+      "title": "Stasiun Binjai front",
+      "alt": "Bagian depan Stasiun Binjai",
+      "relation": "objek",
+      "place": "Stasiun Binjai",
+      "verification": "keterangan",
+      "author": "Gaudi Renanda",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Stasiun_Binjai_front.jpg"
+    },
+    {
+      "file": "images/landmarks/kota-binjai-2.webp",
+      "width": 960,
+      "height": 720,
+      "title": "Cagar Budaya Stasiun Kereta Api Binjai",
+      "alt": "Penanda cagar budaya di Stasiun Binjai",
+      "relation": "objek",
+      "place": "Stasiun Binjai",
+      "verification": "keterangan",
+      "author": "Astari28",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Cagar_Budaya_Stasiun_Kereta_Api_Binjai.jpg"
+    },
+    {
+      "file": "images/landmarks/kota-binjai-3.webp",
+      "width": 960,
+      "height": 640,
+      "title": "Binjai Station Platform",
+      "alt": "Peron Stasiun Binjai",
+      "relation": "objek",
+      "place": "Stasiun Binjai",
+      "verification": "keterangan",
+      "author": "Gaudi Renanda",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Binjai_Station_Platform.jpg"
+    },
+    {
+      "file": "images/landmarks/kota-binjai-4.webp",
+      "width": 960,
+      "height": 669,
+      "title": "KITLV A830 - Station Timbang langkat te Deli, KITLV 111534",
+      "alt": "Foto lama stasiun Timbang Langkat di jalur Deli Spoorweg Maatschappij, koleksi KITLV (tanggal tidak tercatat)",
+      "relation": "arsip",
+      "place": "Binjai, dahulu Timbang Langkat",
+      "verification": "keterangan",
+      "author": "Pembuat tidak diketahui",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:KITLV_A830_-_Station_Timbang_langkat_te_Deli,_KITLV_111534.tiff"
+    },
+    {
+      "file": "images/landmarks/kota-binjai-5.webp",
+      "width": 960,
+      "height": 720,
+      "title": "Rambutan Binjai",
+      "alt": "Rambutan Binjai yang dijual di Pasar Baru, Jakarta. Foto ini tidak diambil di Binjai.",
+      "relation": "ilustrasi",
+      "place": "Pasar Baru, Jakarta",
+      "verification": "keterangan",
+      "author": "Sakurai Midori",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Rambutan_Binjai.jpg"
+    }
+  ],
+  "kota-gunungsitoli": [
+    {
+      "file": "images/landmarks/kota-gunungsitoli-1.webp",
+      "width": 768,
+      "height": 569,
+      "title": "Museum pusaka nias 02",
+      "alt": "Bangunan kayu di Museum Pusaka Nias",
+      "relation": "objek",
+      "place": "Museum Pusaka Nias",
+      "verification": "keterangan",
+      "author": "Unknown authorUnknown author",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Museum_pusaka_nias_02.jpg"
+    }
+  ],
+  "kota-padangsidimpuan": [
+    {
+      "file": "images/landmarks/kota-padangsidimpuan-1.webp",
+      "width": 807,
+      "height": 834,
+      "title": "PadangsidimpuanSalak",
+      "alt": "Tugu salak di Padangsidimpuan",
+      "relation": "objek",
+      "place": "Padangsidimpuan",
+      "verification": "keterangan",
+      "author": "Davidelit",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:PadangsidimpuanSalak.jpg"
+    }
+  ],
+  "kota-pematangsiantar": [
+    {
+      "file": "images/landmarks/kota-pematangsiantar-1.webp",
+      "width": 640,
+      "height": 428,
+      "title": "Becaksiantar",
+      "alt": "Sepeda motor BSA yang dipakai sebagai becak di Pematangsiantar",
+      "relation": "objek",
+      "place": "Pematangsiantar",
+      "verification": "keterangan",
+      "author": "Siantar",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Becaksiantar.jpg"
+    }
+  ],
+  "kota-sibolga": [
+    {
+      "file": "images/landmarks/kota-sibolga-1.webp",
+      "width": 960,
+      "height": 717,
+      "title": "Sibolga dari Tor Simarbarimbing",
+      "alt": "Sibolga dan lautnya dilihat dari perbukitan (Tor Simarbarimbing). Bukan foto Tangga Seratus.",
+      "relation": "wilayah",
+      "place": "Sibolga",
+      "verification": "keterangan",
+      "author": "Vitapasaribu93",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Sibolga_dari_Tor_Simarbarimbing.jpg"
+    },
+    {
+      "file": "images/landmarks/kota-sibolga-2.webp",
+      "width": 960,
+      "height": 638,
+      "title": "Fishing-boat-in-sibolga-2013-10-18",
+      "alt": "Perahu nelayan bersandar di Sibolga, 2013",
+      "relation": "wilayah",
+      "place": "Sibolga",
+      "verification": "keterangan",
+      "author": "Pratyeka",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Fishing-boat-in-sibolga-2013-10-18.jpg"
+    }
+  ],
+  "kota-tanjungbalai": [
+    {
+      "file": "images/landmarks/kota-tanjungbalai-1.webp",
+      "width": 960,
+      "height": 710,
+      "title": "KITLV A874 - Straat te Tandjoengbalai, KITLV 94521",
+      "alt": "Foto lama sebuah jalan di Tanjungbalai, koleksi KITLV (tanggal tidak tercatat)",
+      "relation": "arsip",
+      "place": "Tanjungbalai",
+      "verification": "keterangan",
+      "author": "Pembuat tidak diketahui",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:KITLV_A874_-_Straat_te_Tandjoengbalai,_KITLV_94521.tiff"
+    },
+    {
+      "file": "images/landmarks/kota-tanjungbalai-2.webp",
+      "width": 700,
+      "height": 471,
+      "title": "COLLECTIE TROPENMUSEUM Luchtfoto van Tandjoengbalai TMnr 10017791",
+      "alt": "Foto udara lama Tanjungbalai dan sungainya, koleksi Tropenmuseum",
+      "relation": "arsip",
+      "place": "Tanjungbalai",
+      "verification": "keterangan",
+      "author": "Koninklijke Nederlandsch-Indische Luchtvaartmaatschappij (KNILM) (Fotostudio). niet bekend / unknown (Fotograaf/photographer).",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:COLLECTIE_TROPENMUSEUM_Luchtfoto_van_Tandjoengbalai_TMnr_10017791.jpg"
+    }
+  ],
+  "kota-tebing-tinggi": [
+    {
+      "file": "images/landmarks/kota-tebing-tinggi-1.webp",
+      "width": 960,
+      "height": 640,
+      "title": "Resep Bumbu Lemang Khas Karo 1",
+      "alt": "Beras ketan, daun, dan ruas bambu untuk rires, lemang khas Karo. Bukan lemang dari Tebing Tinggi.",
+      "relation": "ilustrasi",
+      "place": "Lokasi pemotretan tidak dipastikan",
+      "verification": "keterangan",
+      "author": "Really Rin",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Resep_Bumbu_Lemang_Khas_Karo_1.jpg"
+    },
+    {
+      "file": "images/landmarks/kota-tebing-tinggi-2.webp",
+      "width": 960,
+      "height": 720,
+      "title": "Stasiun Tebing Tinggi",
+      "alt": "Peron dan emplasemen Stasiun Tebing Tinggi",
+      "relation": "wilayah",
+      "place": "Stasiun Tebing Tinggi",
+      "verification": "keterangan",
+      "author": "Fadhil Dimas Nabillah",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Stasiun_Tebing_Tinggi.jpg"
+    },
+    {
+      "file": "images/landmarks/kota-tebing-tinggi-3.webp",
+      "width": 674,
+      "height": 1200,
+      "title": "Menara masjid raya nur addin kota tebing tinggi",
+      "alt": "Menara Masjid Raya Nur Addin",
+      "relation": "wilayah",
+      "place": "Tebing Tinggi",
+      "verification": "keterangan",
+      "author": "Nafisathallah",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Menara_masjid_raya_nur_addin_kota_tebing_tinggi.jpg"
+    }
+  ],
+  "labuhanbatu": [
+    {
+      "file": "images/landmarks/labuhanbatu-1.webp",
+      "width": 259,
+      "height": 194,
+      "title": "Masjid Agung Rantau Prapat",
+      "alt": "Masjid Agung Rantauprapat, Jalan Ahmad Yani (foto asli beresolusi kecil)",
+      "relation": "objek",
+      "place": "Rantauprapat",
+      "verification": "keterangan",
+      "author": "Arya Tanjung",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Masjid_Agung_Rantau_Prapat.jpg"
+    },
+    {
+      "file": "images/landmarks/labuhanbatu-2.webp",
+      "width": 960,
+      "height": 1087,
+      "title": "City of Rantauprapat Skyline",
+      "alt": "Pemandangan udara Kota Rantauprapat",
+      "relation": "wilayah",
+      "place": "Rantauprapat",
+      "verification": "keterangan",
+      "author": "Arya Tanjung",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:City_of_Rantauprapat_Skyline.jpg"
+    }
+  ],
+  "labuhanbatu-selatan": [
+    {
+      "file": "images/landmarks/labuhanbatu-selatan-1.webp",
+      "width": 640,
+      "height": 480,
+      "title": "Istana Kotapinang",
+      "alt": "Puing istana di Kotapinang",
+      "relation": "objek",
+      "place": "Kotapinang",
+      "verification": "keterangan",
+      "author": "Government of North Sumatra, Indonesia",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "page": "https://commons.wikimedia.org/wiki/File:Istana_Kotapinang.jpg"
+    }
+  ],
+  "labuhanbatu-utara": [
+    {
+      "file": "images/landmarks/labuhanbatu-utara-1.webp",
+      "width": 960,
+      "height": 658,
+      "title": "Welcome gate to Sidua-dua, Kualuh Selatan, Labuhanbatu Utara (01)",
+      "alt": "Gapura Desa Sidua-dua di Kualuh Selatan. Bukan foto masjid.",
+      "relation": "wilayah",
+      "place": "Kualuh Selatan",
+      "verification": "koordinat",
+      "author": "Christian Advs Sltg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Welcome_gate_to_Sidua-dua,_Kualuh_Selatan,_Labuhanbatu_Utara_(01).jpg"
+    }
+  ],
+  "langkat": [
+    {
+      "file": "images/landmarks/langkat-1.webp",
+      "width": 960,
+      "height": 720,
+      "title": "Azizi Mosque",
+      "alt": "Masjid Azizi",
+      "relation": "objek",
+      "place": "Tanjung Pura",
+      "verification": "keterangan",
+      "author": "Davidelit",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Azizi_Mosque.jpg"
+    }
+  ],
+  "nias": [
+    {
+      "file": "images/landmarks/nias-1.webp",
+      "width": 960,
+      "height": 640,
+      "title": "Tari Moyo Nias Sumatera Utara IMG 8202",
+      "alt": "Penampilan yang diberi keterangan Tari Moyo oleh pengunggah. Tempat pertunjukannya tidak disebutkan.",
+      "relation": "ilustrasi",
+      "place": "Lokasi pemotretan tidak disebutkan",
+      "verification": "keterangan",
+      "author": "Lili Aini",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Tari_Moyo_Nias_Sumatera_Utara_IMG_8202.jpg"
+    }
+  ],
+  "padang-lawas": [
+    {
+      "file": "images/landmarks/padang-lawas-1.webp",
+      "width": 960,
+      "height": 640,
+      "title": "Candi sipamutung mirzabaihaqie",
+      "alt": "Bangunan utama Candi Sipamutung",
+      "relation": "objek",
+      "place": "Desa Siparau",
+      "verification": "keterangan",
+      "author": "Mirza Baihaqie",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Candi_sipamutung_mirzabaihaqie.jpg"
+    }
+  ],
+  "padang-lawas-utara": [
+    {
+      "file": "images/landmarks/padang-lawas-utara-1.webp",
+      "width": 960,
+      "height": 720,
+      "title": "Candi Bahal 1",
+      "alt": "Candi Bahal I",
+      "relation": "objek",
+      "place": "Portibi",
+      "verification": "keterangan",
+      "author": "Spiiiv",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Candi_Bahal_1.JPG"
+    }
+  ],
+  "pakpak-bharat": [
+    {
+      "file": "images/landmarks/pakpak-bharat-1.webp",
+      "width": 960,
+      "height": 720,
+      "title": "Mejan Marga Boangmanalu (01)",
+      "alt": "Arca mejan marga Boangmanalu",
+      "relation": "objek",
+      "place": "Menurut keterangan pengunggah",
+      "verification": "keterangan",
+      "author": "Christian Advs Sltg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Mejan_Marga_Boangmanalu_(01).jpg"
+    }
+  ],
+  "serdang-bedagai": [
+    {
+      "file": "images/landmarks/serdang-bedagai-1.webp",
+      "width": 900,
+      "height": 1200,
+      "title": "Papan Penjelasan Mengenai Mesjid Raya Sulaimaniyah di Perbaungan",
+      "alt": "Papan penjelasan di Masjid Raya Sulaimaniyah, Perbaungan. Bukan tampak luar masjid.",
+      "relation": "objek",
+      "place": "Perbaungan",
+      "verification": "keterangan",
+      "author": "Lim Natee",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Papan_Penjelasan_Mengenai_Mesjid_Raya_Sulaimaniyah_di_Perbaungan.jpg"
+    }
+  ],
+  "tapanuli-tengah": [
+    {
+      "file": "images/landmarks/tapanuli-tengah-1.webp",
+      "width": 960,
+      "height": 720,
+      "title": "Kompleks Makam Mahligai Barus 19",
+      "alt": "Nisan di Kompleks Makam Mahligai",
+      "relation": "objek",
+      "place": "Barus",
+      "verification": "keterangan",
+      "author": "Lim Natee",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Kompleks_Makam_Mahligai_Barus_19.jpg"
+    }
+  ],
+  "tapanuli-utara": [
+    {
+      "file": "images/landmarks/tapanuli-utara-1.webp",
+      "width": 675,
+      "height": 1200,
+      "title": "Salib Kasih (Cross)",
+      "alt": "Monumen Salib Kasih, 2022",
+      "relation": "objek",
+      "place": "Siatas Barita",
+      "verification": "keterangan",
+      "author": "Herryz",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Salib_Kasih_(Cross).jpg"
+    }
+  ],
+  "toba": [
+    {
+      "file": "images/landmarks/toba-1.webp",
+      "width": 940,
+      "height": 1200,
+      "title": "KITLV A783 - De hallen van de pasar in Balige, KITLV 55263",
+      "alt": "Foto arsip los pasar di Balige",
+      "relation": "arsip",
+      "place": "Balige",
+      "verification": "keterangan",
+      "author": "Pembuat tidak diketahui",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:KITLV_A783_-_De_hallen_van_de_pasar_in_Balige,_KITLV_55263.tiff"
+    }
+  ]
 }

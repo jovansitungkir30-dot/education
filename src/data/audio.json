@@ -1,0 +1,190 @@
+{
+  "bbc": [
+    {
+      "word": "aek",
+      "file": "audio/bbc-aek.mp3",
+      "speaker": "Dyalim",
+      "author": "Speaker: Dyalim Recorder: Dyalim",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33017_(bbc)-Dyalim-aek.wav"
+    },
+    {
+      "word": "boha",
+      "file": "audio/bbc-boha.mp3",
+      "speaker": "Terephthalic Acid",
+      "author": "Speaker: Terephthalic Acid Recorder: Terephthalic Acid",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33017_(bbc)-Terephthalic_Acid-boha.wav"
+    },
+    {
+      "word": "biang",
+      "file": "audio/bbc-biang.mp3",
+      "speaker": "Terephthalic Acid",
+      "author": "Speaker: Terephthalic Acid Recorder: Terephthalic Acid",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33017_(bbc)-Terephthalic_Acid-biang.wav"
+    },
+    {
+      "word": "angka",
+      "file": "audio/bbc-angka.mp3",
+      "speaker": "Dyalim",
+      "author": "Speaker: Dyalim Recorder: Dyalim",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33017_(bbc)-Dyalim-angka.wav"
+    },
+    {
+      "word": "madabu",
+      "file": "audio/bbc-madabu.mp3",
+      "speaker": "Dyalim",
+      "author": "Speaker: Dyalim Recorder: Dyalim",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33017_(bbc)-Dyalim-madabu.wav"
+    }
+  ],
+  "btx": [
+    {
+      "word": "lau",
+      "file": "audio/btx-lau.mp3",
+      "speaker": "HaidirAndiNovianto",
+      "author": "Speaker: HaidirAndiNovianto Recorder: HaidirAndiNovianto",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33012_(btx)-HaidirAndiNovianto-lau.wav"
+    },
+    {
+      "word": "manuk",
+      "file": "audio/btx-manuk.mp3",
+      "speaker": "HaidirAndiNovianto",
+      "author": "Speaker: HaidirAndiNovianto Recorder: HaidirAndiNovianto",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33012_(btx)-HaidirAndiNovianto-manuk.wav"
+    },
+    {
+      "word": "matawari",
+      "file": "audio/btx-matawari.mp3",
+      "speaker": "HaidirAndiNovianto",
+      "author": "Speaker: HaidirAndiNovianto Recorder: HaidirAndiNovianto",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33012_(btx)-HaidirAndiNovianto-matawari.wav"
+    },
+    {
+      "word": "kerangen",
+      "file": "audio/btx-kerangen.mp3",
+      "speaker": "HaidirAndiNovianto",
+      "author": "Speaker: HaidirAndiNovianto Recorder: HaidirAndiNovianto",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33012_(btx)-HaidirAndiNovianto-kerangen.wav"
+    },
+    {
+      "word": "megara",
+      "file": "audio/btx-megara.mp3",
+      "speaker": "HaidirAndiNovianto",
+      "author": "Speaker: HaidirAndiNovianto Recorder: HaidirAndiNovianto",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q33012_(btx)-HaidirAndiNovianto-megara.wav"
+    }
+  ],
+  "btm": [
+    {
+      "word": "dasun",
+      "file": "audio/btm-dasun.mp3",
+      "speaker": "Slwalbs",
+      "author": "Speaker: Slwalbs Recorder: Slwalbs",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2891049_(btm)-Slwalbs-Dasun.wav"
+    },
+    {
+      "word": "ombus",
+      "file": "audio/btm-ombus.mp3",
+      "speaker": "IHLubis",
+      "author": "Speaker: IHLubis Recorder: IHLubis",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2891049_(btm)-IHLubis-ombus.wav"
+    },
+    {
+      "word": "tangion",
+      "file": "audio/btm-tangion.mp3",
+      "speaker": "IHLubis",
+      "author": "Speaker: IHLubis Recorder: IHLubis",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2891049_(btm)-IHLubis-tangion.wav"
+    },
+    {
+      "word": "dila",
+      "file": "audio/btm-dila.mp3",
+      "speaker": "IHLubis",
+      "author": "Speaker: IHLubis Recorder: IHLubis",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2891049_(btm)-IHLubis-dila.wav"
+    },
+    {
+      "word": "marsitijur",
+      "file": "audio/btm-marsitijur.mp3",
+      "speaker": "IHLubis",
+      "author": "Speaker: IHLubis Recorder: IHLubis",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2891049_(btm)-IHLubis-marsitijur.wav"
+    }
+  ],
+  "nia": [
+    {
+      "word": "fitu",
+      "file": "audio/nia-fitu.mp3",
+      "speaker": "Fatamorganaa",
+      "author": "Speaker: Fatamorganaa Recorder: Fatamorganaa",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2407831_(nia)-Fatamorganaa-fitu.wav"
+    },
+    {
+      "word": "tebu",
+      "file": "audio/nia-tebu.mp3",
+      "speaker": "Fatamorganaa-fatebu",
+      "author": "Speaker: Fatamorganaa Recorder: Fatamorganaa",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2407831_(nia)-Fatamorganaa-fatebu-tebu.wav"
+    },
+    {
+      "word": "guru",
+      "file": "audio/nia-guru.mp3",
+      "speaker": "Fatamorganaa",
+      "author": "Speaker: Fatamorganaa Recorder: Fatamorganaa",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2407831_(nia)-Fatamorganaa-guru.wav"
+    },
+    {
+      "word": "umbo",
+      "file": "audio/nia-umbo.mp3",
+      "speaker": "Fatamorganaa",
+      "author": "Speaker: Fatamorganaa Recorder: Fatamorganaa",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2407831_(nia)-Fatamorganaa-umbo.wav"
+    },
+    {
+      "word": "bolokha",
+      "file": "audio/nia-bolokha.mp3",
+      "speaker": "Fatamorganaa",
+      "author": "Speaker: Fatamorganaa Recorder: Fatamorganaa",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "page": "https://commons.wikimedia.org/wiki/File:LL-Q2407831_(nia)-Fatamorganaa-bolokha.wav"
+    }
+  ]
+}

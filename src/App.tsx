@@ -5,7 +5,7 @@ import { useRoute, href } from './lib/router';
 const PAGES = {
   '/': lazy(() => import('./pages/Home')),
   '/explore': lazy(() => import('./pages/Explore')),
-  '/wilayah': lazy(() => import('./pages/Region')),
+  '/wilayah': lazy(() => import('./pages/Wilayah')),
   '/cultures': lazy(() => import('./pages/Cultures')),
   '/gallery': lazy(() => import('./pages/Gallery')),
   '/learn': lazy(() => import('./pages/Learn')),
@@ -18,7 +18,7 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-    if (path === '/wilayah') return; // The area page sets its own title.
+    if (path === '/wilayah') return; // These pages set their own titles.
     const label = NAV.find(([to]) => to === path)?.[1];
     document.title = label && path !== '/' ? `${label} · RuangNusantara` : 'RuangNusantara: Jelajah Budaya Sumatera Utara';
   }, [path]);
