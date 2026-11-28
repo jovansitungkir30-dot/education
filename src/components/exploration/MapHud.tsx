@@ -1,11 +1,11 @@
 /** Game-style overlays on the full-screen atlas. */
-import { useState, useSyncExternalStore } from 'react';
+import { useState } from 'react';
+import AboutExperience from '../credits/AboutExperience';
 import { visitedDistricts } from '../../data/atlas';
 import { THEMES, themeById } from '../../data/pathways';
 import RegionSearch from '../map/RegionSearch';
 import { STOPS } from '../../data/pins';
 import { badges, completedDioramas } from '../../lib/badges';
-import { audioState, play, stop } from '../../lib/audio';
 import { useProgress } from '../../lib/progress';
 import { href } from '../../lib/router';
 import { NAV } from '../Layout';
@@ -23,7 +23,7 @@ export function TopLeft({ theme, onSelect, onTheme }: { selected: string | null;
       </div>
       {menu && (
         <nav className="hud grid min-w-44 rounded-lg p-2" aria-label="Utama">
-          {[...NAV, ['/artefak', 'Artefak 3D'] as const].map(([to, label]) => <a key={to} className="rounded-md px-3 py-2 text-sm font-bold hover:bg-cream" href={href(to)}>{label}</a>)}
+          {[...NAV, ['/alat-musik', 'Alat musik'] as const, ['/artefak', 'Artefak 3D'] as const].map(([to, label]) => <a key={to} className="rounded-md px-3 py-2 text-sm font-bold hover:bg-cream" href={href(to)}>{label}</a>)}
         </nav>
       )}
       <RegionSearch onSelect={onSelect} />
@@ -83,32 +83,22 @@ export function TrailCard({ selected, onSelect }: { selected: string | null; onS
   );
 }
 
-export function SoundAndHelp() {
-  const playing = useSyncExternalStore(audioState.subscribe, audioState.current) === 'lakeside';
+export function Help() {
   const [help, setHelp] = useState(false);
   return (
     <div className="absolute right-3 bottom-8 z-20 flex flex-col items-end gap-2">
       {help && (
-        <div className="hud w-64 rounded-2xl p-4 text-sm" role="dialog" aria-label="Bantuan">
+        <div className="hud w-64 rounded-lg p-4 text-sm" role="dialog" aria-label="Bantuan">
           <p className="m-0 font-extrabold">Cara menjelajah</p>
-          <ul className="mt-2 mb-0 list-disc space-y-1 pl-4">
-            <li>Geser untuk berpindah, tombol ＋ － untuk memperbesar.</li>
-            <li>Gulir atau cubit juga bisa memperbesar.</li>
+          <ul className="mt-2 mb-1 list-disc space-y-1 pl-4">
+            <li>Geser untuk berpindah; gulir, cubit, atau tombol ＋ － untuk memperbesar.</li>
             <li>Klik miniatur atau wilayah untuk membuka halamannya. Di layar sentuh, ketuk lalu tekan “Jelajahi”.</li>
-            <li>Nama yang bertumpuk disembunyikan; perbesar untuk melihatnya, atau pakai pencarian.</li>
-            <li>Suara adalah suasana sintetis, bukan rekaman Danau Toba.</li>
+            <li>Nama yang bertumpuk disembunyikan; perbesar atau pakai pencarian.</li>
           </ul>
+          <AboutExperience />
         </div>
       )}
-      <div className="flex gap-2">
-        <button type="button" className="map-btn" aria-pressed={playing} aria-label={playing ? 'Matikan suara suasana' : 'Nyalakan suara suasana'} onClick={() => (playing ? stop() : play('lakeside'))}>
-          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-            <path d="M4 9v6h4l5 4V5L8 9Z" fill="currentColor" />
-            {playing ? <path d="M16 9q2 3 0 6M19 7q4 5 0 10" /> : <path d="M16 9l5 6M21 9l-5 6" />}
-          </svg>
-        </button>
-        <button type="button" className="map-btn" aria-expanded={help} aria-label="Bantuan" onClick={() => setHelp(!help)}>?</button>
-      </div>
+      <button type="button" className="map-btn" aria-expanded={help} aria-label="Bantuan" onClick={() => setHelp(!help)}>?</button>
     </div>
   );
 }

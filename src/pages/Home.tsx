@@ -7,7 +7,7 @@ import { ADMIN } from '../data/atlas';
 import { ARTIFACTS } from '../data/artifacts';
 import { STORIES } from '../data/stories';
 import { MODULES } from '../data/modules';
-import { Credit, KindTag, Photo, Reveal, SectionHead, SoundDesk } from '../components/ui';
+import { Credit, KindTag, Photo, Reveal, SectionHead } from '../components/ui';
 import type { Look } from '../three/HeroMapScene';
 import { DISTRICTS } from '../data/atlas';
 import { HALF_HEIGHT, HALF_WIDTH, svgPath } from '../lib/geo';
@@ -191,7 +191,7 @@ export default function Home() {
       </section>
 
       <section className="py-24">
-        <div className="wrap"><SoundDesk /></div>
+        <div className="wrap"><a className="btn btn-gold" href={href('/alat-musik')}>Mainkan alat musik tradisional →</a></div>
       </section>
     </>
   );

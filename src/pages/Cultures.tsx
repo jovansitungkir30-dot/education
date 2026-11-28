@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Credit, FactBlock, KindTag, Narrate, Photo, Reveal, SectionHead, SoundDesk } from '../components/ui';
+import { Credit, FactBlock, KindTag, Narrate, Photo, Reveal, SectionHead } from '../components/ui';
 import { STORIES, type Story } from '../data/stories';
 import { REGIONS } from '../data/regions';
 import { KNOWLEDGE, type Knowledge } from '../data/types';
@@ -149,7 +149,7 @@ export default function Cultures({ params }: { params: URLSearchParams }) {
         </div>
       </section>
 
-      <section className="py-20"><div className="wrap"><SoundDesk /></div></section>
+      <section className="py-16"><div className=""><div className="wrap flex flex-wrap items-center justify-between gap-4 border-y border-gold-500/40 py-6"><div><p className="m-0 font-display text-3xl">Bagaimana alat-alat ini dimainkan?</p><p className="mt-1 mb-0 max-w-xl text-sm opacity-80">Pukul gordang, petik hasapi, dan bedakan dua titik pukul aramba di ruang alat musik 3D.</p></div><a className="btn btn-gold" href={href('/alat-musik')}>Buka ruang alat musik →</a></div></div></section>
     </>
   );
 }

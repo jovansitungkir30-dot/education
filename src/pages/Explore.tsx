@@ -1,7 +1,7 @@
 /** The atlas: a full-screen map, which is the main way into the 33 areas. */
 import { useEffect, useState } from 'react';
 import AtlasMap from '../components/map/AtlasMap';
-import { ExplorerCard, SoundAndHelp, TopLeft, TrailCard } from '../components/exploration/MapHud';
+import { ExplorerCard, Help, TopLeft, TrailCard } from '../components/exploration/MapHud';
 import ExplorationProgress from '../components/region/ExplorationProgress';
 import { Credit, FactBlock, Photo } from '../components/ui';
 import { HOME_DISTRICT, districtById, fullName, visitedDistricts } from '../data/atlas';
@@ -130,7 +130,7 @@ export default function Explore({ params }: { params: URLSearchParams }) {
       <TopLeft selected={flying} theme={theme?.id ?? null} onSelect={select} onTheme={(id) => go('/explore', id ? { tema: id } : undefined)} />
       <ExplorerCard onLog={() => { if (lake) select(null); setLog(!log || lake); }} />
       {!open && <TrailCard selected={null} onSelect={select} />}
-      {!open && <SoundAndHelp />}
+      {!open && <Help />}
 
       {open && (
         <aside className="paper absolute z-30 flex flex-col overflow-hidden rounded-xl shadow-[0_24px_60px_#000a] max-lg:inset-x-2 max-lg:bottom-2 max-lg:max-h-[56%] lg:top-20 lg:right-16 lg:bottom-8 lg:w-[27rem]" aria-label={lake ? 'Panel Danau Toba' : 'Catatan temuan'}>

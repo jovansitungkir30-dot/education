@@ -1,10 +1,9 @@
-import { useContext, useEffect, useSyncExternalStore, useState, type ReactNode } from 'react';
+import { useContext, useEffect, useState, type ReactNode } from 'react';
 import { CitationContext } from './credits/citations';
 import { motion } from 'framer-motion';
 import { KNOWLEDGE, type Fact, type Knowledge } from '../data/types';
 import { SOURCES, CHECK_LABEL, checkOf, type SourceId } from '../data/sources';
 import { photo, type PhotoId } from '../data/photos';
-import { SAMPLES, audioState, play, setVolume, stop } from '../lib/audio';
 
 const TONE: Record<Knowledge, string> = {
   history: 'border-emerald-700 bg-emerald-100 text-emerald-950',
@@ -105,42 +104,6 @@ export function SectionHead({ eyebrow, title, children, as: Tag = 'h2' }: { eyeb
   );
 }
 
-export function SoundDesk() {
-  const current = useSyncExternalStore(audioState.subscribe, audioState.current);
-  const volume = useSyncExternalStore(audioState.subscribe, audioState.volume);
-  useEffect(() => stop, []);
-  return (
-    <div className="rounded-3xl border border-gold-500/30 bg-forest-900 p-6 text-ivory sm:p-8">
-      <p className="eyebrow text-gold-300">Meja suara · contoh sintetis</p>
-      <p className="mt-2 max-w-2xl text-sm opacity-80">
-        Suara ini dibuat oleh browser Anda. Ini bukan rekaman pemusik tradisional dan tidak meniru komposisi gondang atau gordang mana pun. Tidak ada yang berbunyi sebelum Anda menekan Putar.
-      </p>
-      <ul className="mt-5 grid gap-3 p-0 md:grid-cols-3">
-        {SAMPLES.map((s) => {
-          const on = current === s.id;
-          return (
-            <li key={s.id} className="flex list-none flex-col justify-between gap-4 rounded-2xl bg-forest-800 p-5">
-              <div>
-                <h3 className="m-0 text-xl">{s.title}</h3>
-                <p className="mt-1 text-sm opacity-75">{s.note}</p>
-              </div>
-              <button type="button" className={`btn self-start ${on ? 'btn-terra' : 'btn-gold'}`} aria-pressed={on} onClick={() => (on ? stop() : play(s.id))}>
-                {on ? 'Jeda' : 'Putar'}
-                <span className="sr-only"> {s.title}</span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      <label className="mt-6 flex items-center gap-3 text-sm font-semibold">
-        Volume suara
-        <input type="range" min={0} max={1} step={0.05} value={volume} onChange={(e) => setVolume(Number(e.target.value))} className="w-56 accent-gold-500" />
-        <span className="tabular-nums">{Math.round(volume * 100)}%</span>
-      </label>
-    </div>
-  );
-}
-
 /** Reads text aloud with the browser's own speech voice. */
 export function Narrate({ text, label = 'Dengarkan narasi' }: { text: string; label?: string }) {
   const [state, setState] = useState<'idle' | 'playing' | 'paused'>('idle');
@@ -165,7 +128,6 @@ export function Narrate({ text, label = 'Dengarkan narasi' }: { text: string; la
       u.lang = 'id-ID';
       const voice = synth.getVoices().find((v) => v.lang.toLowerCase().startsWith('id'));
       if (voice) u.voice = voice;
-      u.volume = audioState.volume();
       u.onend = () => setState('idle');
       synth.speak(u);
     }
