@@ -8,25 +8,19 @@ import { ARTIFACTS } from '../data/artifacts';
 import { STORIES } from '../data/stories';
 import { MODULES } from '../data/modules';
 import { Credit, KindTag, Photo, Reveal, SectionHead, SoundDesk } from '../components/ui';
-import type { Look } from '../three/HeroScene';
+import type { Look } from '../three/HeroMapScene';
+import { DISTRICTS } from '../data/atlas';
+import { HALF_HEIGHT, HALF_WIDTH, svgPath } from '../lib/geo';
 
 const HeroCanvas = lazy(() => import('../three/HeroCanvas'));
 
-/** Painted-style SVG scene shown while 3D loads and on devices without WebGL. */
+/** Flat map of the real boundaries, shown while 3D loads and on devices without WebGL. */
 export function HeroFallback() {
   return (
-    <svg className="absolute inset-0 size-full" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="1200" height="800" fill="#1d423d" />
-      <circle cx="250" cy="230" r="55" fill="#f2c47c" />
-      <path d="M0 450L180 300L330 410L520 270L760 430L940 290L1200 420V800H0Z" fill="#35594a" />
-      <path d="M0 500C200 450 420 540 650 480S1000 470 1200 500V800H0Z" fill="#2b6168" />
-      <path d="M0 690C300 600 700 720 1200 610V800H0Z" fill="#16352a" />
-      <g transform="translate(760 440)">
-        <path d="M0 20Q150 150 300 20L255 150H45Z" fill="#3a2d22" />
-        <path d="M45 150L150 70L255 150Z" fill="#7e2a1c" />
-        <path d="M60 150H240V215H60Z" fill="#6b4326" />
-        <path d="M80 215V270M120 215V270M180 215V270M220 215V270" stroke="#3f2718" strokeWidth="12" />
-      </g>
+    <svg className="absolute inset-0 size-full bg-[#103236]" viewBox={`${-HALF_WIDTH * 2.9} ${-HALF_HEIGHT * 1.12} ${HALF_WIDTH * 4.1} ${HALF_HEIGHT * 2.3}`} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      {DISTRICTS.map((d) => (
+        <path key={d.id} d={svgPath(d)} fill={d.type === 'air' ? '#3a93a8' : d.type === 'kota' ? '#b4603f' : '#4f7a4d'} stroke="#e9dcb8" strokeOpacity="0.4" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+      ))}
     </svg>
   );
 }
@@ -62,7 +56,7 @@ function Hero() {
       <div
         className="absolute inset-0 cursor-grab touch-pan-y select-none active:cursor-grabbing"
         tabIndex={0}
-        aria-label="Pemandangan interaktif. Geser, atau gunakan tombol panah kiri dan kanan, untuk melihat sekeliling."
+        aria-label="Peta 3D Sumatera Utara. Geser, atau gunakan tombol panah kiri dan kanan, untuk memutar."
         role="application"
         onPointerDown={(e) => { drag.current = e.clientX; e.currentTarget.setPointerCapture(e.pointerId); }}
         onPointerMove={onMove}
@@ -80,17 +74,17 @@ function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/45 via-35% to-transparent lg:bg-gradient-to-r lg:from-forest-950/90 lg:via-forest-950/45 lg:to-transparent lg:to-65%" />
       <motion.div style={{ y: textY, opacity: textFade }} className="wrap pointer-events-none relative flex h-full flex-col justify-end pb-24 lg:justify-center lg:pb-0">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }} className="max-w-xl [text-shadow:0_2px_16px_rgb(0_0_0/0.45)]">
-          <p className="eyebrow text-gold-300">RuangNusantara · Sumatera Utara</p>
-          <h1 className="mt-4 mb-0 text-4xl leading-[1.02] sm:text-6xl xl:text-7xl">Temukan Warisan Hidup Sumatera Utara.</h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-cream sm:text-lg">Jelajahi tradisi, cerita, arsitektur, dan identitas budaya lewat perjalanan digital yang imersif.</p>
+          <p className="eyebrow text-gold-300">RuangNusantara · Atlas budaya</p>
+          <h1 className="mt-4 mb-0 text-4xl leading-[1.02] sm:text-6xl xl:text-7xl">Jelajahi Kekayaan Budaya Sumatera Utara</h1>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-cream sm:text-lg">Setiap wilayah menyimpan cerita, tradisi, dan warisan budaya. Jelajahi keberagamannya melalui perjalanan interaktif.</p>
           <div className="pointer-events-auto mt-7 flex flex-wrap gap-3">
-            <button type="button" className="btn btn-gold" onClick={() => go('/explore')}>Jelajahi Budaya</button>
-            <button type="button" className="btn btn-line text-ivory" onClick={() => document.getElementById('journey')?.scrollIntoView()}>Mulai Perjalanan</button>
+            <button type="button" className="btn btn-gold" onClick={() => go('/explore')}>Mulai Jelajahi</button>
+            <button type="button" className="btn btn-line text-ivory" onClick={() => go('/about')}>Tentang Eksplorasi</button>
           </div>
         </motion.div>
       </motion.div>
       <div className="absolute right-4 bottom-5 flex items-center gap-2 text-xs sm:right-8">
-        <span className="hidden opacity-75 sm:inline">Geser untuk melihat sekeliling · pemandangan bergaya</span>
+        <span className="hidden opacity-75 sm:inline">Geser untuk memutar · pilih label untuk masuk diorama</span>
         <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kiri" onClick={() => turn(-0.35)}>←</button>
         <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kanan" onClick={() => turn(0.35)}>→</button>
       </div>
@@ -99,7 +93,7 @@ function Hero() {
 }
 
 const STOPS = [
-  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih bentang alam, komunitas, atau kota, lalu baca apa yang diketahui tentangnya.', done: (v: Record<string, string[]>) => ADMIN.filter((d) => v.region.includes(d.id)).length, total: ADMIN.length },
+  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih kabupaten atau kota, lalu jelajahi diorama dan materi budayanya.', done: (v: Record<string, string[]>) => ADMIN.filter((d) => v.region.includes(d.id)).length, total: ADMIN.length },
   { to: '/explore?view=artifacts', n: '02', title: 'Putar objeknya', text: 'Putar rumah adat, gendang, dan kain dalam 3D.', done: (v: Record<string, string[]>) => v.artifact.length, total: ARTIFACTS.length },
   { to: '/cultures', n: '03', title: 'Ikuti ceritanya', text: 'Sejarah, tradisi, dan cerita rakyat, masing-masing diberi label jelas.', done: (v: Record<string, string[]>) => v.story.length, total: STORIES.length },
 ];
@@ -110,6 +104,23 @@ export default function Home() {
   return (
     <>
       <Hero />
+
+      <section className="relative border-y border-gold-500/25 bg-forest-900 py-14">
+        <div className="wrap grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
+          <Reveal>
+            <p className="eyebrow text-gold-300">Pengantar Sumatera Utara</p>
+            <p className="mt-3 mb-0 font-display text-2xl leading-snug sm:text-3xl">Dari pesisir timur, dataran tinggi di sekitar Danau Toba, hingga Kepulauan Nias, banyak komunitas dengan bahasa dan adatnya sendiri hidup di provinsi ini.</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <dl className="m-0 grid grid-cols-3 gap-4 text-center">
+              {([[ADMIN.filter((d) => d.type === 'kabupaten').length, 'kabupaten'], [ADMIN.filter((d) => d.type === 'kota').length, 'kota'], [4, 'diorama 3D']] as const).map(([n, label]) => (
+                <div key={label}><dd className="m-0 font-display text-5xl text-gold-300">{n}</dd><dt className="text-sm opacity-75">{label}</dt></div>
+              ))}
+            </dl>
+            <a className="btn btn-gold mt-6 w-full" href={href('/explore')}>Buka peta interaktif →</a>
+          </Reveal>
+        </div>
+      </section>
 
       <section id="journey" className="paper scroll-mt-16 py-24">
         <div className="wrap">

@@ -23,7 +23,7 @@ function Bindu({ y, z }: { y: number; z: number }) {
   );
 }
 
-function BagasGodang() {
+export function BagasGodang() {
   return (
     <group>
       <Posts xs={[-3, -2, -1, 0, 1, 2, 3]} zs={[-1.2, 0, 1.2]} height={1.25} radius={0.11} />

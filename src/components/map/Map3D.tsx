@@ -10,10 +10,10 @@ import Stage from '../../three/Stage';
 
 export type MapCommand = { type: 'in' | 'out' | 'reset'; n: number } | null;
 
-const DEPTH = 0.42;
-const LAND = ['#4f7a4d', '#5d8754', '#456f49', '#6a8f58', '#3f6844'];
+export const DEPTH = 0.42;
+export const LAND = ['#4f7a4d', '#5d8754', '#456f49', '#6a8f58', '#3f6844'];
 
-function geometryOf(d: District) {
+export function geometryOf(d: District) {
   const shapes = d.polygons.map((rings) => {
     const points = (ring: number[][]) => ring.map((c) => new Vector2(...project(c)));
     const shape = new Shape(points(rings[0]));
