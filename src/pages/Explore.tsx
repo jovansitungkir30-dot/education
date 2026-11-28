@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AtlasMap from '../components/map/AtlasMap';
+import DioramaView from '../components/exploration/DioramaView';
+import { DIORAMAS, SPOT_COUNT } from '../data/dioramas';
 import { ADMIN, CONTENT_LINKS, DISTRICTS, HOME_DISTRICT, districtById, fullName, visitedDistricts, type District } from '../data/atlas';
 import { Credit, FactBlock, Photo, ReviewNote, SectionHead } from '../components/ui';
 import { TOPICS, regionById, type Region, type TopicKey } from '../data/regions';
@@ -202,6 +204,14 @@ function DistrictPanel({ district }: { district: District }) {
           </div>
         )}
       </div>
+      {DIORAMAS[district.id] && (
+        <a className="group block border-b border-ink/15 bg-forest-900 p-5 text-ivory sm:px-8" href={href('/explore', { wilayah: district.id, diorama: '1' })}>
+          <span className="eyebrow text-gold-300">Diorama 3D tersedia</span>
+          <span className="mt-1 block font-display text-2xl">{DIORAMAS[district.id].title}</span>
+          <span className="mt-1 block text-sm opacity-80">{DIORAMAS[district.id].summary} {DIORAMAS[district.id].spots.length} titik temuan dan mini kuis.</span>
+          <span className="btn btn-gold mt-3 group-hover:bg-gold-300">Masuk ke diorama →</span>
+        </a>
+      )}
       {content ? (
         <RegionPanel key={content.id} region={content} />
       ) : (
@@ -216,15 +226,35 @@ function DistrictPanel({ district }: { district: District }) {
 }
 
 function ProvinceIntro() {
+  const { state } = useProgress();
   return (
     <div className="p-5 sm:p-8">
       <p className="eyebrow text-terracotta-700">Pengantar</p>
       <h2 className="mt-1 mb-3 text-3xl sm:text-4xl">Provinsi Sumatera Utara</h2>
       <p>Terdiri atas 25 kabupaten dan 8 kota, dari pesisir timur, dataran tinggi di sekitar Danau Toba, hingga Kepulauan Nias di barat.</p>
       <p>Klik wilayah pada peta, atau pilih dari daftar, untuk mulai menjelajah.</p>
-      <h3 className="mt-6 mb-3 text-xl">Mulai dari sini</h3>
+      <h3 className="mt-6 mb-1 text-xl">Catatan temuan</h3>
+      <p className="mt-0 text-sm font-bold">Anda sudah membuka {state.visited.warisan.length} dari {SPOT_COUNT} temuan warisan budaya.</p>
+      <ul className="m-0 grid gap-2 p-0">
+        {Object.values(DIORAMAS).map((d) => {
+          const n = state.visited.warisan.filter((k) => k.startsWith(d.id + ':')).length;
+          const done = n === d.spots.length;
+          return (
+            <li key={d.id} className="list-none">
+              <a className={`flex items-center justify-between gap-3 rounded-2xl border-2 p-3 ${done ? 'border-gold-700 bg-cream' : 'border-ink/15 hover:border-terracotta-500'}`} href={href('/explore', { wilayah: d.id, diorama: '1' })}>
+                <span>
+                  <span className="block font-display text-xl leading-tight">{d.title}</span>
+                  <span className="text-xs">{districtById(d.id)!.name} · diorama 3D</span>
+                </span>
+                <span className="text-sm font-extrabold whitespace-nowrap">{done ? '✓ lengkap' : `${n}/${d.spots.length}`}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <h3 className="mt-6 mb-3 text-xl">Wilayah lain</h3>
       <div className="flex flex-wrap gap-2">
-        {['samosir', 'karo', 'mandailing-natal', 'nias-selatan', 'simalungun', 'kota-medan'].map((id) => (
+        {['simalungun', 'toba', 'pakpak-bharat', 'kota-medan'].map((id) => (
           <a key={id} className="btn btn-line" href={href('/explore', { wilayah: id })}>{districtById(id)!.name}</a>
         ))}
       </div>
@@ -253,8 +283,11 @@ export default function Explore({ params }: { params: URLSearchParams }) {
 
   const select = (id: string | null) => go('/explore', id ? { wilayah: id } : undefined);
 
+  const inDiorama = !!district && !!DIORAMAS[district.id] && params.get('diorama') === '1';
+
   return (
     <>
+      {inDiorama && <DioramaView key={district.id} id={district.id} />}
       <section id="map" className="scroll-mt-18 pt-20 pb-10">
         <div className="mx-auto w-full max-w-[100rem] px-3 sm:px-5">
           <div className="flex flex-wrap items-end justify-between gap-3 py-4">
@@ -269,17 +302,17 @@ export default function Explore({ params }: { params: URLSearchParams }) {
                 {(['kabupaten', 'kota', 'air'] as const).map((type) => (
                   <optgroup key={type} label={type === 'kabupaten' ? `Kabupaten (${ADMIN.filter((d) => d.type === type).length})` : type === 'kota' ? `Kota (${ADMIN.filter((d) => d.type === type).length})` : 'Badan air'}>
                     {DISTRICTS.filter((d) => d.type === type).map((d) => (
-                      <option key={d.id} value={d.id}>{d.name}{visited.has(d.id) ? ' ✓' : ''}{CONTENT_LINKS[d.id] ? ' •' : ''}</option>
+                      <option key={d.id} value={d.id}>{d.name}{DIORAMAS[d.id] ? ' ◆' : ''}{visited.has(d.id) ? ' ✓' : ''}{CONTENT_LINKS[d.id] ? ' •' : ''}</option>
                     ))}
                   </optgroup>
                 ))}
               </select>
-              <span className="font-normal opacity-70">• berisi materi budaya · ✓ sudah dikunjungi</span>
+              <span className="font-normal opacity-70">◆ diorama · • materi budaya · ✓ dikunjungi</span>
             </label>
           </div>
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
             <div className="h-[62dvh] min-h-[430px] overflow-hidden rounded-3xl border border-gold-500/30 lg:h-[calc(100dvh-12rem)]">
-              <AtlasMap selected={district?.id ?? null} visited={visited} onSelect={select} />
+              {!inDiorama && <AtlasMap selected={district?.id ?? null} visited={visited} onSelect={select} />}
             </div>
             <div className="paper overflow-y-auto rounded-3xl lg:h-[calc(100dvh-12rem)] lg:min-h-[430px]" aria-live="polite">
               {district ? <DistrictPanel key={district.id} district={district} /> : <ProvinceIntro />}

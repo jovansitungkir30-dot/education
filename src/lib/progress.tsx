@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
-export type Kind = 'region' | 'artifact' | 'story' | 'gallery' | 'lesson';
+/** 'warisan' counts discovery points opened inside dioramas. */
+export type Kind = 'region' | 'artifact' | 'story' | 'gallery' | 'lesson' | 'warisan';
 
 export interface ProgressState {
   visited: Record<Kind, string[]>;
@@ -9,13 +10,13 @@ export interface ProgressState {
   name: string;
 }
 
-export const POINTS: Record<Kind, number> = { region: 20, artifact: 15, story: 15, gallery: 5, lesson: 10 };
+export const POINTS: Record<Kind, number> = { region: 20, artifact: 15, story: 15, gallery: 5, lesson: 10, warisan: 5 };
 export const PASS_MARK = 70;
 export const QUIZ_POINTS = 50;
 
 const KEY = 'ruangnusantara.progress.v1';
 const empty = (): ProgressState => ({
-  visited: { region: [], artifact: [], story: [], gallery: [], lesson: [] },
+  visited: { region: [], artifact: [], story: [], gallery: [], lesson: [], warisan: [] },
   scores: {},
   name: '',
 });
@@ -31,7 +32,7 @@ function load(): ProgressState {
   }
 }
 
-export const passedModules = (s: ProgressState) => Object.keys(s.scores).filter((id) => s.scores[id] >= PASS_MARK);
+export const passedModules = (s: ProgressState) => Object.keys(s.scores).filter((id) => !id.startsWith('diorama:') && s.scores[id] >= PASS_MARK);
 
 export const totalPoints = (s: ProgressState) =>
   (Object.keys(POINTS) as Kind[]).reduce((sum, k) => sum + s.visited[k].length * POINTS[k], 0) +
