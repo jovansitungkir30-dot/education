@@ -32,6 +32,25 @@ function paint(source: BufferGeometry, color: string, matrix: Matrix4) {
   return g;
 }
 
+/**
+ * Bakes soft contact shading into the vertex colours and varies each face a little, so flat colours
+ * read as material. It costs nothing at render time.
+ */
+function weather(g: BufferGeometry) {
+  const position = g.attributes.position;
+  const color = g.attributes.color;
+  for (let face = 0; face < position.count; face += 3) {
+    // A stable pseudo-random tone per face.
+    const n = Math.sin(position.getX(face) * 91.7 + position.getY(face) * 47.3 + position.getZ(face) * 63.1) * 43758.5453;
+    const tone = 0.93 + (n - Math.floor(n)) * 0.12;
+    for (let i = face; i < face + 3; i++) {
+      const t = Math.min(1, Math.max(0, (position.getY(i) + 0.05) / 1.5));
+      const shade = (0.7 + 0.3 * t * t * (3 - 2 * t)) * tone;
+      color.setXYZ(i, color.getX(i) * shade, color.getY(i) * shade, color.getZ(i) * shade);
+    }
+  }
+}
+
 export class Builder {
   private parts: BufferGeometry[] = [];
 
@@ -205,6 +224,7 @@ export class Builder {
     this.parts.forEach((g) => g.dispose());
     this.parts = [];
     if (!merged) throw new Error('landmark parts could not be merged');
+    weather(merged);
     merged.computeBoundingSphere();
     return merged;
   }

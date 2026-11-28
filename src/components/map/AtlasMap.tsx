@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useRef, useState } from 'react';
 import { districtById, fullName } from '../../data/atlas';
 import { LANDMARKS } from '../../data/landmarks';
 import { TERRAIN_CREDIT } from '../../lib/terrain';
@@ -12,12 +12,17 @@ interface Props {
   selected: string | null;
   visited: Set<string>;
   completed: Set<string>;
+  /** Areas on the chosen thematic pathway; the rest are dimmed. */
+  highlight: string[] | null;
   panel: number;
   onSelect: (id: string | null) => void;
 }
 
 /** The atlas viewport: terrain or flat map, with tooltip and view controls. */
-export default function AtlasMap({ selected, visited, completed, panel, onSelect }: Props) {
+export default function AtlasMap({ selected, visited, completed, highlight, panel, onSelect }: Props) {
+  // A finger cannot hover, so a first tap shows a preview and a button confirms.
+  const touch = useRef(false);
+  const [peek, setPeek] = useState<string | null>(null);
   const [mode, setMode] = useState<'3d' | '2d'>(() => (hasWebGL() ? '3d' : '2d'));
   const [hover, setHover] = useState<{ id: string; x: number; y: number } | null>(null);
   const [command, setCommand] = useState<MapCommand>(null);
@@ -34,13 +39,24 @@ export default function AtlasMap({ selected, visited, completed, panel, onSelect
     panel,
     command,
     hovered: hover?.id ?? null,
-    onSelect: (id: string) => onSelect(id),
-    onHover: (id: string | null, p?: { x: number; y: number }) => setHover(id && p ? { id, ...p } : null),
+    highlight,
+    onSelect: (id: string) => {
+      setHover(null);
+      if (touch.current && districtById(id)!.type !== 'air') setPeek(id);
+      else onSelect(id);
+    },
+    onHover: (id: string | null, p?: { x: number; y: number }) => setHover(!touch.current && id && p ? { id, ...p } : null),
   };
   const flat = <Map2D {...shared} />;
+  const peeked = districtById(peek);
 
   return (
-    <div className={`relative size-full overflow-hidden bg-[#0a4f86] ${hover ? 'cursor-pointer' : 'cursor-grab active:cursor-grabbing'}`}>
+    <div
+      className={`relative size-full overflow-hidden bg-[#0a4f86] ${hover ? 'cursor-pointer' : 'cursor-grab active:cursor-grabbing'}`}
+      onPointerDownCapture={(e) => { touch.current = e.pointerType === 'touch'; }}
+      onPointerMoveCapture={(e) => { if (e.pointerType === 'mouse') touch.current = false; }}
+      onKeyDownCapture={() => { touch.current = false; }}
+    >
       {mode === '3d' ? (
         <Suspense fallback={<div className="grid h-full place-items-center" role="status">Menyiapkan peta 3D…</div>}>
           <Map3D {...shared} fallback={flat} />
@@ -61,6 +77,18 @@ export default function AtlasMap({ selected, visited, completed, panel, onSelect
           ) : (
             <p className="m-0 mt-0.5 text-xs">Badan air. Klik untuk membaca cerita bentang alamnya.</p>
           )}
+        </div>
+      )}
+
+      {peeked && !selected && (
+        <div className="paper absolute inset-x-3 bottom-8 z-30 mx-auto max-w-md rounded-xl p-4 shadow-2xl" role="dialog" aria-label={`Pratinjau ${fullName(peeked)}`}>
+          <p className="m-0 text-xs font-extrabold tracking-wider text-terracotta-700 uppercase">{fullName(peeked)}</p>
+          <p className="m-0 font-display text-2xl leading-tight">{LANDMARKS[peeked.id].name}</p>
+          <p className="mt-1 mb-3 text-sm">{LANDMARKS[peeked.id].preview}</p>
+          <div className="flex gap-2">
+            <button type="button" className="btn btn-terra flex-1" onClick={() => { setPeek(null); onSelect(peeked.id); }}>Jelajahi →</button>
+            <button type="button" className="btn btn-line" onClick={() => setPeek(null)}>Tutup</button>
+          </div>
         </div>
       )}
 

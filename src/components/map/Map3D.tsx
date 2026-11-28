@@ -48,7 +48,7 @@ function Trail({ data }: { data: TerrainData }) {
   return <Line points={points} color="#ffffff" lineWidth={2.6} dashed dashSize={0.24} gapSize={0.18} transparent opacity={0.95} />;
 }
 
-function Camera({ data, selected, command, pins, panel, compass }: { data: TerrainData; selected: string | null; command: MapCommand; pins: PinRefs; panel: number; compass: React.RefObject<HTMLSpanElement | null> }) {
+function Camera({ data, selected, hovered, highlight, command, pins, panel, compass }: { data: TerrainData; hovered: string | null; highlight: string[] | null; selected: string | null; command: MapCommand; pins: PinRefs; panel: number; compass: React.RefObject<HTMLSpanElement | null> }) {
   const controls = useRef<MapControlsImpl>(null);
   const camera = useThree((s) => s.camera) as PerspectiveCamera;
   const size = useThree((s) => s.size);
@@ -58,6 +58,13 @@ function Camera({ data, selected, command, pins, panel, compass }: { data: Terra
   const point = useRef(new Vector3());
   // Name labels float just above each miniature.
   const anchors = useMemo(() => PLACEMENTS.map((p) => pinAnchor(data, p.id).add(new Vector3(0, p.scale * 5, 0))), [data]);
+
+  // Label priority: the active area, then the chosen pathway, then regencies before the compact cities.
+  const order = useRef<number[]>([]);
+  useEffect(() => {
+    const weight = (id: string) => (id === selected || id === hovered ? 0 : highlight?.includes(id) ? 1 : districtById(id)!.type === 'kota' ? 3 : 2);
+    order.current = PLACEMENTS.map((_, i) => i).sort((a, b) => weight(PLACEMENTS[a].id) - weight(PLACEMENTS[b].id));
+  }, [selected, hovered, highlight]);
 
   const frame = (target: Vector3, distance: number) => ({
     target,
@@ -113,6 +120,20 @@ function Camera({ data, selected, command, pins, panel, compass }: { data: Terra
     goal.current = { target: c.target.clone(), position: c.target.clone().add(offset) };
   }, [command]);
 
+  // Panning stops at the edge of the province, so the map cannot be lost.
+  const keepInside = () => {
+    const c = controls.current;
+    if (!c) return;
+    const x = MathUtils.clamp(c.target.x, -HALF_WIDTH, HALF_WIDTH);
+    const z = MathUtils.clamp(c.target.z, -HALF_HEIGHT, HALF_HEIGHT);
+    if (x !== c.target.x || z !== c.target.z) {
+      camera.position.x += x - c.target.x;
+      camera.position.z += z - c.target.z;
+      c.target.x = x;
+      c.target.z = z;
+    }
+  };
+
   useFrame((state, dt) => {
     const c = controls.current;
     if (c && goal.current) {
@@ -124,26 +145,31 @@ function Camera({ data, selected, command, pins, panel, compass }: { data: Terra
     }
     camera.updateMatrixWorld();
     if (compass.current && c) compass.current.style.rotate = `${Math.atan2(camera.position.x - c.target.x, camera.position.z - c.target.z)}rad`;
-    // Smaller markers appear once the view is close enough to give them room.
-    const far = c ? camera.position.distanceTo(c.target) > 17 : false;
-    anchors.forEach((anchor, i) => {
+    // Names are placed one by one; a name that would cover an earlier one is hidden.
+    const taken: [number, number, number, number][] = [];
+    for (const i of order.current) {
       const el = pins.current[i];
-      if (!el) return;
-      point.current.copy(anchor).project(camera);
+      if (!el) continue;
+      point.current.copy(anchors[i]).project(camera);
       const x = ((point.current.x + 1) / 2) * state.size.width;
       const y = ((1 - point.current.y) / 2) * state.size.height;
+      const half = (el.offsetWidth || 80) / 2 + 2;
+      const box: [number, number, number, number] = [x - half, y - 24, x + half, y + 1];
+      const inView = point.current.z < 1 && x > -40 && x < state.size.width + 40 && y > 0 && y < state.size.height + 20;
+      const free = inView && !taken.some((t) => box[0] < t[2] && box[2] > t[0] && box[1] < t[3] && box[3] > t[1]);
+      if (free) taken.push(box);
       el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`;
-      // All 33 names would collide in the province view, so they appear once the view is closer.
-      el.style.visibility = !far && point.current.z < 1 && x > -40 && x < state.size.width + 40 && y > 0 && y < state.size.height + 20 ? 'visible' : 'hidden';
-    });
+      el.style.visibility = free ? 'visible' : 'hidden';
+    }
   });
 
   return (
     <MapControls
       ref={controls}
       makeDefault
-      enableZoom={false}
+      zoomToCursor
       screenSpacePanning={false}
+      onChange={keepInside}
       minDistance={6}
       maxDistance={75}
       minPolarAngle={0.12}
@@ -159,6 +185,7 @@ export interface Map3DProps {
   visited: Set<string>;
   /** Area ids whose diorama has been fully explored. */
   completed: Set<string>;
+  highlight: string[] | null;
   boundaries: boolean;
   /** Width in pixels covered by a side panel. */
   panel: number;
@@ -168,7 +195,7 @@ export interface Map3DProps {
   fallback: React.ReactNode;
 }
 
-export default function Map3D({ selected, hovered, completed, boundaries, panel, command, onHover, onSelect, fallback }: Map3DProps) {
+export default function Map3D({ selected, hovered, completed, highlight, boundaries, panel, command, onHover, onSelect, fallback }: Map3DProps) {
   const { data, failed } = useTerrain();
   const pins = useRef<(HTMLButtonElement | null)[]>([]);
   const compass = useRef<HTMLSpanElement>(null);
@@ -195,6 +222,7 @@ export default function Map3D({ selected, hovered, completed, boundaries, panel,
           hovered={hovered}
           selected={selected}
           completed={completed}
+          highlight={highlight}
           onSelect={onSelect}
           onHover={(id, e) => onHover(id, e && { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY })}
         />
@@ -217,9 +245,9 @@ export default function Map3D({ selected, hovered, completed, boundaries, panel,
           <planeGeometry args={[80, 80]} />
           <meshBasicMaterial transparent opacity={0} depthWrite={false} />
         </mesh>
-        <Camera data={data} selected={selected} command={command} pins={pins} panel={panel} compass={compass} />
+        <Camera data={data} selected={selected} hovered={hovered} highlight={highlight} command={command} pins={pins} panel={panel} compass={compass} />
       </Stage>
-      <div className="hud pointer-events-none absolute top-40 left-3 z-10 grid size-12 place-items-center rounded-full max-lg:top-32" title="Arah utara">
+      <div className="hud pointer-events-none absolute top-20 right-3 z-10 grid size-11 place-items-center rounded-full max-sm:hidden" title="Arah utara">
         <span ref={compass} className="flex flex-col items-center text-[11px] leading-none font-black">
           <span className="text-terracotta-500">▲</span>
           <span>U</span>
@@ -234,7 +262,8 @@ export default function Map3D({ selected, hovered, completed, boundaries, panel,
             onClick={() => onSelect(p.id)}
             aria-label={`Jelajahi ${ADMIN.find((d) => d.id === p.id)!.name}: ${LANDMARKS[p.id].name}`}
             style={{ visibility: 'hidden' }}
-            className="pointer-events-auto absolute top-0 left-0 cursor-pointer rounded-full bg-[#bfe4ee] px-2.5 py-0.5 text-[11px] font-extrabold whitespace-nowrap text-[#0d3f4f] shadow-md hover:bg-[#ffd45e]"
+            tabIndex={-1}
+            className={`pointer-events-auto absolute top-0 left-0 cursor-pointer rounded-md border border-forest-950/20 bg-ivory px-2 py-0.5 text-[11px] font-extrabold whitespace-nowrap text-forest-950 shadow-md hover:bg-gold-300 ${highlight && !highlight.includes(p.id) ? 'opacity-40' : ''}`}
           >
             {ADMIN.find((d) => d.id === p.id)!.name}
           </button>

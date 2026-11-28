@@ -261,7 +261,7 @@ function RegionalExplorer({ district }: { district: District }) {
             {artifacts.length > 0 && (
               <p className="mt-4 mb-0 flex flex-wrap items-center gap-2 text-sm">
                 <strong>Artefak 3D terkait:</strong>
-                {artifacts.map((a) => <a key={a.id} className="chip" href={href('/explore', { artifact: a.id })}>{a.name}</a>)}
+                {artifacts.map((a) => <a key={a.id} className="chip" href={href('/artefak', { id: a.id })}>{a.name}</a>)}
               </p>
             )}
           </section>

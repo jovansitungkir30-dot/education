@@ -6,6 +6,7 @@ const PAGES = {
   '/': lazy(() => import('./pages/Home')),
   '/explore': lazy(() => import('./pages/Explore')),
   '/wilayah': lazy(() => import('./pages/Wilayah')),
+  '/artefak': lazy(() => import('./pages/Artifacts')),
   '/cultures': lazy(() => import('./pages/Cultures')),
   '/gallery': lazy(() => import('./pages/Gallery')),
   '/learn': lazy(() => import('./pages/Learn')),
@@ -41,7 +42,7 @@ export default function App() {
           )}
         </Suspense>
       </main>
-      <Footer />
+      {path !== '/explore' && <Footer />}
     </>
   );
 }
