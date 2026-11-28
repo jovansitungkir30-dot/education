@@ -37,6 +37,8 @@
   .chip { @apply min-h-10 shrink-0 cursor-pointer rounded-full border border-current/25 px-4 py-2 text-sm font-semibold transition hover:border-current; }
   .chip[aria-pressed="true"], .chip[aria-selected="true"] { @apply border-gold-500 bg-gold-500 text-forest-950; }
   .paper { @apply bg-ivory text-ink; }
+  /* The lighter terracotta is for dark ground only. */
+  .paper .eyebrow.text-terracotta-400 { @apply text-terracotta-700; }
 }
 
 /* Original geometric border with a woven rhythm. It is not a reproduction of any specific cultural motif. */

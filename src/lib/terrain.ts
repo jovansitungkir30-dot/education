@@ -32,7 +32,7 @@ export function loadTerrain() {
   loading ??= (async () => {
     const loader = new TextureLoader();
     const [satellite, water, districts, buffer] = await Promise.all([
-      loader.loadAsync('./terrain/satellite.jpg'),
+      loader.loadAsync('./terrain/satellite.webp'),
       loader.loadAsync('./terrain/water.png'),
       loader.loadAsync('./terrain/districts.png'),
       fetch('./terrain/height.bin').then((r) => {

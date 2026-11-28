@@ -82,7 +82,7 @@ export default function Directory({ params, unknown = false }: { params: URLSear
                       <a className="group grid min-h-24 grid-cols-[2.5rem_minmax(0,1fr)] gap-3 py-3" href={href('/wilayah', { id })}>
                         <span className="pt-1 font-display text-2xl text-terracotta-700 tabular-nums" aria-hidden="true">{String(ADMIN.indexOf(d) + 1).padStart(2, '0')}</span>
                         <span>
-                          <span className="block font-display text-2xl leading-tight group-hover:text-terracotta-700">{d.name}<span className="ml-2 font-sans text-xs font-bold tracking-wider uppercase opacity-60">{d.type}</span></span>
+                          <span className="block font-display text-2xl leading-tight group-hover:text-terracotta-700">{d.name}<span className="ml-2 font-sans text-xs font-bold tracking-wider uppercase opacity-75">{d.type}</span></span>
                           <span className="block font-bold">{LANDMARKS[id].name}</span>
                           <span className="block text-sm opacity-80">{LANDMARKS[id].preview}</span>
                           <span className="mt-1 block text-xs font-bold">

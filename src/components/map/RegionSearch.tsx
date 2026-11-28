@@ -12,7 +12,10 @@ export default function RegionSearch({ onSelect }: { onSelect: (id: string) => v
   const [at, setAt] = useState(0);
   const uid = useId();
   const found = searchAreas(query);
-  const results = query && fullName(LAKE).toLocaleLowerCase('id').includes(query.trim().toLocaleLowerCase('id')) ? [LAKE, ...found] : found;
+  const typed = query.trim().toLocaleLowerCase('id');
+  const results = !typed || !fullName(LAKE).toLocaleLowerCase('id').includes(typed)
+    ? found
+    : typed.startsWith('danau') ? [LAKE, ...found] : [...found, LAKE];
   const active = Math.min(at, results.length - 1);
 
   const choose = (id: string) => {
