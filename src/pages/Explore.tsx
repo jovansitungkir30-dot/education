@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AtlasMap from '../components/map/AtlasMap';
 import DioramaView from '../components/exploration/DioramaView';
@@ -84,6 +84,14 @@ function Artifacts({ requested }: { requested: string | null }) {
   const [engaged, setEngaged] = useState(false);
   const { visit, state } = useProgress();
   const artifact = ARTIFACTS.find((a) => a.id === id)!;
+  const section = useRef<HTMLElement>(null);
+  const [near, setNear] = useState(false);
+
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: '300px' });
+    io.observe(section.current!);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const found = ARTIFACTS.find((a) => a.id === requested);
@@ -112,7 +120,7 @@ function Artifacts({ requested }: { requested: string | null }) {
   };
 
   return (
-    <section id="artifacts" className="scroll-mt-18 py-20">
+    <section ref={section} id="artifacts" className="scroll-mt-18 py-20">
       <div className="wrap">
         <SectionHead eyebrow="Jelajahi artefak budaya" title="Putar dan amati dari dekat">
           Ini model prosedural untuk belajar. Bentuk dan proporsinya disederhanakan dan bukan replika sejarah yang akurat.
@@ -130,7 +138,7 @@ function Artifacts({ requested }: { requested: string | null }) {
           <div className="flex flex-col overflow-hidden rounded-t-3xl bg-forest-900 lg:sticky lg:top-22 lg:h-[calc(100dvh-7rem)] lg:rounded-3xl">
             <div className="relative h-[55dvh] min-h-[360px] lg:h-auto lg:flex-1" onPointerDown={() => setEngaged(true)}>
               <Suspense fallback={<div className="grid h-full place-items-center" role="status">Menyiapkan model 3D…</div>}>
-                <ArtifactViewer artifact={artifact} hotspot={hotspot} onHotspot={pick} spin={spin} command={command} showHotspots={dots} />
+                {near && <ArtifactViewer artifact={artifact} hotspot={hotspot} onHotspot={pick} spin={spin} command={command} showHotspots={dots} />}
               </Suspense>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2 border-t border-ivory/10 p-3">
@@ -321,7 +329,7 @@ export default function Explore({ params }: { params: URLSearchParams }) {
         </div>
       </section>
       <div className="weave" aria-hidden="true" />
-      <Artifacts requested={artifactParam} />
+      {!inDiorama && <Artifacts requested={artifactParam} />}
     </>
   );
 }
