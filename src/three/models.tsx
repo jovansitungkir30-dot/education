@@ -19,7 +19,7 @@ export function Box({ p, s, color = WOOD, r }: { p: V3; s: V3; color?: string; r
 }
 
 /** A timber between two points. */
-function Beam({ a, b, radius = 0.06, color = DARK_WOOD }: { a: V3; b: V3; radius?: number; color?: string }) {
+export function Beam({ a, b, radius = 0.06, color = DARK_WOOD }: { a: V3; b: V3; radius?: number; color?: string }) {
   const { mid, quat, len } = useMemo(() => {
     const from = new Vector3(...a);
     const to = new Vector3(...b);
@@ -86,7 +86,7 @@ function useRoofGeometry({ eaveY, ridgeY, halfWidth, eaveHalf, ridgeHalf, sweep 
   }, [eaveY, ridgeY, halfWidth, eaveHalf, ridgeHalf, sweep]);
 }
 
-function Roof({ gable = 'ornament', ...shape }: RoofShape & { gable?: 'ornament' | 'thatch' }) {
+export function Roof({ gable = 'ornament', ...shape }: RoofShape & { gable?: 'ornament' | 'thatch' }) {
   const g = useRoofGeometry(shape);
   return (
     <group>
@@ -103,7 +103,7 @@ function Roof({ gable = 'ornament', ...shape }: RoofShape & { gable?: 'ornament'
   );
 }
 
-function Posts({ xs, zs, height, radius = 0.12 }: { xs: number[]; zs: number[]; height: number; radius?: number }) {
+export function Posts({ xs, zs, height, radius = 0.12 }: { xs: number[]; zs: number[]; height: number; radius?: number }) {
   return (
     <>
       {xs.flatMap((x) =>
@@ -121,7 +121,7 @@ function Posts({ xs, zs, height, radius = 0.12 }: { xs: number[]; zs: number[]; 
   );
 }
 
-function Stairs({ z, top, width = 0.8 }: { z: number; top: number; width?: number }) {
+export function Stairs({ z, top, width = 0.8 }: { z: number; top: number; width?: number }) {
   return (
     <>
       {Array.from({ length: 6 }, (_, i) => (
