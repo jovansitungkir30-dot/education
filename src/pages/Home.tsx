@@ -1,16 +1,16 @@
-import { lazy, Suspense, useRef, useState, type PointerEvent, type KeyboardEvent } from 'react';
+import { lazy, Suspense, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { go, href } from '../lib/router';
-import { useProgress, passedModules } from '../lib/progress';
-import { REGIONS } from '../data/regions';
-import { ADMIN } from '../data/atlas';
-import { ARTIFACTS } from '../data/artifacts';
-import { STORIES } from '../data/stories';
-import { MODULES } from '../data/modules';
-import { Credit, KindTag, Photo, Reveal, SectionHead } from '../components/ui';
-import type { Look } from '../three/HeroMapScene';
-import { DISTRICTS } from '../data/atlas';
+import SourcesPanel from '../components/credits/SourcesPanel';
+import ExplorationProgress from '../components/region/ExplorationProgress';
+import RegionShowcase from '../components/home/RegionShowcase';
+import { Reveal } from '../components/ui';
+import { ADMIN, DISTRICTS } from '../data/atlas';
+import { INSTRUMENTS } from '../data/instruments';
+import { JOURNEYS } from '../data/journeys';
+import { HERITAGE_PHOTOS } from '../data/media';
 import { HALF_HEIGHT, HALF_WIDTH, svgPath } from '../lib/geo';
+import { go, href } from '../lib/router';
+import type { Look } from '../three/HeroMapScene';
 
 const HeroCanvas = lazy(() => import('../three/HeroCanvas'));
 
@@ -52,7 +52,7 @@ function Hero() {
   };
 
   return (
-    <section className="relative h-dvh min-h-[640px] overflow-hidden">
+    <section className="relative h-[92dvh] min-h-[620px] overflow-hidden">
       <div
         className="absolute inset-0 cursor-grab touch-pan-y select-none active:cursor-grabbing"
         tabIndex={0}
@@ -73,19 +73,19 @@ function Hero() {
       </div>
       <p className="pointer-events-none absolute bottom-1 left-3 z-10 m-0 max-w-[60%] text-[9px] leading-tight opacity-60">Citra: Sentinel-2 cloudless 2016, EOX (CC BY 4.0) · Ketinggian: Mapzen/SRTM</p>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/45 via-35% to-transparent lg:bg-gradient-to-r lg:from-forest-950/90 lg:via-forest-950/45 lg:to-transparent lg:to-65%" />
-      <motion.div style={{ y: textY, opacity: textFade }} className="wrap pointer-events-none relative flex h-full flex-col justify-end pb-24 lg:justify-center lg:pb-0">
+      <motion.div style={{ y: textY, opacity: textFade }} className="wrap pointer-events-none relative flex h-full flex-col justify-end pb-20 lg:justify-center lg:pb-0">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }} className="max-w-xl [text-shadow:0_2px_16px_rgb(0_0_0/0.45)]">
-          <p className="eyebrow text-gold-300">RuangNusantara · Atlas budaya</p>
-          <h1 className="mt-4 mb-0 text-4xl leading-[1.02] sm:text-6xl xl:text-7xl">Jelajahi Kekayaan Budaya Sumatera Utara</h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-cream sm:text-lg">Setiap wilayah menyimpan cerita, tradisi, dan warisan budaya. Jelajahi keberagamannya melalui perjalanan interaktif.</p>
+          <p className="eyebrow text-gold-300">Atlas budaya Sumatera Utara</p>
+          <h1 className="mt-4 mb-0 text-4xl leading-[1.02] sm:text-6xl xl:text-7xl">33 wilayah, banyak suara</h1>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-cream sm:text-lg">Putar rumah adat dan candi dalam 3D, telusuri sejarahnya, kenali sajiannya, dan mainkan alat musiknya.</p>
           <div className="pointer-events-auto mt-7 flex flex-wrap gap-3">
-            <button type="button" className="btn btn-gold" onClick={() => go('/explore')}>Mulai Jelajahi</button>
-            <button type="button" className="btn btn-line text-ivory" onClick={() => go('/about')}>Tentang Eksplorasi</button>
+            <button type="button" className="btn btn-gold" onClick={() => go('/explore')}>Jelajahi peta</button>
+            <button type="button" className="btn btn-line text-ivory" onClick={() => go('/learn')}>Mulai belajar</button>
           </div>
         </motion.div>
       </motion.div>
       <div className="absolute right-4 bottom-5 flex items-center gap-2 text-xs sm:right-8">
-        <span className="hidden opacity-75 sm:inline">Geser untuk memutar · pilih label untuk membuka wilayah</span>
+        <span className="hidden opacity-75 sm:inline">Geser untuk memutar · label berganti tiap hari</span>
         <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kiri" onClick={() => turn(-0.35)}>←</button>
         <button type="button" className="chip bg-forest-950/70" aria-label="Putar pandangan ke kanan" onClick={() => turn(0.35)}>→</button>
       </div>
@@ -93,106 +93,91 @@ function Hero() {
   );
 }
 
-const STOPS = [
-  { to: '/explore', n: '01', title: 'Jelajahi peta', text: 'Pilih kabupaten atau kota, lalu pelajari landmark 3D dan budayanya.', done: (v: Record<string, string[]>) => ADMIN.filter((d) => v.region.includes(d.id)).length, total: ADMIN.length },
-  { to: '/explore?view=artifacts', n: '02', title: 'Putar objeknya', text: 'Putar rumah adat, gendang, dan kain dalam 3D.', done: (v: Record<string, string[]>) => v.artifact.length, total: ARTIFACTS.length },
-  { to: '/cultures', n: '03', title: 'Ikuti ceritanya', text: 'Sejarah, tradisi, dan cerita rakyat, masing-masing diberi label jelas.', done: (v: Record<string, string[]>) => v.story.length, total: STORIES.length },
+/** Editorial spread of finds from different parts of the province. */
+const FINDS = [
+  { photo: 'fahombo', kind: 'Tradisi · Nias', title: 'Melompati batu', text: 'Dahulu penanda kedewasaan, kini simbol budaya.', area: 'nias-selatan', span: 'md:col-span-2 md:row-span-2' },
+  { photo: 'bika', kind: 'Kuliner · Medan', title: 'Bika Ambon', text: 'Namanya Ambon, rumahnya Medan.', area: 'kota-medan', span: '' },
+  { photo: 'pelleng', kind: 'Kuliner · Pakpak', title: 'Pelleng', text: 'Nasi kuning pedas yang membawa doa.', area: 'pakpak-bharat', span: '' },
+  { photo: 'gubang', kind: 'Seni · Asahan', title: 'Tari Gubang', text: 'Legendanya bermula dari nelayan yang menanti angin.', area: 'asahan', span: 'md:col-span-2' },
+  { photo: 'ulos', kind: 'Tradisi · Toba', title: 'Mangulosi', text: 'Kain sebagai ungkapan berkat.', area: 'toba', span: '' },
+  { photo: 'cimpa', kind: 'Kuliner · Karo', title: 'Cimpa', text: 'Penganan penting di acara adat Karo.', area: 'karo', span: 'md:col-span-3' },
 ];
 
 export default function Home() {
-  const { state, points } = useProgress();
-  const passed = passedModules(state).length;
+  const [panel, setPanel] = useState(false);
   return (
     <>
       <Hero />
+      <div className="weave" aria-hidden="true" />
+      <RegionShowcase />
 
-      <section className="relative border-y border-gold-500/25 bg-forest-900 py-14">
-        <div className="wrap grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
-          <Reveal>
-            <p className="eyebrow text-gold-300">Pengantar Sumatera Utara</p>
-            <p className="mt-3 mb-0 font-display text-2xl leading-snug sm:text-3xl">Dari pesisir timur, dataran tinggi di sekitar Danau Toba, hingga Kepulauan Nias, banyak komunitas dengan bahasa dan adatnya sendiri hidup di provinsi ini.</p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <dl className="m-0 grid grid-cols-3 gap-4 text-center">
-              {([[ADMIN.filter((d) => d.type === 'kabupaten').length, 'kabupaten'], [ADMIN.filter((d) => d.type === 'kota').length, 'kota'], [ADMIN.length, 'landmark 3D']] as const).map(([n, label]) => (
-                <div key={label}><dd className="m-0 font-display text-5xl text-gold-300">{n}</dd><dt className="text-sm opacity-75">{label}</dt></div>
-              ))}
-            </dl>
-            <a className="btn btn-gold mt-6 w-full" href={href('/explore')}>Buka peta interaktif →</a>
-          </Reveal>
-        </div>
-      </section>
-
-      <section id="journey" className="paper scroll-mt-16 py-24">
+      <section className="paper py-20" aria-labelledby="temuan">
         <div className="wrap">
-          <SectionHead eyebrow="Perjalanan virtual Anda" title="Empat jalan masuk ke provinsi dengan banyak suara">
-            Anda punya {points} poin jelajah. Kemajuan hanya disimpan di browser ini.
-          </SectionHead>
-          <ol className="mt-14 p-0">
-            {[...STOPS, { to: '/learn', n: '04', title: 'Belajar dan raih lencana', text: 'Modul singkat, aktivitas, kuis, dan sertifikat.', done: () => passed, total: MODULES.length }].map((s) => {
-              const done = s.done(state.visited);
+          <h2 id="temuan" className="display mt-0 mb-2">Temuan dari berbagai penjuru</h2>
+          <p className="mt-0 max-w-[62ch]">Tiap temuan membuka halaman wilayah tempat Anda bisa menelusurinya. Satu tradisi atau makanan bisa hidup jauh melampaui satu daerah.</p>
+          <div className="mt-8 grid auto-rows-[15rem] gap-3 md:grid-cols-4">
+            {FINDS.map((f, i) => {
+              const p = HERITAGE_PHOTOS[f.photo];
               return (
-                <li key={s.n} className="list-none border-t border-ink/20">
-                  <Reveal>
-                    <a href={`#${s.to}`} className="group grid items-center gap-3 py-8 sm:grid-cols-[5rem_1fr_1fr_8rem]">
-                      <span className="font-display text-3xl text-terracotta-500">{s.n}</span>
-                      <h3 className="m-0 text-3xl transition-transform group-hover:translate-x-2 sm:text-4xl">{s.title}</h3>
-                      <p className="m-0 max-w-sm opacity-75">{s.text}</p>
-                      <span className="text-sm font-bold sm:text-right">
-                        {done}/{s.total}
-                        <span className="mt-1.5 block h-1.5 overflow-hidden rounded-full bg-ink/15">
-                          <span className="block h-full bg-terracotta-500" style={{ width: `${(done / s.total) * 100}%` }} />
-                        </span>
-                      </span>
-                    </a>
-                  </Reveal>
-                </li>
+                <Reveal key={f.title} delay={(i % 3) * 0.06} className={`${f.span} min-h-0`}>
+                  <a href={href('/wilayah', { id: f.area })} className="group relative block size-full overflow-hidden rounded-lg bg-forest-900 text-ivory">
+                    <img src={`./${p.file}`} alt={p.alt} loading="lazy" className="size-full object-cover transition duration-700 group-hover:scale-105" />
+                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 pt-14">
+                      <span className="block text-[11px] font-extrabold tracking-wider text-gold-300 uppercase">{f.kind}</span>
+                      <span className="block font-display text-2xl leading-tight">{f.title}</span>
+                      <span className="block text-sm leading-snug">{f.text}</span>
+                    </span>
+                  </a>
+                </Reveal>
               );
             })}
-          </ol>
-        </div>
-      </section>
-
-      <section className="relative py-28">
-        <div className="wrap grid items-center gap-12 lg:grid-cols-2">
-          <SectionHead eyebrow="Bukan satu budaya, melainkan banyak" title="Tiap komunitas punya nama, tempat, dan suaranya sendiri.">
-            Batak Toba, Karo, Simalungun, Pakpak, Angkola, dan Mandailing tidak bisa disamakan. Nias bukan budaya Batak, dan Medan dihuni banyak suku bangsa.
-          </SectionHead>
-          <div className="grid grid-cols-2 gap-3 sm:gap-5">
-            {([['karo', 'karo-house'], ['mandailing', 'gordang-sambilan'], ['nias', 'nias-dance'], ['medan', 'maimun']] as const).map(([id, img], i) => (
-              <Reveal key={id} delay={i * 0.08} className={i % 2 ? 'translate-y-8' : ''}>
-                <a href={href('/explore', { region: id })} className="group relative block aspect-[3/4] overflow-hidden rounded-t-full rounded-b-2xl">
-                  <Photo id={img} className="size-full transition duration-700 group-hover:scale-110" />
-                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-4 pt-12 font-display text-2xl">{REGIONS.find((r) => r.id === id)!.name}</span>
-                </a>
-                <Credit id={img} className="mt-1.5 block" />
-              </Reveal>
-            ))}
           </div>
+          <button type="button" className="mt-3 min-h-11 cursor-pointer text-sm font-bold underline" onClick={() => setPanel(true)}>Kredit foto temuan</button>
         </div>
       </section>
 
-      <section className="paper py-24">
+      <section className="bg-forest-900 py-20" aria-labelledby="bunyi">
+        <div className="wrap grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
+          <div>
+            <p className="eyebrow m-0 text-gold-300">Ruang alat musik 3D</p>
+            <h2 id="bunyi" className="display mt-2 mb-4">Pukul, petik, dengarkan</h2>
+            <p className="mt-0 max-w-[52ch] leading-relaxed opacity-85">Setiap alat dimainkan menurut caranya sendiri. Bunyinya disintesis komputer, sedangkan cara mainnya mengikuti sumber.</p>
+            <ul className="mt-5 mb-0 grid grid-cols-2 gap-x-4 p-0">
+              {INSTRUMENTS.map((x) => (
+                <li key={x.id} className="list-none border-t border-ivory/20"><a className="flex min-h-14 flex-col justify-center py-2 hover:text-gold-300" href={href('/alat-musik', { id: x.id })}><span className="font-display text-xl">{x.name}</span><span className="text-xs opacity-75">{x.community}</span></a></li>
+              ))}
+            </ul>
+          </div>
+          <a href={href('/alat-musik')} className="group relative block overflow-hidden rounded-xl">
+            <img src={`./${HERITAGE_PHOTOS.i_gordang.file}`} alt={HERITAGE_PHOTOS.i_gordang.alt} loading="lazy" className="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-105" />
+            <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-5 pt-16 font-display text-2xl">Mulai dari Gordang Sambilan →</span>
+          </a>
+        </div>
+      </section>
+
+      <section className="paper py-20" aria-labelledby="jalur">
         <div className="wrap">
-          <SectionHead eyebrow="Temuan budaya" title="Cerita yang membentuk identitas" />
-          <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3">
-            {STORIES.slice(0, 3).map((s, i) => (
-              <Reveal key={s.id} delay={i * 0.1}>
-                <a href={href('/cultures', { story: s.id })} className="group block border-t-4 border-terracotta-500 pt-5">
-                  <KindTag kind={s.kind} />
-                  <h3 className="mt-3 mb-2 text-3xl group-hover:text-terracotta-700">{s.title}</h3>
-                  <p className="opacity-75">{s.intro}</p>
-                  <span className="text-sm font-bold">Baca ceritanya →</span>
+          <h2 id="jalur" className="display mt-0 mb-6">Atau ikuti satu perjalanan</h2>
+          <ol className="m-0 grid gap-x-10 p-0 md:grid-cols-2">
+            {JOURNEYS.map((j, i) => (
+              <li key={j.id} className="list-none border-t border-ink/20">
+                <a href={href('/learn', { jalur: j.id })} className="group grid grid-cols-[3rem_minmax(0,1fr)] items-baseline gap-2 py-5">
+                  <span aria-hidden="true" className="font-display text-3xl text-terracotta-500">{String(i + 1).padStart(2, '0')}</span>
+                  <span>
+                    <span className="block font-display text-2xl group-hover:text-terracotta-700">{j.title}</span>
+                    <span className="block text-sm opacity-80">{j.promise} {j.stations.length} perhentian.</span>
+                  </span>
                 </a>
-              </Reveal>
+              </li>
             ))}
+          </ol>
+          <div className="mt-8 grid items-center gap-6 rounded-xl bg-forest-900 p-6 text-ivory md:grid-cols-[1fr_auto]">
+            <ExplorationProgress />
+            <a className="btn btn-gold" href={href('/wilayah')}>Lihat {ADMIN.length} wilayah</a>
           </div>
         </div>
       </section>
-
-      <section className="py-24">
-        <div className="wrap"><a className="btn btn-gold" href={href('/alat-musik')}>Mainkan alat musik tradisional →</a></div>
-      </section>
+      <SourcesPanel open={panel} onClose={() => setPanel(false)} references={[]} photos={FINDS.map((f) => HERITAGE_PHOTOS[f.photo])} />
     </>
   );
 }

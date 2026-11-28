@@ -6,6 +6,7 @@ import { useTerrain, type TerrainData } from '../lib/terrain';
 import Terrain from './Terrain';
 import LandmarkLayer, { standingHeight } from './LandmarkLayer';
 import { placementById } from '../lib/placement';
+import { ZONES } from '../data/pathways';
 import { prefersReducedMotion } from './device';
 
 export interface Look {
@@ -16,8 +17,9 @@ export interface Look {
   py: number;
 }
 
-/** The four detailed dioramas get a clickable label on the hero. */
-export const FEATURED = ['karo', 'samosir', 'mandailing-natal', 'nias-selatan'];
+/** One labelled area from each geographic zone, rotating daily so that no fixed few are always in front. */
+const day = Math.floor(Date.now() / 86_400_000);
+export const FEATURED = ZONES.map((z, i) => z.areas[(day + i * 3) % z.areas.length]);
 
 export type LandmarkDots = RefObject<(HTMLAnchorElement | null)[]>;
 
