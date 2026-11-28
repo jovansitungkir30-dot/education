@@ -6,7 +6,7 @@ import type { Map3DProps } from './Map3D';
 const FULL = { x: -HALF_WIDTH - 0.5, y: -HALF_HEIGHT - 0.5, w: HALF_WIDTH * 2 + 1, h: HALF_HEIGHT * 2 + 1 };
 
 /** Flat SVG version of the atlas: the fallback without WebGL, and an option for lighter devices. */
-export default function Map2D({ selected, hovered, visited, command, onHover, onSelect }: Omit<Map3DProps, 'fallback'>) {
+export default function Map2D({ selected, hovered, visited, command, onHover, onSelect }: Pick<Map3DProps, 'selected' | 'hovered' | 'visited' | 'command' | 'onHover' | 'onSelect'>) {
   const paths = useMemo(() => DISTRICTS.map((d) => ({ d, path: svgPath(d) })), []);
   const [view, setView] = useState(FULL);
   const drag = useRef<{ x: number; y: number; moved: number } | null>(null);

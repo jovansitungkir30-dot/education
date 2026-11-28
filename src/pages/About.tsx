@@ -12,6 +12,7 @@ const LIMITS = [
   'Diorama baru tersedia untuk Samosir, Karo, Mandailing Natal, dan Nias Selatan.',
   'Contoh audio disintesis di browser, bukan rekaman atau komposisi tradisional. Narasi memakai suara komputer perangkat Anda; pelafalan nama lokal bisa keliru, dan mutunya bergantung pada ketersediaan suara bahasa Indonesia.',
   'Peta menampilkan batas administrasi dari data 2020 yang disederhanakan, jadi tidak untuk keperluan hukum atau navigasi. Batas administrasi bukan batas budaya.',
+  'Tampilan bentang alam adalah olahan: citra diambil 2016–2017, warnanya diperkuat, awan diredam secara otomatis, laut dan danau digambar ulang, dan relief diperbesar sekitar 11 kali. Jalur putus-putus adalah rute jelajah, bukan jalan.',
   'Ejaan dan istilah setempat bisa beragam. Sebagian judul rujukan ditulis dalam bahasa Inggris.',
 ];
 
@@ -74,7 +75,7 @@ export default function About() {
               <li key={p.id} className="list-none text-sm"><strong>{p.alt}.</strong> <Credit id={p.id} /></li>
             ))}
           </ul>
-          <p className="mt-6 text-sm opacity-75">Batas wilayah: geoBoundaries (sumber BPS, WFP, OCHA ROAP; data 2020), CC BY 3.0 IGO, disederhanakan. Huruf: Fraunces dan Manrope (SIL Open Font License).</p>
+          <p className="mt-6 text-sm opacity-75">Batas wilayah: geoBoundaries (sumber BPS, WFP, OCHA ROAP; data 2020), CC BY 3.0 IGO, disederhanakan. Citra peta: Sentinel-2 cloudless 2016, https://s2maps.eu oleh EOX IT Services GmbH (memuat data Copernicus Sentinel 2016 &amp; 2017 yang dimodifikasi), CC BY 4.0; warna diubah, awan diredam, dan laut digambar ulang. Ketinggian: AWS Terrain Tiles (Mapzen; SRTM, USGS). Huruf: Fraunces dan Manrope (SIL Open Font License).</p>
         </section>
       </div>
     </div>

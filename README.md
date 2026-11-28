@@ -26,6 +26,14 @@ npm run preview   # serve the production build
 | `#/learn` | 8 modules with activities, quizzes, badges and a printable certificate |
 | `#/about` | Content labels, limitations, references, photo credits |
 
+## Map imagery and elevation
+
+Files in `public/terrain` are derived from:
+- Sentinel-2 cloudless 2016 by EOX IT Services GmbH (https://s2maps.eu), contains modified Copernicus Sentinel data
+  2016 & 2017, CC BY 4.0. Current EOX pages state CC BY 4.0; a 2017 EOX post said CC BY-SA 4.0, so confirm at
+  https://s2maps.eu before commercial or large-scale use. Later EOX editions are non-commercial and are not used.
+- AWS Terrain Tiles (Mapzen; SRTM courtesy of USGS). See the Tilezen Joerd attribution document.
+
 ## Atlas and dioramas
 
 - `src/data/geo`: boundaries of the 25 regencies, 8 cities and Lake Toba.

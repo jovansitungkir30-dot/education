@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
-import { ADMIN, districtById, fullName } from '../../data/atlas';
+import { districtById, fullName } from '../../data/atlas';
+import { TERRAIN_CREDIT } from '../../lib/terrain';
 import { hasWebGL } from '../../three/device';
 import Map2D from './Map2D';
 import type { MapCommand } from './Map3D';
@@ -9,20 +10,27 @@ const Map3D = lazy(() => import('./Map3D'));
 interface Props {
   selected: string | null;
   visited: Set<string>;
+  completed: Set<string>;
+  panel: number;
   onSelect: (id: string | null) => void;
 }
 
-/** The atlas viewport: 3D or 2D map with hover tooltip, zoom controls and legend. */
-export default function AtlasMap({ selected, visited, onSelect }: Props) {
+/** The atlas viewport: terrain or flat map, with tooltip and view controls. */
+export default function AtlasMap({ selected, visited, completed, panel, onSelect }: Props) {
   const [mode, setMode] = useState<'3d' | '2d'>(() => (hasWebGL() ? '3d' : '2d'));
   const [hover, setHover] = useState<{ id: string; x: number; y: number } | null>(null);
   const [command, setCommand] = useState<MapCommand>(null);
+  const [boundaries, setBoundaries] = useState(true);
+  const [credit, setCredit] = useState(false);
 
   const send = (type: NonNullable<MapCommand>['type']) => setCommand((c) => ({ type, n: (c?.n ?? 0) + 1 }));
   const hovered = districtById(hover?.id ?? null);
   const shared = {
     selected,
     visited,
+    completed,
+    boundaries,
+    panel,
     command,
     hovered: hover?.id ?? null,
     onSelect: (id: string) => onSelect(id),
@@ -31,7 +39,7 @@ export default function AtlasMap({ selected, visited, onSelect }: Props) {
   const flat = <Map2D {...shared} />;
 
   return (
-    <div className={`relative size-full overflow-hidden ${hover ? 'cursor-pointer' : 'cursor-grab active:cursor-grabbing'}`}>
+    <div className={`relative size-full overflow-hidden bg-[#0a4f86] ${hover ? 'cursor-pointer' : 'cursor-grab active:cursor-grabbing'}`}>
       {mode === '3d' ? (
         <Suspense fallback={<div className="grid h-full place-items-center" role="status">Menyiapkan peta 3D…</div>}>
           <Map3D {...shared} fallback={flat} />
@@ -41,36 +49,28 @@ export default function AtlasMap({ selected, visited, onSelect }: Props) {
       )}
 
       {hovered && hover && hover.id !== selected && (
-        <div className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[140%] rounded-lg bg-ivory px-3 py-1.5 text-sm font-bold whitespace-nowrap text-ink shadow-xl" style={{ left: hover.x, top: hover.y }}>
+        <div className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[160%] rounded-full bg-white px-3 py-1.5 text-sm font-extrabold whitespace-nowrap text-[#0d3f4f] shadow-xl" style={{ left: hover.x, top: hover.y }}>
           {fullName(hovered)}
         </div>
       )}
 
-      <div className="absolute top-3 right-3 flex flex-col gap-2">
-        <button type="button" className="chip bg-forest-950/80 text-ivory" aria-label="Perbesar peta" onClick={() => send('in')}>＋</button>
-        <button type="button" className="chip bg-forest-950/80 text-ivory" aria-label="Perkecil peta" onClick={() => send('out')}>－</button>
-      </div>
-      <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-        <button type="button" className="chip bg-forest-950/80 text-ivory" onClick={() => { onSelect(null); send('reset'); }}>Seluruh provinsi</button>
+      <div className="map-tools absolute top-1/2 right-3 z-10 flex -translate-y-1/2 flex-col gap-2 max-lg:top-auto max-lg:bottom-24 max-lg:translate-y-0">
+        <button type="button" className="map-btn" aria-label="Perbesar peta" onClick={() => send('in')}>＋</button>
+        <button type="button" className="map-btn" aria-label="Perkecil peta" onClick={() => send('out')}>－</button>
+        <button type="button" className="map-btn" aria-label="Seluruh provinsi" title="Seluruh provinsi" onClick={() => { onSelect(null); send('reset'); }}>⌂</button>
+        <button type="button" className="map-btn text-xs" aria-pressed={boundaries} aria-label="Tampilkan batas wilayah" title="Batas wilayah" onClick={() => setBoundaries(!boundaries)}>Batas</button>
         {hasWebGL() && (
-          <button type="button" className="chip bg-forest-950/80 text-ivory" onClick={() => { setHover(null); setCommand(null); setMode(mode === '3d' ? '2d' : '3d'); }}>
-            Tampilan {mode === '3d' ? '2D' : '3D'}
+          <button type="button" className="map-btn text-xs" aria-label={`Tampilan ${mode === '3d' ? '2D' : '3D'}`} onClick={() => { setHover(null); setCommand(null); setMode(mode === '3d' ? '2d' : '3d'); }}>
+            {mode === '3d' ? '2D' : '3D'}
           </button>
         )}
       </div>
 
-      <div className="pointer-events-none absolute right-3 bottom-3 left-3 flex flex-wrap items-end justify-between gap-2 text-xs">
-        <div className="rounded-xl bg-forest-950/85 px-3 py-2">
-          <p className="m-0 font-bold text-gold-300">{visited.size} dari {ADMIN.length} wilayah dijelajahi</p>
-          <p className="m-0 mt-1 flex flex-wrap gap-x-3 gap-y-1">
-            {[['#4f7a4d', 'Kabupaten'], ['#b4603f', 'Kota'], ['#2f7f95', 'Danau Toba'], ['#8da35c', 'Sudah dikunjungi']].map(([c, label]) => (
-              <span key={label} className="flex items-center gap-1.5"><i className="size-2.5 rounded-sm" style={{ background: c }} />{label}</span>
-            ))}
-          </p>
-        </div>
-        <a className="pointer-events-auto rounded-lg bg-forest-950/85 px-2 py-1 underline" href="https://www.geoboundaries.org" target="_blank" rel="noreferrer">
-          Batas: geoBoundaries / BPS 2020, CC BY 3.0 IGO (disederhanakan)
-        </a>
+      <div className="absolute bottom-1.5 left-1/2 z-10 w-max max-w-[min(94%,46rem)] -translate-x-1/2 text-center text-[10px] leading-snug">
+        {credit && <p className="m-0 mb-1 rounded-lg bg-black/75 px-3 py-2 text-white">{TERRAIN_CREDIT}. Relief diperbesar sekitar 11 kali. Jalur putus-putus adalah rute jelajah, bukan jalan.</p>}
+        <button type="button" className="cursor-pointer rounded-full bg-black/45 px-2.5 py-0.5 text-white/90" aria-expanded={credit} onClick={() => setCredit(!credit)}>
+          © EOX · Copernicus · Mapzen · geoBoundaries
+        </button>
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
-/** Home hero: the real district boundaries as relief, with illustrative trees and small landmark models. */
-import { useLayoutEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
+/** Home hero: satellite imagery over real relief, with small illustrative landmark models. */
+import { useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Color, ConeGeometry, EdgesGeometry, InstancedMesh, MathUtils, Object3D, PerspectiveCamera, Vector3 } from 'three';
-import { DISTRICTS, districtById } from '../data/atlas';
-import { HALF_HEIGHT, HALF_WIDTH, project, shapeOf } from '../lib/geo';
-import { DEPTH, LAND, geometryOf } from '../components/map/Map3D';
+import { MathUtils, PerspectiveCamera, Vector3 } from 'three';
+import { districtById } from '../data/atlas';
+import { shapeOf } from '../lib/geo';
+import { useTerrain, type TerrainData } from '../lib/terrain';
+import Terrain from './Terrain';
 import { OmoSebua, RumahBolon, SiwaluhJabu } from './models';
 import { BagasGodang } from './diorama/Mandailing';
-import { rng } from './diorama/kit';
 import { prefersReducedMotion } from './device';
 
 export interface Look {
@@ -27,81 +27,12 @@ export const LANDMARKS: { id: string; model: () => ReactNode; scale: number; tur
 
 export type LandmarkDots = RefObject<(HTMLAnchorElement | null)[]>;
 
-function Land() {
-  const areas = useMemo(
-    () => DISTRICTS.map((d, i) => {
-      const geometry = geometryOf(d);
-      return { d, geometry, edges: new EdgesGeometry(geometry, 30), color: d.type === 'air' ? '#3a93a8' : d.type === 'kota' ? '#b4603f' : LAND[i % LAND.length] };
-    }),
-    [],
-  );
-  return (
-    <>
-      {areas.map(({ d, geometry, edges, color }) => (
-        <group key={d.id}>
-          <mesh geometry={geometry} receiveShadow castShadow>
-            <meshStandardMaterial color={color} roughness={d.type === 'air' ? 0.25 : 0.9} metalness={d.type === 'air' ? 0.4 : 0} flatShading />
-          </mesh>
-          <lineSegments geometry={edges}>
-            <lineBasicMaterial color="#e9dcb8" transparent opacity={0.28} />
-          </lineSegments>
-        </group>
-      ))}
-    </>
-  );
-}
-
-const inside = (x: number, y: number, ring: [number, number][]) => {
-  let c = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, yi] = ring[i];
-    const [xj, yj] = ring[j];
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c;
-  }
-  return c;
+const groundOf = (data: TerrainData | null, id: string) => {
+  const [x, y] = shapeOf(districtById(id)!).center;
+  return { x, y, h: data?.heightAt(x, y) ?? 0 };
 };
 
-/** Decorative tree cover. Positions fall on land but do not map real forests. */
-function Forest() {
-  const ref = useRef<InstancedMesh>(null);
-  const geometry = useMemo(() => new ConeGeometry(0.075, 0.24, 6).translate(0, 0.12, 0), []);
-  const spots = useMemo(() => {
-    const rings = DISTRICTS.filter((d) => d.type === 'kabupaten').flatMap((d) => d.polygons.map((p) => p[0].map(project)));
-    const lake = DISTRICTS.filter((d) => d.type === 'air').flatMap((d) => d.polygons.map((p) => p[0].map(project)));
-    const keepOut = LANDMARKS.map((l) => shapeOf(districtById(l.id)!).center);
-    const r = rng(2024);
-    const out: [number, number, number][] = [];
-    for (let tries = 0; out.length < 850 && tries < 14000; tries++) {
-      const x = (r() * 2 - 1) * HALF_WIDTH;
-      const y = (r() * 2 - 1) * HALF_HEIGHT;
-      if (!rings.some((g) => inside(x, y, g)) || lake.some((g) => inside(x, y, g))) continue;
-      if (keepOut.some(([a, b]) => Math.hypot(x - a, y - b) < 0.75)) continue;
-      out.push([x, y, r()]);
-    }
-    return out;
-  }, []);
-  useLayoutEffect(() => {
-    const mesh = ref.current!;
-    const dummy = new Object3D();
-    const color = new Color();
-    spots.forEach(([x, y, v], i) => {
-      dummy.position.set(x, DEPTH, -y);
-      dummy.scale.setScalar(0.55 + v * 0.75);
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i, dummy.matrix);
-      mesh.setColorAt(i, color.set(['#2c5636', '#386843', '#244a30'][Math.floor(v * 3)]));
-    });
-    mesh.instanceMatrix.needsUpdate = true;
-    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-  }, [spots]);
-  return (
-    <instancedMesh ref={ref} args={[geometry, undefined, spots.length]} castShadow>
-      <meshStandardMaterial flatShading roughness={1} />
-    </instancedMesh>
-  );
-}
-
-function Rig({ look, dots, still }: { look: RefObject<Look>; dots: LandmarkDots; still: boolean }) {
+function Rig({ look, dots, still, data }: { look: RefObject<Look>; dots: LandmarkDots; still: boolean; data: TerrainData | null }) {
   const camera = useThree((s) => s.camera) as PerspectiveCamera;
   const aspect = useThree((s) => s.size.width / s.size.height);
   const yaw = useRef(0);
@@ -127,8 +58,8 @@ function Rig({ look, dots, still }: { look: RefObject<Look>; dots: LandmarkDots;
     LANDMARKS.forEach((l, i) => {
       const el = dots.current[i];
       if (!el) return;
-      const [x, y] = shapeOf(districtById(l.id)!).center;
-      point.current.set(x, DEPTH + 1.45, -y).project(camera);
+      const { x, y, h } = groundOf(data, l.id);
+      point.current.set(x, h + 1.45, -y).project(camera);
       el.style.transform = `translate(${((point.current.x + 1) / 2) * size.width}px, ${((1 - point.current.y) / 2) * size.height}px) translate(-50%, -100%)`;
       el.style.visibility = 'visible';
     });
@@ -136,31 +67,28 @@ function Rig({ look, dots, still }: { look: RefObject<Look>; dots: LandmarkDots;
   return null;
 }
 
-export default function HeroMapScene({ look, dots }: { look: RefObject<Look>; dots: LandmarkDots }) {
+export default function HeroMapScene({ look, dots, onReady }: { look: RefObject<Look>; dots: LandmarkDots; onReady: () => void }) {
   const still = useMemo(prefersReducedMotion, []);
+  const { data } = useTerrain();
+  useEffect(() => {
+    if (data) onReady();
+  }, [data]);
   return (
     <>
-      <color attach="background" args={['#103236']} />
-      <fog attach="fog" args={['#103236', 48, 100]} />
-      <hemisphereLight args={['#fbe8c4', '#12302a', 1.3]} />
-      <directionalLight position={[-14, 20, 8]} intensity={2.4} color="#ffd9a0" castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-16} shadow-camera-right={16} shadow-camera-top={16} shadow-camera-bottom={-16} shadow-bias={-0.0005} />
-      <directionalLight position={[12, 8, -10]} intensity={0.7} color="#8fc6cc" />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.03, 0]} receiveShadow>
-        <planeGeometry args={[220, 220]} />
-        <meshStandardMaterial color="#19515a" roughness={0.55} metalness={0.2} />
-      </mesh>
-      <gridHelper args={[130, 65, '#2c6a73', '#235b64']} position={[0, -0.02, 0]} />
-      <Land />
-      <Forest />
-      {LANDMARKS.map(({ id, model: Model, scale, turn }) => {
-        const [x, y] = shapeOf(districtById(id)!).center;
+      <color attach="background" args={['#0a4f86']} />
+      <fog attach="fog" args={['#0a4f86', 55, 130]} />
+      <hemisphereLight args={['#fff3d6', '#24505a', 1.5]} />
+      <directionalLight position={[-14, 20, 8]} intensity={2.2} color="#ffe2b0" />
+      {data && <Terrain data={data} boundaries />}
+      {data && LANDMARKS.map(({ id, model: Model, scale, turn }) => {
+        const { x, y, h } = groundOf(data, id);
         return (
-          <group key={id} position={[x, DEPTH, -y]} rotation={[0, turn, 0]} scale={scale}>
+          <group key={id} position={[x, h, -y]} rotation={[0, turn, 0]} scale={scale}>
             <Model />
           </group>
         );
       })}
-      <Rig look={look} dots={dots} still={still} />
+      <Rig look={look} dots={dots} still={still} data={data} />
     </>
   );
 }

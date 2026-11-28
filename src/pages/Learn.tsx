@@ -7,12 +7,8 @@ import { ADMIN, visitedDistricts } from '../data/atlas';
 import { ARTIFACTS } from '../data/artifacts';
 import { STORIES } from '../data/stories';
 import { go, href } from '../lib/router';
-import { passedModules, useProgress, type ProgressState } from '../lib/progress';
-
-const EXPLORER = { regions: 5, artifacts: 3, stories: 2 };
-
-const isExplorer = (s: ProgressState) =>
-  visitedDistricts(s).length >= EXPLORER.regions && s.visited.artifact.length >= EXPLORER.artifacts && s.visited.story.length >= EXPLORER.stories;
+import { passedModules, useProgress } from '../lib/progress';
+import { badges } from '../lib/badges';
 
 function ModuleView({ module }: { module: Module }) {
   const { visit, state } = useProgress();
@@ -60,11 +56,7 @@ function Achievements() {
     ['Artefak dijelajahi', state.visited.artifact.length, ARTIFACTS.length],
     ['Cerita selesai', state.visited.story.length, STORIES.length],
   ] as const;
-  const badges = [
-    { name: 'Penjelajah Budaya', how: `Kunjungi ${EXPLORER.regions} tempat, jelajahi ${EXPLORER.artifacts} artefak, dan selesaikan ${EXPLORER.stories} cerita.`, earned: isExplorer(state) },
-    ...MODULES.map((m) => ({ name: m.badge, how: `Lulus kuis modul “${m.title}”.`, earned: passed.includes(m.id) })),
-  ];
-
+  const list = badges(state);
   return (
     <div className="space-y-8">
       <section className="rounded-3xl bg-forest-900 p-6 sm:p-10">
@@ -83,7 +75,7 @@ function Achievements() {
       <section>
         <h2 className="text-3xl">Lencana</h2>
         <ul className="grid gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
-          {badges.map((b) => (
+          {list.map((b) => (
             <li key={b.name} className={`flex list-none gap-4 rounded-2xl border p-4 ${b.earned ? 'border-gold-500 bg-forest-800' : 'border-ivory/15 opacity-65'}`}>
               <svg viewBox="0 0 48 48" className="size-12 shrink-0" aria-hidden="true">
                 <path d="M24 2L43 13V35L24 46L5 35V13Z" fill={b.earned ? '#c9a24b' : 'none'} stroke="#c9a24b" strokeWidth="2" />

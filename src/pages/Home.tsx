@@ -71,6 +71,7 @@ function Hero() {
           </div>
         </Suspense>
       </div>
+      <p className="pointer-events-none absolute bottom-1 left-3 z-10 m-0 max-w-[60%] text-[9px] leading-tight opacity-60">Citra: Sentinel-2 cloudless 2016, EOX (CC BY 4.0) · Ketinggian: Mapzen/SRTM</p>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/45 via-35% to-transparent lg:bg-gradient-to-r lg:from-forest-950/90 lg:via-forest-950/45 lg:to-transparent lg:to-65%" />
       <motion.div style={{ y: textY, opacity: textFade }} className="wrap pointer-events-none relative flex h-full flex-col justify-end pb-24 lg:justify-center lg:pb-0">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }} className="max-w-xl [text-shadow:0_2px_16px_rgb(0_0_0/0.45)]">

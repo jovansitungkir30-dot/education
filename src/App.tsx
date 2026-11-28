@@ -26,7 +26,7 @@ export default function App() {
       <button type="button" className="btn btn-gold fixed top-2 left-2 z-[1200] -translate-y-24 focus:translate-y-0" onClick={() => document.getElementById('main')?.focus()}>
         Langsung ke konten
       </button>
-      <Navbar path={path} />
+      {path !== '/explore' && <Navbar path={path} />}
       <main id="main" tabIndex={-1} className="min-h-dvh outline-none">
         <Suspense fallback={<div className="grid min-h-dvh place-items-center" role="status">Memuat…</div>}>
           {Page ? (

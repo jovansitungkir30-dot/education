@@ -1,9 +1,11 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AtlasMap from '../components/map/AtlasMap';
+import { ExplorerCard, SoundAndHelp, TopLeft, TrailCard } from '../components/exploration/MapHud';
+import { completedDioramas } from '../lib/badges';
 import DioramaView from '../components/exploration/DioramaView';
 import { DIORAMAS, SPOT_COUNT } from '../data/dioramas';
-import { ADMIN, CONTENT_LINKS, DISTRICTS, HOME_DISTRICT, districtById, fullName, visitedDistricts, type District } from '../data/atlas';
+import { CONTENT_LINKS, HOME_DISTRICT, districtById, fullName, visitedDistricts, type District } from '../data/atlas';
 import { Credit, FactBlock, Photo, ReviewNote, SectionHead } from '../components/ui';
 import { TOPICS, regionById, type Region, type TopicKey } from '../data/regions';
 import { ARTIFACTS } from '../data/artifacts';
@@ -192,6 +194,8 @@ function Artifacts({ requested }: { requested: string | null }) {
   );
 }
 
+const PANEL_WIDTH = 500;
+
 /** Panel for one administrative area. Cultural content is shown only where it has been researched. */
 function DistrictPanel({ district }: { district: District }) {
   const links = CONTENT_LINKS[district.id] ?? [];
@@ -237,7 +241,7 @@ function ProvinceIntro() {
   const { state } = useProgress();
   return (
     <div className="p-5 sm:p-8">
-      <p className="eyebrow text-terracotta-700">Pengantar</p>
+      <p className="eyebrow text-terracotta-700">Catatan temuan</p>
       <h2 className="mt-1 mb-3 text-3xl sm:text-4xl">Provinsi Sumatera Utara</h2>
       <p>Terdiri atas 25 kabupaten dan 8 kota, dari pesisir timur, dataran tinggi di sekitar Danau Toba, hingga Kepulauan Nias di barat.</p>
       <p>Klik wilayah pada peta, atau pilih dari daftar, untuk mulai menjelajah.</p>
@@ -292,41 +296,34 @@ export default function Explore({ params }: { params: URLSearchParams }) {
   const select = (id: string | null) => go('/explore', id ? { wilayah: id } : undefined);
 
   const inDiorama = !!district && !!DIORAMAS[district.id] && params.get('diorama') === '1';
+  const [log, setLog] = useState(false);
+  const open = !!district || log;
 
   return (
     <>
       {inDiorama && <DioramaView key={district.id} id={district.id} />}
-      <section id="map" className="scroll-mt-18 pt-20 pb-10">
-        <div className="mx-auto w-full max-w-[100rem] px-3 sm:px-5">
-          <div className="flex flex-wrap items-end justify-between gap-3 py-4">
-            <div>
-              <p className="eyebrow text-terracotta-400">Atlas budaya interaktif</p>
-              <h1 className="mt-1 mb-0 text-3xl sm:text-4xl">Berkeliling Sumatera Utara</h1>
-            </div>
-            <label className="flex flex-col gap-1 text-xs font-bold">
-              Cari wilayah
-              <select className="min-h-11 min-w-64 rounded-full border border-gold-500/50 bg-forest-900 px-4 text-sm" value={district?.id ?? ''} onChange={(e) => select(e.target.value || null)}>
-                <option value="">Seluruh provinsi</option>
-                {(['kabupaten', 'kota', 'air'] as const).map((type) => (
-                  <optgroup key={type} label={type === 'kabupaten' ? `Kabupaten (${ADMIN.filter((d) => d.type === type).length})` : type === 'kota' ? `Kota (${ADMIN.filter((d) => d.type === type).length})` : 'Badan air'}>
-                    {DISTRICTS.filter((d) => d.type === type).map((d) => (
-                      <option key={d.id} value={d.id}>{d.name}{DIORAMAS[d.id] ? ' ◆' : ''}{visited.has(d.id) ? ' ✓' : ''}{CONTENT_LINKS[d.id] ? ' •' : ''}</option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-              <span className="font-normal opacity-70">◆ diorama · • materi budaya · ✓ dikunjungi</span>
-            </label>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
-            <div className="h-[62dvh] min-h-[430px] overflow-hidden rounded-3xl border border-gold-500/30 lg:h-[calc(100dvh-12rem)]">
-              {!inDiorama && <AtlasMap selected={district?.id ?? null} visited={visited} onSelect={select} />}
-            </div>
-            <div className="paper overflow-y-auto rounded-3xl lg:h-[calc(100dvh-12rem)] lg:min-h-[430px]" aria-live="polite">
+      <section id="map" className="relative h-dvh min-h-[600px] overflow-hidden">
+        <h1 className="sr-only">Peta jelajah budaya Sumatera Utara</h1>
+        {/* Only one heavy 3D view at a time: the map unmounts while a diorama is open. */}
+        {!inDiorama && <AtlasMap selected={district?.id ?? null} visited={visited} completed={completedDioramas(state)} panel={open ? PANEL_WIDTH : 0} onSelect={select} />}
+        {!open && (
+          <p className="hud pointer-events-none absolute top-3 left-1/2 z-10 m-0 -translate-x-1/2 rounded-full px-4 py-2 text-xs font-bold whitespace-nowrap max-xl:top-auto max-xl:bottom-24 max-md:hidden">
+            Geser peta untuk menjelajahi Sumatera Utara
+          </p>
+        )}
+        <TopLeft selected={district?.id ?? null} onSelect={select} />
+        <ExplorerCard onLog={() => { if (district) select(null); setLog(!log || !!district); }} />
+        {!open && <TrailCard selected={null} onSelect={select} />}
+        {!open && <SoundAndHelp />}
+
+        {open && (
+          <aside className="paper absolute z-30 flex flex-col overflow-hidden rounded-3xl shadow-[0_24px_60px_#000a] max-lg:inset-x-2 max-lg:bottom-2 max-lg:max-h-[56%] lg:top-20 lg:right-16 lg:bottom-8 lg:w-[27rem]" aria-label={district ? 'Panel wilayah' : 'Catatan temuan'} aria-live="polite">
+            <button type="button" className="map-btn absolute top-3 right-3 z-10" aria-label="Tutup panel" onClick={() => { setLog(false); if (district) select(null); }}>✕</button>
+            <div className="overflow-y-auto">
               {district ? <DistrictPanel key={district.id} district={district} /> : <ProvinceIntro />}
             </div>
-          </div>
-        </div>
+          </aside>
+        )}
       </section>
       <div className="weave" aria-hidden="true" />
       {!inDiorama && <Artifacts requested={artifactParam} />}

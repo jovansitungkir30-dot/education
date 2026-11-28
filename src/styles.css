@@ -60,3 +60,12 @@
   body:has(#certificate) *:has(#certificate) { display: block !important; position: static !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; transform: none !important; }
   #certificate { break-inside: avoid; print-color-adjust: exact; }
 }
+
+/* Atlas overlays */
+.hud { background: rgb(255 255 255 / 0.94); color: #0d3f4f; box-shadow: 0 8px 24px rgb(0 0 0 / 0.28); }
+.map-btn { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; cursor: pointer; border-radius: 0.9rem; background: rgb(255 255 255 / 0.95); color: #0d3f4f; font-weight: 800; box-shadow: 0 6px 16px rgb(0 0 0 / 0.28); transition: background-color .15s; }
+.map-btn:hover { background: #bfe4ee; }
+.map-btn[aria-pressed="true"] { background: #ffd45e; }
+.paper .map-btn { background: #fff; }
+@keyframes pin-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+.pin-tile { animation: pin-float 3.2s ease-in-out infinite; }
