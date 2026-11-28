@@ -1,12 +1,13 @@
 import { lazy, Suspense, useEffect, useRef, useState, type ComponentType } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { MathUtils, PerspectiveCamera, Vector3 } from 'three';
+import { MathUtils, PerspectiveCamera, Spherical, Vector3, type Group, type Mesh } from 'three';
 import type { OrbitControls as OrbitImpl } from 'three-stdlib';
 import type { Diorama } from '../../data/dioramas';
 import { prefersReducedMotion } from '../device';
 import Stage from '../Stage';
-import LandmarkScene, { LANDMARK_SCALE } from './LandmarkScene';
+import LandmarkScene, { LANDMARK_SCALE, settingFor } from './LandmarkScene';
+import Environment, { type Mood } from './Environment';
 
 /** Each scene is its own chunk, so only the chosen one is downloaded. */
 const SCENES: Record<string, ComponentType> = {
@@ -18,18 +19,48 @@ const SCENES: Record<string, ComponentType> = {
 
 type Dots = React.RefObject<(HTMLButtonElement | null)[]>;
 
-function Rig({ diorama, active, spin, reset, dots, onReady }: { diorama: Diorama; active: number | null; spin: boolean; reset: number; dots: Dots; onReady: () => void }) {
+/** Hand-built dioramas use scene coordinates; landmark studies use model coordinates. */
+const spotPositions = (diorama: Diorama) =>
+  diorama.id in SCENES ? diorama.spots.map((s) => s.position) : diorama.spots.map((s) => s.position.map((v) => v * LANDMARK_SCALE) as [number, number, number]);
+
+/** A pulsing light that marks the part of the scene being explained. */
+function Beacon({ position }: { position: [number, number, number] }) {
+  const group = useRef<Group>(null);
+  const ring = useRef<Mesh>(null);
+  const still = prefersReducedMotion();
+  useFrame(({ clock, camera }) => {
+    if (!group.current || !ring.current) return;
+    const t = still ? 0.4 : (clock.elapsedTime % 1.5) / 1.5;
+    ring.current.scale.setScalar(0.5 + t * 1.1);
+    (ring.current.material as unknown as { opacity: number }).opacity = 1 - t;
+    ring.current.lookAt(camera.position);
+  });
+  return (
+    <group ref={group} position={position}>
+      <mesh ref={ring} renderOrder={5}><ringGeometry args={[0.62, 0.74, 40]} /><meshBasicMaterial color="#ffd45e" transparent depthTest={false} /></mesh>
+      <pointLight color="#ffcf66" intensity={7} distance={4.5} position={[0, 0.5, 0.7]} />
+    </group>
+  );
+}
+
+function Rig({ diorama, active, spin, reset, dots, lift, onReady }: { lift: boolean; diorama: Diorama; active: number | null; spin: boolean; reset: number; dots: Dots; onReady: () => void }) {
   const controls = useRef<OrbitImpl>(null);
   const camera = useThree((s) => s.camera) as PerspectiveCamera;
   const aspect = useThree((s) => s.size.width / s.size.height);
-  const goal = useRef<{ target: Vector3; distance: number } | null>(null);
+  const goal = useRef<{ target: Vector3; distance: number; azimuth?: number; polar?: number } | null>(null);
   const point = useRef(new Vector3());
   const home = MathUtils.clamp(39 / Math.min(aspect, 1.2) ** 0.85, 34, 64);
 
-  // Hand-built dioramas use scene coordinates; landmark studies use model coordinates.
-  const positions = diorama.id in SCENES ? diorama.spots.map((s) => s.position) : diorama.spots.map((s) => s.position.map((v) => v * LANDMARK_SCALE) as [number, number, number]);
+  const positions = spotPositions(diorama);
 
   useEffect(onReady, []);
+
+  // While a caption covers the bottom of the view, the subject is framed higher.
+  const size = useThree((s) => s.size);
+  useEffect(() => {
+    if (lift) camera.setViewOffset(size.width, size.height, 0, size.height * 0.17, size.width, size.height);
+    else camera.clearViewOffset();
+  }, [lift, size, camera]);
 
   // Intro: start far away and settle into the overview.
   useEffect(() => {
@@ -41,7 +72,9 @@ function Rig({ diorama, active, spin, reset, dots, onReady }: { diorama: Diorama
 
   useEffect(() => {
     if (active === null) return;
-    goal.current = { target: new Vector3(...positions[active]), distance: home * 0.55 };
+    const [x, y, z] = positions[active];
+    // Look from the side of the scene on which the part sits, never from behind the diorama.
+    goal.current = { target: new Vector3(x, y, z), distance: home * 0.5, azimuth: MathUtils.clamp(Math.atan2(x, Math.max(z, 0) + 4.5), -0.95, 0.95), polar: y > 3 ? 1.22 : 1.02 };
   }, [active]);
 
   useFrame(({ size }, dt) => {
@@ -49,13 +82,27 @@ function Rig({ diorama, active, spin, reset, dots, onReady }: { diorama: Diorama
     if (!c) return;
     const g = goal.current;
     if (g) {
-      const k = prefersReducedMotion() ? 1 : 1 - Math.exp(-dt * 3.4);
-      const offset = camera.position.clone().sub(c.target);
-      offset.setLength(MathUtils.lerp(offset.length(), g.distance, k));
+      const k = prefersReducedMotion() ? 1 : 1 - Math.exp(-dt * 2.8);
+      const now = new Spherical().setFromVector3(camera.position.clone().sub(c.target));
+      now.radius = MathUtils.lerp(now.radius, g.distance, k);
+      if (g.azimuth !== undefined) {
+        const turn = Math.atan2(Math.sin(g.azimuth - now.theta), Math.cos(g.azimuth - now.theta));
+        now.theta += turn * k;
+        now.phi = MathUtils.lerp(now.phi, g.polar!, k);
+      }
       c.target.lerp(g.target, k);
-      camera.position.copy(c.target).add(offset);
+      camera.position.setFromSpherical(now).add(c.target);
       c.update();
-      if (c.target.distanceTo(g.target) < 0.02 && Math.abs(offset.length() - g.distance) < 0.05) goal.current = null;
+      if (c.target.distanceTo(g.target) < 0.02 && Math.abs(now.radius - g.distance) < 0.05) goal.current = null;
+    }
+    // Panning stays near the diorama.
+    const reach = Math.hypot(c.target.x, c.target.z);
+    if (reach > 8 || c.target.y < 0 || c.target.y > 6) {
+      const back = c.target.clone();
+      if (reach > 8) { back.x *= 8 / reach; back.z *= 8 / reach; }
+      back.y = MathUtils.clamp(back.y, 0, 6);
+      camera.position.add(back.clone().sub(c.target));
+      c.target.copy(back);
     }
     positions.forEach((position, i) => {
       const el = dots.current[i];
@@ -72,7 +119,6 @@ function Rig({ diorama, active, spin, reset, dots, onReady }: { diorama: Diorama
     <OrbitControls
       ref={controls}
       makeDefault
-      enablePan={false}
       autoRotate={spin && !prefersReducedMotion()}
       autoRotateSpeed={0.45}
       minDistance={11}
@@ -90,28 +136,28 @@ interface Props {
   found: Set<string>;
   spin: boolean;
   reset: number;
+  mood: Mood;
+  /** True while a caption is shown over the scene. */
+  lift?: boolean;
   onSpot: (i: number) => void;
 }
 
-export default function DioramaCanvas({ diorama, active, found, spin, reset, onSpot }: Props) {
+export default function DioramaCanvas({ diorama, active, found, spin, reset, mood, lift = false, onSpot }: Props) {
   const dots = useRef<(HTMLButtonElement | null)[]>([]);
   const [ready, setReady] = useState(false);
   const Scene = SCENES[diorama.id];
   return (
     <>
       <Stage
-        label={`Diorama 3D: ${diorama.title}. Geser untuk memutar, cubit atau gulir untuk memperbesar.`}
-        camera={{ fov: 30, position: [18, 17, 25], far: 220 }}
+        label={`Diorama 3D: ${diorama.title}. Geser untuk memutar, cubit atau gulir untuk memperbesar, geser dengan dua jari atau tombol kanan untuk berpindah.`}
+        camera={{ fov: 30, position: [18, 17, 25], far: 420 }}
         fallback={<div className="grid h-full place-items-center p-8 text-center"><p className="max-w-sm">Perangkat ini tidak dapat menampilkan 3D. Semua materi tetap tersedia di daftar titik info.</p></div>}
       >
-        <color attach="background" args={['#bcd3cb']} />
-        <fog attach="fog" args={['#bcd3cb', 70, 150]} />
-        <hemisphereLight args={['#fdf1d8', '#4d5f45', 1.25]} />
-        <directionalLight position={[12, 18, 10]} intensity={2.6} color="#ffe0b0" castShadow shadow-mapSize={[2048, 2048]} shadow-bias={-0.0004} shadow-camera-left={-13} shadow-camera-right={13} shadow-camera-top={13} shadow-camera-bottom={-13} shadow-camera-far={60} />
-        <directionalLight position={[-14, 8, -6]} intensity={0.75} color="#b9d8e8" />
+        <Environment mood={mood} seed={[...diorama.id].reduce((n, c) => n + c.charCodeAt(0), 3)} sea={['pesisir', 'pulau'].includes(settingFor(diorama.id))} />
         <Suspense fallback={null}>
           {Scene ? <Scene /> : <LandmarkScene id={diorama.id} />}
-          <Rig diorama={diorama} active={active} spin={spin} reset={reset} dots={dots} onReady={() => setReady(true)} />
+          {active !== null && <Beacon position={spotPositions(diorama)[active]} />}
+          <Rig lift={lift} diorama={diorama} active={active} spin={spin} reset={reset} dots={dots} onReady={() => setReady(true)} />
         </Suspense>
       </Stage>
       {!ready && <div className="pointer-events-none absolute inset-0 grid place-items-center bg-forest-900/60 font-bold" role="status">Menyusun diorama…</div>}
