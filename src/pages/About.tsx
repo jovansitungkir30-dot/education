@@ -8,7 +8,8 @@ const LIMITS = [
   'Beberapa pernyataan belum punya sumber. Pada panel fakta, pernyataan itu ditandai “Menunggu tinjauan ahli” dan masih perlu dikonfirmasi.',
   'Belum ada wakil komunitas atau ahli yang meninjau konten ini.',
   'Angkola dan beberapa topik lain masih dibahas tipis, dan Pakpak belum punya foto. Kekosongan ditampilkan apa adanya, tidak diisi tebakan.',
-  'Model 3D adalah representasi prosedural yang disederhanakan, bukan replika terukur atau akurat secara sejarah.',
+  'Model 3D dan diorama adalah representasi prosedural yang disederhanakan, bukan replika terukur atau akurat secara sejarah. Tata letak diorama, vegetasi, gunung, dan pohon pada peta beranda hanya ilustrasi.',
+  'Diorama baru tersedia untuk Samosir, Karo, Mandailing Natal, dan Nias Selatan.',
   'Contoh audio disintesis di browser, bukan rekaman atau komposisi tradisional. Narasi memakai suara komputer perangkat Anda; pelafalan nama lokal bisa keliru, dan mutunya bergantung pada ketersediaan suara bahasa Indonesia.',
   'Peta menampilkan batas administrasi dari data 2020 yang disederhanakan, jadi tidak untuk keperluan hukum atau navigasi. Batas administrasi bukan batas budaya.',
   'Ejaan dan istilah setempat bisa beragam. Sebagian judul rujukan ditulis dalam bahasa Inggris.',
@@ -21,6 +22,25 @@ export default function About() {
         <SectionHead as="h1" eyebrow="Tentang" title="Ruang digital untuk belajar budaya dengan cermat">
           RuangNusantara memperkenalkan warisan Sumatera Utara kepada pelajar, mahasiswa, wisatawan, dan siapa saja yang ingin tahu. Tujuannya tampil hidup tanpa meratakan perbedaan antarkomunitas.
         </SectionHead>
+
+        <section className="mt-12">
+          <h2 className="text-3xl">Cara menjelajah</h2>
+          <ol className="grid gap-5 p-0 md:grid-cols-4">
+            {[
+              ['Buka peta', 'Lihat 25 kabupaten dan 8 kota dengan batas aslinya. Geser, perbesar, atau pilih dari daftar.'],
+              ['Pilih wilayah', 'Baca materi budaya yang sudah diriset. Wilayah yang belum, ditandai apa adanya.'],
+              ['Masuk diorama', 'Di Samosir, Karo, Mandailing Natal, dan Nias Selatan, buka titik temuan pada miniatur 3D.'],
+              ['Uji dan lanjutkan', 'Kerjakan mini kuis, lihat catatan temuan, lalu jelajahi wilayah lain. Tidak ada materi yang dikunci di peta.'],
+            ].map(([title, text], i) => (
+              <li key={title} className="list-none border-t-2 border-gold-500 pt-4">
+                <span className="font-display text-3xl text-gold-300">{i + 1}</span>
+                <h3 className="mt-1 mb-1 text-xl">{title}</h3>
+                <p className="m-0 text-sm opacity-80">{text}</p>
+              </li>
+            ))}
+          </ol>
+          <a className="btn btn-gold mt-6" href="#/explore">Mulai Jelajahi</a>
+        </section>
 
         <section className="paper mt-12 rounded-3xl p-6 sm:p-10">
           <h2 className="mt-0 text-3xl">Cara membaca label</h2>

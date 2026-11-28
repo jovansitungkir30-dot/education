@@ -26,6 +26,13 @@ npm run preview   # serve the production build
 | `#/learn` | 8 modules with activities, quizzes, badges and a printable certificate |
 | `#/about` | Content labels, limitations, references, photo credits |
 
+## Atlas and dioramas
+
+- `src/data/geo`: boundaries of the 25 regencies, 8 cities and Lake Toba.
+- `src/data/atlas.ts`: which cultural content is linked to which area.
+- `src/data/dioramas.ts` and `src/three/diorama`: to add a diorama, write a scene component, register it in
+  `DioramaCanvas.tsx`, and add its discovery points and quiz under the area id. Scenes are loaded on demand.
+
 ## Structure
 
 ```
