@@ -1,3 +1,5 @@
+import { LANDMARK_SOURCES } from './landmark-sources';
+
 export interface Source {
   title: string;
   publisher: string;
@@ -10,6 +12,7 @@ export interface Source {
  * excerpts, not as full texts. A subject specialist should check each claim before formal teaching use.
  */
 export const SOURCES = {
+  ...LANDMARK_SOURCES,
   unescoBawomataluo: { title: 'Bawomataluo Site (Tentative List, ref. 5463)', publisher: 'UNESCO World Heritage Centre', url: 'https://whc.unesco.org/en/tentativelists/5463', type: 'Lembaga warisan budaya' },
   unescoUlosProject: { title: 'Young professionals in Toba lead post-pandemic recovery: Ulos weavers and Gorga sculptors', publisher: 'UNESCO Intangible Cultural Heritage', url: 'https://ich.unesco.org/es/noticias/los-jvenes-profesionales-de-toba-indonesia-lideran-la-recuperacin-tras-la-pandemia-13404?newsID=13404', type: 'Lembaga warisan budaya' },
   nasaToba: { title: 'Toba Caldera', publisher: 'NASA Earth Observatory', url: 'https://earthobservatory.nasa.gov/images/7380/toba-caldera', type: 'Lembaga warisan budaya' },
