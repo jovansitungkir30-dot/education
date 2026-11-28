@@ -21,7 +21,7 @@ function Provenance({ item }: { item: MediaItem }) {
   );
 }
 
-/** Documentary photos with provenance. Selecting one shows it uncropped; arrow keys move between them. */
+/** Photos with short captions. Opening one shows it uncropped with credit and provenance; arrow keys move between them. */
 export default function CulturalGallery({ items }: { items: MediaItem[] }) {
   const [open, setOpen] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -44,7 +44,6 @@ export default function CulturalGallery({ items }: { items: MediaItem[] }) {
               <figcaption className="mt-2 border-l-2 border-gold-500 pl-3">
                 <span className="block text-[11px] font-extrabold tracking-wider text-terracotta-700 uppercase">{RELATIONS[item.relation].label}</span>
                 <span className="block text-sm leading-snug">{item.alt}</span>
-                <Attribution item={item} />
               </figcaption>
             </figure>
           </li>

@@ -1,20 +1,27 @@
 /** The learning page of one regency or city, laid out like an entry in a museum catalogue. */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import AboutExperience from '../components/credits/AboutExperience';
+import { CitationContext } from '../components/credits/citations';
+import SourcesPanel, { type AudioCredit } from '../components/credits/SourcesPanel';
+import HistoryTimeline from '../components/region/HistoryTimeline';
+import { CustomExplorer, FoodExplorer } from '../components/region/HeritageExplorer';
+import { AREAS } from '../data/area-content';
+import { CUSTOMS, FOODS } from '../data/heritage';
 import CulturalGallery from '../components/region/CulturalGallery';
 import CulturalQuiz from '../components/region/CulturalQuiz';
 import ExplorationProgress from '../components/region/ExplorationProgress';
 import PronunciationDeck from '../components/region/PronunciationDeck';
 import RegionalLandmark3D from '../components/region/RegionalLandmark3D';
-import { KindTag, Narrate, ReviewNote, SourceLinks } from '../components/ui';
+import { KindTag, Narrate, SourceLinks } from '../components/ui';
 import { ADMIN, CONTENT_LINKS, districtById, fullName, type District } from '../data/atlas';
 import { ARTIFACTS } from '../data/artifacts';
 import { GLOSSARY } from '../data/glossary';
 import { LANDMARKS, type Section as LandmarkSection } from '../data/landmarks';
-import { AREA_LANGUAGES, photosFor } from '../data/media';
+import { AREA_LANGUAGES, HERITAGE_PHOTOS, RECORDINGS, photosFor } from '../data/media';
 import { THEMES, zoneOf } from '../data/pathways';
 import { regionById, type Region, type TopicKey } from '../data/regions';
 import { SCENES } from '../data/scenes';
-import { checkOf, type SourceId } from '../data/sources';
+import type { SourceId } from '../data/sources';
 import type { Fact } from '../data/types';
 import { placementById } from '../lib/placement';
 import { useProgress } from '../lib/progress';
@@ -150,38 +157,50 @@ function RegionalExplorer({ district }: { district: District }) {
   const spoken = split(told);
   const recorded = split((f) => !told(f));
 
+  const area = AREAS[id];
   const photos = photosFor(id);
   const terms = GLOSSARY[id] ?? [];
   const languages = AREA_LANGUAGES[id] ?? [];
+  const heritagePhotos = [...area.foods.map((f) => f[0] as string), ...area.traditions.map((t) => t[0] as string)].flatMap((k) => (HERITAGE_PHOTOS[k] ? [HERITAGE_PHOTOS[k]] : []));
+  const audio: AudioCredit[] = languages.flatMap((language) => RECORDINGS[language].map((r) => ({ ...r, language })));
 
-  const references = [
+  // References are numbered in reading order; a citation number on the page opens the matching entry.
+  const references = useMemo(() => [
     ...new Set<SourceId>([
-      ...[history, architecture, traditions, arts, culinary, stories].flatMap((groups) => groups.flatMap((g) => g.facts.flatMap((f) => f.sources))),
+      ...area.people.sources,
+      ...area.timeline.flatMap((x) => x.sources),
       ...scene.spots.flatMap((s) => s.info.sources),
+      ...[history, architecture].flatMap((groups) => groups.flatMap((g) => g.facts.flatMap((f) => f.sources))),
+      ...area.traditions.flatMap(([k]) => CUSTOMS[k].sources),
+      ...[traditions, arts].flatMap((groups) => groups.flatMap((g) => g.facts.flatMap((f) => f.sources))),
+      ...area.foods.flatMap(([k]) => FOODS[k].sources),
+      ...[culinary, stories].flatMap((groups) => groups.flatMap((g) => g.facts.flatMap((f) => f.sources))),
+      ...area.places.flatMap((x) => x.sources),
       ...terms.flatMap((t) => t.sources),
     ]),
-  ].sort((a, b) => Number(checkOf(b) === 'read') - Number(checkOf(a) === 'read'));
-  const opened = references.filter((r) => checkOf(r) === 'read').length;
+  ], [id]);
+  const [panel, setPanel] = useState<{ focus?: SourceId } | null>(null);
+  const citations = useMemo(() => ({ number: (s: SourceId) => references.indexOf(s) + 1, open: (focus?: SourceId) => setPanel({ focus }) }), [references]);
 
-  const topics: [string, string, Group[]][] = [
-    ['sejarah', 'Sejarah', history],
-    ['arsitektur', 'Arsitektur', architecture],
-    ['tradisi', 'Tradisi', traditions],
-    ['seni', 'Seni dan musik', arts],
-    ['kuliner', 'Kuliner', culinary],
-    ['cerita', 'Cerita', stories],
+  const topics: [string, string, boolean][] = [
+    ['sejarah', 'Sejarah', area.timeline.length > 0],
+    ['arsitektur', 'Arsitektur', architecture.length > 0],
+    ['tradisi', 'Tradisi', area.traditions.length > 0 || traditions.length > 0],
+    ['seni', 'Seni dan bahasa', arts.length > 0 || languages.length > 0],
+    ['kuliner', 'Kuliner', area.foods.length > 0 || culinary.length > 0],
+    ['tempat', 'Tempat', area.places.length > 0],
+    ['cerita', 'Cerita', stories.length > 0],
   ];
-  const missing = topics.filter(([key, , groups]) => !groups.length && !(key === 'seni' && languages.length)).map(([, label]) => label.toLowerCase());
-  const present = (key: string) => !missing.includes(topics.find((t) => t[0] === key)![1].toLowerCase());
+  const missing = topics.filter((t) => !t[2]).map((t) => t[1].toLowerCase());
+  const present = (key: string) => topics.find((t) => t[0] === key)![2];
 
   const contents: [string, string][] = [
     ['gambaran', 'Gambaran wilayah'],
     ['landmark', 'Jelajah 3D'],
-    ...topics.filter(([key]) => present(key)).map(([key, label]) => [key, label] as [string, string]),
+    ...topics.filter((t) => t[2]).map(([key, label]) => [key, label] as [string, string]),
     ...(terms.length ? [['istilah', 'Istilah lokal'] as [string, string]] : []),
     ['galeri', 'Galeri'],
     ['kuis', 'Kuis'],
-    ['referensi', 'Referensi'],
   ];
   const current = useReading(contents.map(([key]) => key));
 
@@ -189,10 +208,11 @@ function RegionalExplorer({ district }: { district: District }) {
   const number = ADMIN.findIndex((d) => d.id === id) + 1;
   const zone = zoneOf(id);
   const themes = THEMES.filter((t) => t.areas.includes(id));
-  const narration = `${fullName(district)}. ${landmark.place} Landmark pilihan: ${landmark.name}. ${landmark.why}`;
+  const narration = `${fullName(district)}. ${area.lead} Landmark pilihan: ${landmark.name}. ${landmark.why}`;
   const body = 'mx-auto w-full max-w-7xl px-5 sm:px-8';
 
   return (
+    <CitationContext.Provider value={citations}>
     <article className="paper text-ink">
       <header className="relative overflow-hidden bg-forest-900 pt-24 text-ivory">
         <div className={`${body} grid gap-8 pb-9 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-end`}>
@@ -202,17 +222,16 @@ function RegionalExplorer({ district }: { district: District }) {
               Koleksi {String(number).padStart(2, '0')} / {ADMIN.length} · {district.type === 'kota' ? 'Kota' : 'Kabupaten'} · {zone.name}
             </p>
             <h1 className="display mt-2 mb-3">{district.name}</h1>
-            <p className="m-0 max-w-2xl border-l-2 border-gold-500 pl-4">
-              <span className="block font-display text-2xl leading-tight text-gold-300">{landmark.name}</span>
-              <span className="mt-1 block text-lg opacity-85">{landmark.preview}</span>
-            </p>
+            <p className="m-0 max-w-2xl text-xl leading-relaxed opacity-90">{area.lead}</p>
+            <div className="mt-3 flex flex-wrap gap-x-6 text-gold-300">
+              <button type="button" className="inline-flex min-h-11 cursor-pointer items-center gap-2 text-sm font-bold underline-offset-4 hover:underline" onClick={() => setPanel({})}>
+                <span aria-hidden="true">❐</span>Sumber &amp; Kredit ({references.length})
+              </button>
+              <AboutExperience />
+            </div>
           </div>
           <dl className="m-0 grid gap-3 text-sm">
-            <div className="border-t border-ivory/25 pt-2"><dt className="text-xs font-bold tracking-wider text-gold-300 uppercase">Jenis landmark</dt><dd className="m-0">{landmark.category}</dd></div>
-            <div className="border-t border-ivory/25 pt-2">
-              <dt className="text-xs font-bold tracking-wider text-gold-300 uppercase">Kekuatan dasar</dt>
-              <dd className="m-0">{landmark.evidence === 'cukup' ? 'Pilihan landmark cukup terdukung' : 'Pilihan landmark masih lemah'}. {opened} dari {references.length} rujukan di halaman ini sudah dibuka dan dicek.</dd>
-            </div>
+            <div className="border-t border-ivory/25 pt-2"><dt className="text-xs font-bold tracking-wider text-gold-300 uppercase">Landmark · {landmark.category}</dt><dd className="m-0 font-display text-xl">{landmark.name}</dd></div>
             <div className="border-t border-ivory/25 pt-3"><ExplorationProgress compact /></div>
           </dl>
         </div>
@@ -233,21 +252,22 @@ function RegionalExplorer({ district }: { district: District }) {
             <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_18rem]">
               <dl className="m-0 max-w-[62ch] space-y-5">
                 <div><dt className="font-extrabold">Geografi</dt><dd className="m-0 leading-relaxed">{landmark.place}</dd></div>
-                <div><dt className="font-extrabold">Masyarakat dan komunitas budaya</dt><dd className="m-0 leading-relaxed">{landmark.communities}</dd></div>
+                <div><dt className="font-extrabold">Masyarakat dan bahasa</dt><dd className="m-0 leading-relaxed">{area.people.text}<SourceLinks ids={area.people.sources} /></dd></div>
                 <div>
-                  <dt className="font-extrabold">Mengapa landmark ini dipilih</dt>
-                  <dd className="m-0 leading-relaxed">{landmark.why}</dd>
-                  {landmark.evidence === 'terbatas' && <dd className="m-0 mt-2 border-l-4 border-terracotta-700 bg-cream p-3 text-sm"><strong>Dasar pemilihan masih lemah.</strong> Sumber yang kami temukan belum bisa dibaca utuh atau belum cukup. Pilihan ini perlu ditinjau ahli atau warga setempat.</dd>}
+                  <dt className="font-extrabold">Mengapa {landmark.name}</dt>
+                  <dd className="m-0 leading-relaxed">{landmark.why}{landmark.evidence === 'terbatas' && <strong> Dasar pemilihannya masih lemah dan perlu ditinjau warga atau ahli.</strong>}</dd>
                 </div>
               </dl>
               <div className="space-y-4">
                 <Narrate text={narration} />
-                {missing.length > 0 && (
-                  <p className="m-0 border border-dashed border-ink/40 p-3 text-sm">
-                    <strong>Belum diriset untuk {district.name}:</strong> {missing.join(', ')}. Bagian itu tidak ditampilkan, dan tidak diisi dengan tebakan atau pinjaman dari wilayah tetangga.
-                  </p>
-                )}
-                <ReviewNote />
+                <nav aria-label="Yang bisa dijelajahi" className="border-t-2 border-ink/80 pt-2">
+                  <ul className="m-0 p-0">
+                    {([['sejarah', `${area.timeline.length} titik waktu`], ['tradisi', `${area.traditions.length} tradisi untuk ditelusuri`], ['kuliner', `${area.foods.length} sajian`], ['galeri', `${photos.length} foto`]] as const)
+                      .filter(([key, label]) => !label.startsWith('0 ') && contents.some((c) => c[0] === key))
+                      .map(([key, label]) => <li key={key} className="list-none"><button type="button" className="flex min-h-11 w-full cursor-pointer items-center justify-between text-left text-sm font-bold hover:text-terracotta-700" onClick={() => jump(key)}>{label}<span aria-hidden="true">↓</span></button></li>)}
+                  </ul>
+                </nav>
+                {missing.length > 0 && <p className="m-0 text-xs opacity-75">Belum diriset untuk {district.name}: {missing.join(', ')}.</p>}
               </div>
             </div>
           </Part>
@@ -266,17 +286,49 @@ function RegionalExplorer({ district }: { district: District }) {
             )}
           </section>
 
-          {present('sejarah') && <Part id="sejarah" title="Sejarah"><Entries groups={history} /></Part>}
+          {present('sejarah') && (
+            <Part id="sejarah" title="Sejarah" lead="Telusuri dari waktu ke waktu. Label membedakan catatan sejarah, penafsiran, dan penuturan.">
+              <HistoryTimeline moments={area.timeline} />
+              {history.length > 0 && (
+                <details className="mt-6">
+                  <summary className="min-h-11 cursor-pointer py-2 font-extrabold">Catatan sejarah tambahan</summary>
+                  <div className="pt-3"><Entries groups={history} /></div>
+                </details>
+              )}
+            </Part>
+          )}
           {present('arsitektur') && <Part id="arsitektur" title="Arsitektur dan peninggalan"><Entries groups={architecture} /></Part>}
-          {present('tradisi') && <Part id="tradisi" title="Tradisi dan kebiasaan"><Entries groups={traditions} /></Part>}
+          {present('tradisi') && (
+            <Part id="tradisi" title="Tradisi dan kehidupan">
+              {area.traditions.length > 0 && <CustomExplorer links={area.traditions} />}
+              {traditions.length > 0 && <div className={area.traditions.length ? 'mt-9' : ''}><Entries groups={traditions} /></div>}
+            </Part>
+          )}
           {present('seni') && (
-            <Part id="seni" title="Seni, musik, tari, dan kerajinan">
+            <Part id="seni" title="Seni, kerajinan, dan bahasa">
               <Entries groups={arts} />
-              <p className="mt-6 mb-5 max-w-[62ch] text-sm">Kami belum menemukan rekaman musik atau video tari berlisensi terbuka yang bisa ditayangkan untuk wilayah ini.{languages.length ? ' Yang tersedia adalah rekaman pelafalan kata oleh penutur.' : ''}</p>
+              <p className="mt-5 mb-5"><a className="btn btn-terra" href={href('/alat-musik')}>Coba mainkan alat musik tradisional →</a></p>
               <div className="space-y-4">{languages.map((l) => <PronunciationDeck key={l} language={l} />)}</div>
             </Part>
           )}
-          {present('kuliner') && <Part id="kuliner" title="Kuliner dan hasil bumi"><Entries groups={culinary} /></Part>}
+          {present('kuliner') && (
+            <Part id="kuliner" title="Kuliner dan hasil bumi">
+              {area.foods.length > 0 && <FoodExplorer links={area.foods} />}
+              {culinary.length > 0 && <div className={area.foods.length ? 'mt-9' : ''}><Entries groups={culinary} /></div>}
+            </Part>
+          )}
+          {present('tempat') && (
+            <Part id="tempat" title="Tempat yang layak dikenal">
+              <ul className="m-0 grid gap-x-10 p-0 md:grid-cols-2">
+                {area.places.map((x, i) => (
+                  <li key={x.name} className="grid list-none grid-cols-[3rem_minmax(0,1fr)] gap-3 border-t border-ink/15 py-4">
+                    <span aria-hidden="true" className="font-display text-3xl text-terracotta-700">{i + 1}</span>
+                    <span><span className="block font-display text-2xl leading-tight">{x.name}</span><span className="block leading-relaxed">{x.text}<SourceLinks ids={x.sources} /></span></span>
+                  </li>
+                ))}
+              </ul>
+            </Part>
+          )}
           {present('cerita') && (
             <Part id="cerita" title="Cerita budaya" lead="Cerita tutur dipisahkan dari catatan sejarah dan keadaan masa kini.">
               {spoken.length > 0 && <><h3 className="mt-0 mb-4 text-2xl">Cerita rakyat dan tradisi tutur</h3><Entries groups={spoken} /></>}
@@ -298,7 +350,7 @@ function RegionalExplorer({ district }: { district: District }) {
             </Part>
           )}
 
-          <Part id="galeri" title="Galeri" lead={photos.length ? 'Setiap foto diberi label tentang apa yang sebenarnya diperlihatkannya. Buka foto untuk melihat asal-usulnya.' : undefined}>
+          <Part id="galeri" title="Galeri" lead="Label menunjukkan apa yang sebenarnya diperlihatkan. Ketuk foto untuk memperbesar.">
             {photos.length > 0 && !photos.some((p) => p.relation === 'objek') && (
               <p className="mt-0 mb-6 max-w-[62ch] border border-dashed border-ink/40 p-3 text-sm"><strong>Belum ada foto {landmark.name}</strong> berlisensi terbuka yang bisa kami pastikan. Foto di bawah memperlihatkan hal lain, sesuai labelnya.</p>
             )}
@@ -311,13 +363,9 @@ function RegionalExplorer({ district }: { district: District }) {
 
           <Part id="kuis" title="Kuis pemahaman" lead="Pilihan. Tidak ada materi yang dikunci, dan boleh diulang."><CulturalQuiz scene={scene} /></Part>
 
-          <Part id="referensi" title="Referensi" lead="“Hanya ringkasan pencarian” berarti sumber itu belum kami baca utuh. Periksa langsung sebelum mengutipnya.">
-            {references.length ? (
-              <ol className="m-0 columns-1 gap-10 pl-5 md:columns-2">
-                {references.map((r) => <li key={r} className="mb-3 break-inside-avoid"><SourceLinks ids={[r]} /></li>)}
-              </ol>
-            ) : <p className="m-0">Belum ada sumber terlampir.</p>}
-          </Part>
+          <p className="border-t-2 border-ink/80 pt-4 pb-10">
+            <button type="button" className="btn btn-line" onClick={() => setPanel({})}>Buka Sumber &amp; Kredit ({references.length} rujukan)</button>
+          </p>
         </div>
       </div>
 
@@ -347,6 +395,8 @@ function RegionalExplorer({ district }: { district: District }) {
         </div>
       </div>
     </article>
+    <SourcesPanel open={!!panel} focus={panel?.focus} onClose={() => setPanel(null)} references={references} photos={[...photos, ...heritagePhotos]} audio={audio} />
+    </CitationContext.Provider>
   );
 }
 

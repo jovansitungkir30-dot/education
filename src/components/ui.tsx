@@ -1,4 +1,5 @@
-import { useEffect, useSyncExternalStore, useState, type ReactNode } from 'react';
+import { useContext, useEffect, useSyncExternalStore, useState, type ReactNode } from 'react';
+import { CitationContext } from './credits/citations';
 import { motion } from 'framer-motion';
 import { KNOWLEDGE, type Fact, type Knowledge } from '../data/types';
 import { SOURCES, CHECK_LABEL, checkOf, type SourceId } from '../data/sources';
@@ -22,6 +23,18 @@ export function KindTag({ kind }: { kind: Knowledge }) {
 }
 
 export function SourceLinks({ ids }: { ids: SourceId[] }) {
+  const cite = useContext(CitationContext);
+  if (cite && ids.length) {
+    return (
+      <span className="ml-1 inline-flex flex-wrap gap-0.5 align-baseline">
+        {ids.map((id) => (
+          <button key={id} type="button" onClick={() => cite.open(id)} className="min-h-6 min-w-6 cursor-pointer rounded px-1 text-xs font-extrabold text-terracotta-700 tabular-nums hover:bg-cream" aria-label={`Sumber ${cite.number(id)}: ${SOURCES[id].publisher}`} title={SOURCES[id].publisher}>
+            [{cite.number(id)}]
+          </button>
+        ))}
+      </span>
+    );
+  }
   if (!ids.length) return <p className="mt-1 text-xs italic opacity-70">Belum ada sumber. Menunggu tinjauan ahli.</p>;
   return (
     <p className="mt-1 text-xs opacity-75">

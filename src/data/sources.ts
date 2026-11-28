@@ -1,4 +1,5 @@
 import { LANDMARK_SOURCES } from './landmark-sources';
+import { WIKI_SOURCES } from './wiki-sources';
 
 export interface Source {
   title: string;
@@ -13,6 +14,7 @@ export interface Source {
  */
 export const SOURCES = {
   ...LANDMARK_SOURCES,
+  ...WIKI_SOURCES,
   unescoBawomataluo: { title: 'Bawomataluo Site (Tentative List, ref. 5463)', publisher: 'UNESCO World Heritage Centre', url: 'https://whc.unesco.org/en/tentativelists/5463', type: 'Lembaga warisan budaya' },
   unescoUlosProject: { title: 'Young professionals in Toba lead post-pandemic recovery: Ulos weavers and Gorga sculptors', publisher: 'UNESCO Intangible Cultural Heritage', url: 'https://ich.unesco.org/es/noticias/los-jvenes-profesionales-de-toba-indonesia-lideran-la-recuperacin-tras-la-pandemia-13404?newsID=13404', type: 'Lembaga warisan budaya' },
   nasaToba: { title: 'Toba Caldera', publisher: 'NASA Earth Observatory', url: 'https://earthobservatory.nasa.gov/images/7380/toba-caldera', type: 'Lembaga warisan budaya' },
@@ -59,6 +61,7 @@ export type SourceId = keyof typeof SOURCES;
 export type Check = 'read' | 'partial' | 'unopened' | 'summary';
 
 const CHECKED: Partial<Record<SourceId, Check>> = {
+  ...(Object.fromEntries(Object.keys(WIKI_SOURCES).map((k) => [k, 'read'])) as Partial<Record<SourceId, Check>>),
   unescoUlosProject: 'read', niasQuake: 'read', karoSpace: 'read', simalungunAdat: 'read', mandailingBuildings: 'read',
   pakpakSuak: 'read', uisKaro: 'read', gordang: 'read', omoSebua: 'read', batakArchitecture: 'read',
   binjaiCagar: 'read', binjaiStasiun: 'read', tanggaDetik: 'read', tanggaGnfi: 'read', ponotWiki: 'read', bilahSejarah: 'read',

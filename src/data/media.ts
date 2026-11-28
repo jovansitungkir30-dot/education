@@ -1,5 +1,6 @@
 /** Photos and recordings, with their provenance. Edit the JSON files to add or correct an item. */
 import areaPhotos from './landmark-photos.json';
+import heritagePhotos from './heritage-photos.json';
 import audio from './audio.json';
 import { CONTENT_LINKS } from './atlas';
 import { photo } from './photos';
@@ -30,6 +31,8 @@ export interface MediaItem {
   page: string;
   title?: string;
 }
+
+export const HERITAGE_PHOTOS = heritagePhotos as unknown as Record<string, MediaItem>;
 
 export const AREA_PHOTOS = areaPhotos as unknown as Record<string, MediaItem[]>;
 
