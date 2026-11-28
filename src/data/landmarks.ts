@@ -50,7 +50,6 @@ export interface Landmark {
   evidence: Evidence;
   /** What the miniature simplifies or invents. */
   modelNote: string;
-  /** Commons search used to look for documentary photos. */
   facts: Partial<Record<Section, Fact[]>>;
   spots: Spot[];
   quiz: Question[];
@@ -78,7 +77,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     spots: [
       spot('Air terjun', 'Lanskap', [0, 3.4, -2.2], fact('contemporary', 'Air Terjun Ponot disebut berada di kawasan Desa Tangga. Catatan lokasi dan tingginya berbeda antarsumber.', 'asahanJeram')),
       spot('Jeram', 'Lanskap', [0, 0.8, 0.5], fact('contemporary', 'Arung jeram di Sungai Asahan ditujukan bagi pengarung berpengalaman.', 'asahanJeram')),
-      spot('Reputasi', 'Makna', [0.4, 1.9, 1.8], fact('contemporary', 'Sumber pariwisata menyebut sungai ini dikenal hingga mancanegara.', 'asahanSungai')),
+      spot('Reputasi', 'Makna', [2.8, 1.4, 2], fact('contemporary', 'Sumber pariwisata menyebut sungai ini dikenal hingga mancanegara.', 'asahanSungai')),
     ],
     quiz: [
       q('Sungai Asahan dikenal sebagai lokasi…', ['Arung jeram', 'Balap perahu layar', 'Tambak garam'], 0, 'Jeramnya menarik pegiat arung jeram.'),
@@ -273,7 +272,7 @@ export const LANDMARKS: Record<string, Landmark> = {
     spots: [
       spot('Perahu', 'Kehidupan laut', [-0.6, 2.4, 0.6], fact('contemporary', 'Banyak kegiatan ekonomi kota bertumpu pada laut.', 'sibolgaIkan')),
       spot('Dermaga', 'Fungsi', [-1.6, 1.2, -1.5], fact('interpretation', 'Dermaga pada model menggambarkan tempat bongkar hasil tangkapan.')),
-      spot('Sikambang', 'Kesenian', [-1.1, 1.8, -1.4], fact('tradition', 'Sikambang adalah kesenian yang lekat dengan identitas Pesisir.', 'sikambang')),
+      spot('Sikambang', 'Kesenian', [2.9, 1.1, 2], fact('tradition', 'Sikambang adalah kesenian yang lekat dengan identitas Pesisir.', 'sikambang')),
     ],
     quiz: [
       q('Julukan Sibolga adalah…', ['Kota Ikan', 'Kota Salak', 'Kota Kopi'], 0, 'Sebutan itu terkait potensi lautnya.'),
@@ -408,7 +407,7 @@ export const LANDMARKS: Record<string, Landmark> = {
       traditions: [fact('contemporary', 'Kini tarian ini lazim ditampilkan untuk menyambut tamu, dalam pernikahan, dan acara adat.', 'tariMoyo')],
     },
     spots: [
-      spot('Gerak lengan', 'Gerak', [1.4, 2.6, 0.5], fact('tradition', 'Lengan dikepakkan menyerupai elang yang terbang.', 'tariMoyo')),
+      spot('Gerak lengan', 'Gerak', [-1.7, 2.4, 0.6], fact('tradition', 'Lengan dikepakkan menyerupai elang yang terbang.', 'tariMoyo')),
       spot('Irama pengiring', 'Musik', [0.7, 1.3, -2.3], fact('tradition', 'Gondra termasuk musik pengiringnya.', 'tariMoyo')),
       spot('Fungsi', 'Makna', [0, 3.5, 0.5], fact('contemporary', 'Tari Moyo hadir dalam penyambutan dan perayaan.', 'tariMoyo')),
     ],

@@ -1,6 +1,7 @@
 import { SectionHead, Credit, KindTag } from '../components/ui';
 import { SOURCES, CHECK_LABEL, checkOf, type SourceId } from '../data/sources';
 import { ALL_PHOTOS } from '../data/photos';
+import LANDMARK_PHOTOS from '../data/landmark-photos.json';
 import { KNOWLEDGE, type Knowledge } from '../data/types';
 
 const LIMITS = [
@@ -73,6 +74,15 @@ export default function About() {
           <ul className="grid gap-3 p-0 md:grid-cols-2">
             {ALL_PHOTOS.map((p) => (
               <li key={p.id} className="list-none text-sm"><strong>{p.alt}.</strong> <Credit id={p.id} /></li>
+            ))}
+            {Object.values(LANDMARK_PHOTOS).map((p) => (
+              <li key={p.file} className="list-none text-sm">
+                <strong>{p.alt}.</strong>{' '}
+                <span className="text-[11px] opacity-80">
+                  Foto: <a className="underline" href={p.page} target="_blank" rel="noreferrer">{p.author}</a>,{' '}
+                  {p.licenseUrl ? <a className="underline" href={p.licenseUrl} target="_blank" rel="noreferrer">{p.license}</a> : p.license}, via Wikimedia Commons
+                </span>
+              </li>
             ))}
           </ul>
           <p className="mt-6 text-sm opacity-75">Batas wilayah: geoBoundaries (sumber BPS, WFP, OCHA ROAP; data 2020), CC BY 3.0 IGO, disederhanakan. Citra peta: Sentinel-2 cloudless 2016, https://s2maps.eu oleh EOX IT Services GmbH (memuat data Copernicus Sentinel 2016 &amp; 2017 yang dimodifikasi), CC BY 4.0; warna diubah, awan diredam, dan laut digambar ulang. Ketinggian: AWS Terrain Tiles (Mapzen; SRTM, USGS). Huruf: Fraunces dan Manrope (SIL Open Font License).</p>
