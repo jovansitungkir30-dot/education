@@ -76,7 +76,7 @@ export function Footer() {
           <p className="mt-2 max-w-sm text-sm leading-relaxed opacity-70">Jelajah Budaya Sumatera Utara. Ruang belajar tentang banyak komunitas yang berbeda, dengan label yang memisahkan sejarah, tradisi, dan cerita rakyat.</p>
         </div>
         <ul className="m-0 grid content-start gap-2 p-0">
-          {NAV.map(([to, label]) => (
+          {[...NAV, ['/alat-musik', 'Ruang alat musik'] as const].map(([to, label]) => (
             <li key={to} className="list-none"><a className="text-sm opacity-80 hover:text-gold-300" href={href(to)}>{label}</a></li>
           ))}
         </ul>

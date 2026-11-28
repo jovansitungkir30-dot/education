@@ -24,9 +24,10 @@ npm run preview   # serve the production build
 | `#/wilayah` | Searchable index of all areas: the route that needs neither map nor 3D, with learning progress |
 | `#/wilayah?id=...` | Learning page of one area: overview, 3D landmark with hotspots, researched topics, local terms, photos, quiz, references |
 | `#/artefak` | 9 procedural 3D artifacts with hotspots |
+| `#/alat-musik` | Six playable 3D instruments with synthesized sound |
 | `#/cultures` | Scroll storytelling with narration, timeline |
 | `#/gallery` | Walk-through gallery with themed rooms |
-| `#/learn` | 8 modules with activities, quizzes, badges and a printable certificate |
+| `#/learn` | Eight guided journeys, 8 longer modules, badges and a printable certificate |
 | `#/about` | Content labels, limitations, references, photo credits |
 
 ## Map imagery and elevation
@@ -44,6 +45,13 @@ Files in `public/terrain` are derived from:
 | `src/data/landmarks.ts` | One entry per area: landmark, category, why it was chosen, strength of evidence, facts, hotspots, quiz |
 | `src/data/landmark-sources.ts` | References used by those entries |
 | `src/data/landmark-photos.json` | Per area, a list of photos: file, caption, relation, place, verification, author, licence, source page |
+| `src/data/area-content.ts` | Per area: introduction, people, history timeline, linked traditions and foods, places |
+| `src/data/heritage.ts` | Shared food and tradition entries |
+| `src/data/heritage-photos.json` | Photos of foods, traditions and instruments |
+| `src/data/journeys.ts` | Learning journeys and their stations |
+| `src/data/instruments.ts` | Instruments: playing method, parts, limits, sources |
+| `src/data/wiki-sources.ts` | Encyclopedia articles read for the area content |
+| `src/lib/quizBuilder.ts` | Builds each area quiz from its own material |
 | `src/data/audio.json` | Pronunciation recordings per language, with speaker and licence |
 | `src/data/media.ts` | Photo relation labels and which languages appear on which area page |
 | `src/data/glossary.ts` | Local terms per area, each with references |
@@ -60,7 +68,12 @@ discovery points and quiz under the area id.
 
 Photo `relation` must say what the picture really shows: `objek`, `wilayah`, `arsip`, `ilustrasi` or `komunitas`.
 
-A topic with no researched material is not shown as a section; the overview lists it as a gap. Do not fill it with material from a neighbouring area.
+A topic with no researched material is not shown as a section; the overview lists it as a gap.
+
+When linking a food or tradition to an area, use `daerah` only if a source names that place. Use `komunitas`
+when the link rests on a community living there.
+
+Citations render as numbers wherever a page provides `CitationContext`; the details live in `SourcesPanel`. Do not fill it with material from a neighbouring area.
 
 ## Hosting
 
@@ -91,6 +104,9 @@ Leave a topic out when it has not been researched; the interface lists it as a g
   and, ideally, by members of the communities described.
 - Angkola is thinly covered. Many references have still only been seen as search summaries. Several university PDFs
   could not be text-extracted, so what rests on them stays marked that way.
+- Much of the area content rests on Indonesian Wikipedia articles whose text was retrieved and read. Treat them as
+  a starting point: check their references, and prefer official, academic or community sources when revising.
+- Instrument shapes follow the cited descriptions loosely; pitches and timbres are invented.
 - No openly licensed recording of traditional music or dance was found. The recordings are single spoken words, and
   no translations are given.
 - Entries marked `evidence: 'terbatas'` in `landmarks.ts` have a weaker basis for the choice and should be reviewed first.
